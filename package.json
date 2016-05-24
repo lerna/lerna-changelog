@@ -9,7 +9,8 @@
   "scripts": {
     "build": "babel src -d lib",
     "clean": "rimraf lib",
-    "test": "eslint index.js"
+    "test": "eslint index.js cli.js src/",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

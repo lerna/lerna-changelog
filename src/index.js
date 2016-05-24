@@ -1,6 +1,6 @@
-var progressBar = require("lerna/lib/progressBar");
-var chalk       = require("chalk");
-var child       = require("child_process");
+import progressBar from "lerna/lib/progressBar";
+import chalk       from "chalk";
+import child       from "child_process";
 
 function execSync(cmd) {
   return child.execSync(cmd, {
@@ -53,14 +53,14 @@ function getCommiters(commits) {
 }
 
 function getCommitInfo(commits) {
-  var tick = progressBar(commits.length);
+  progressBar.init(commits.length);
 
   var logs = commits.map(function(commit) {
 
     var sha = commit.slice(0, 7);
     var message = commit.slice(8);
     var response;
-    tick(sha);
+    progressBar.tick(sha);
 
     var mergeCommit = message.match(/\(#\d{4}\)$/);
 
@@ -88,6 +88,7 @@ function getCommitInfo(commits) {
     };
   });
 
+  progressBar.terminate();
   return logs;
 }
 
@@ -134,12 +135,12 @@ function createMarkdown(commitsByCategory) {
 
   markdown += "## Unreleased (" + date + ")";
 
-  var tick = progressBar(commitsByCategory.length);
+  progressBar.init(commitsByCategory.length);
 
   commitsByCategory.filter(function(category) {
     return category.commits.length > 0;
   }).forEach(function(category) {
-    tick(category.tag);
+    progressBar.tick(category.tag);
 
     markdown += "\n";
     markdown += "\n";
@@ -201,6 +202,8 @@ function createMarkdown(commitsByCategory) {
       markdown += " " + commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
     });
   });
+
+  progressBar.terminate();
 
   return markdown;
 }
