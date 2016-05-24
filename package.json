@@ -7,6 +7,8 @@
     "lerna-changelog": "cli.js"
   },
   "scripts": {
+    "build": "babel src -d lib",
+    "clean": "rimraf lib",
     "test": "eslint index.js"
   },
   "repository": {
@@ -24,7 +26,10 @@
   },
   "homepage": "https://github.com/redfin/lerna-changelog#readme",
   "devDependencies": {
-    "eslint": "^2.10.2"
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "eslint": "^2.10.2",
+    "rimraf": "^2.5.2"
   },
   "peerDependencies": {
     "lerna": "^2.0.0-beta.8"
