@@ -21,7 +21,7 @@ export default class Changelog {
 
   createMarkdown() {
     const commitInfo = this.getCommitInfo();
-    const committers = this.getCommiters(commitInfo);
+    const committers = this.getCommitters(commitInfo);
     const commitsByCategory = this.getCommitsByCategory(commitInfo);
     const fixesRegex = /Fix(es)? ([T#]\d+)/i;
 
@@ -100,7 +100,7 @@ export default class Changelog {
     progressBar.terminate();
 
     markdown += "\n\n#### Commiters: " + committers.length + "\n";
-    markdown += committers.sort().map(function(commiter) {
+    markdown += committers.map(function(commiter) {
       return "- " + commiter;
     }).join("\n");
 
@@ -117,14 +117,19 @@ export default class Changelog {
     return commits;
   }
 
-  getCommiters(commits) {
-    var committers = commits.map(function(commit) {
-      return commit.user && commit.user.login;
+  getCommitters(commits) {
+    var committers = {}
+
+    commits.forEach(function(commit) {
+      if (!commit.user) return;
+      const login = commit.user.login;
+      const url = commit.user.html_url;
+      if (login) {
+        committers[login] = url?`[${login}](${commit.user.html_url})`:login;
+      }
     });
 
-    return committers.filter(function(item, pos) {
-      return item && committers.indexOf(item) === pos;
-    });
+    return Object.keys(committers).sort().map(k => committers[k]);
   }
 
   getCommitInfo() {
