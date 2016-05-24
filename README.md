@@ -33,6 +33,12 @@ $ git diff lerna.json
  }
 ```
 
+Authenticate:
+
+```
+$ export GITHUB_AUTH="..."
+```
+
 Run:
 
 ```bash
@@ -54,6 +60,16 @@ $ lerna-changelog
 ```
 
 Copypasta.  You're done!
+
+## GitHub Auth
+
+You'll need a GitHub API [personal access token](https://github.com/settings/tokens).
+
+## Configuration
+
+- `repo`: Your "org/repo" on GitHub
+- `cacheDir` [optional]: A place to stash GitHub API responses to avoid throttling
+- `labels`: GitHub issue/PR labels mapped to changelog section headers
 
 [lerna-homepage]: https://lernajs.io
 [hzoo-profile]: https://github.com/hzoo
