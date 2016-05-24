@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
 var chalk = require("chalk");
+var lib = require(".");
+
+var Changelog = lib.Changelog;
+var ConfigurationError = lib.ConfigurationError;
 
 try {
-  console.log(require(".").getChangelog().createMarkdown());
+  console.log((new Changelog()).createMarkdown());
 } catch (e) {
-  if (e.name.indexOf("GITHUB_AUTH") !== -1) {
-    console.log(chalk.red("Must provide GITHUB_AUTH"));
+  if (e instanceof ConfigurationError) {
+    console.log(chalk.red(e.message));
   } else {
     throw (e);
   }
