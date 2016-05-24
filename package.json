@@ -22,5 +22,8 @@
   "homepage": "https://github.com/redfin/lerna-changelog#readme",
   "devDependencies": {
     "eslint": "^2.10.2"
+  },
+  "peerDependencies": {
+    "lerna": "^2.0.0-beta.8"
   }
 }
