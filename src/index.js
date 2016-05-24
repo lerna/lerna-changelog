@@ -1,4 +1,4 @@
-var progressBar = require("lerna/lib/progress-bar");
+var progressBar = require("lerna/lib/progressBar");
 var chalk       = require("chalk");
 var child       = require("child_process");
 
@@ -177,8 +177,8 @@ function createMarkdown(commitsByCategory) {
       if (changedPackages.length > 0) {
         markdown += repeat(" ", spaces) + "* ";
 
-        changedPackages.forEach(function(package, i) {
-          markdown += (i === 0 ? "" : ", ") + "`" + package + "`";
+        changedPackages.forEach(function(pkg, i) {
+          markdown += (i === 0 ? "" : ", ") + "`" + pkg + "`";
         });
 
         markdown += "\n";
