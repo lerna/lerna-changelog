@@ -1,41 +1,11 @@
 import progressBar from "lerna/lib/progressBar";
+import LernaRepo   from "lerna/lib/Repository";
+import RemoteRepo  from "./RemoteRepo";
+import execSync    from "./execSync";
 import chalk       from "chalk";
-import child       from "child_process";
-
-function execSync(cmd) {
-  return child.execSync(cmd, {
-    encoding: "utf8"
-  }).trim();
-}
-
-var org  = process.env.GITHUB_ORG;
-var repo = process.env.GITHUB_REPO;
-
-var tags = [
-  "tag: breaking change",
-  "tag: spec compliancy",
-  "tag: new feature",
-  "tag: bug fix",
-  "tag: documentation",
-  "tag: internal",
-  "tag: polish"
-];
-
-function getBaseIssueUrl() {
-  return "https://github.com/" + org + "/" + repo + "/issues/";
-}
 
 function getLastTag() {
   return execSync("git describe --abbrev=0 --tags");
-}
-
-function githubAPIrequest(url) {
-  return execSync("curl -H 'Authorization: token " + process.env.GITHUB_AUTH + "' --silent " + url);
-}
-
-function getIssueData(issue) {
-  var url  = "https://api.github.com/repos/" + org + "/" + repo + "/issues/" + issue;
-  return githubAPIrequest(url);
 }
 
 function getListOfCommits() {
@@ -54,7 +24,7 @@ function getCommiters(commits) {
   });
 }
 
-function getCommitInfo(commits) {
+function getCommitInfo(remote, commits) {
   progressBar.init(commits.length);
 
   var logs = commits.map(function(commit) {
@@ -71,13 +41,13 @@ function getCommitInfo(commits) {
       var end = message.slice(start).indexOf(" ");
       var issueNumber = message.slice(start, start + end);
 
-      response = JSON.parse(getIssueData(issueNumber));
+      response = JSON.parse(remote.getIssueData(issueNumber));
       response.commitSHA = sha;
       response.mergeMessage = message;
       return response;
     } else if (mergeCommit) {
       var issueNumber = mergeCommit[0].slice(2, 6);
-      response = JSON.parse(getIssueData(issueNumber));
+      response = JSON.parse(remote.getIssueData(issueNumber));
       response.commitSHA = sha;
       response.mergeMessage = message;
       return response;
@@ -94,8 +64,8 @@ function getCommitInfo(commits) {
   return logs;
 }
 
-function getCommitsByCategory(logs) {
-  var categories = tags.map(function(tag) {
+function getCommitsByCategory(remote, logs) {
+  var categories = remote.getLabels().map(function(label) {
     var commits = [];
 
     logs.forEach(function(log) {
@@ -103,13 +73,13 @@ function getCommitsByCategory(logs) {
         return label.name;
       });
 
-      if (labels.indexOf(tag.toLowerCase()) >= 0) {
+      if (labels.indexOf(label.toLowerCase()) >= 0) {
         commits.push(log);
       }
     });
 
     return {
-      tag: tag,
+      heading: remote.getHeadingForLabel(label),
       commits: commits
     };
   });
@@ -123,11 +93,7 @@ function toTitleCase(str) {
     });
 }
 
-function normalizeTag(tag) {
-  return toTitleCase(tag.slice(5));
-}
-
-function createMarkdown(commitsByCategory) {
+function createMarkdown(remote, commitsByCategory) {
   var date = new Date().toISOString();
   date = date.slice(0, date.indexOf("T"));
 
@@ -142,11 +108,11 @@ function createMarkdown(commitsByCategory) {
   commitsByCategory.filter(function(category) {
     return category.commits.length > 0;
   }).forEach(function(category) {
-    progressBar.tick(category.tag);
+    progressBar.tick(category.heading);
 
     markdown += "\n";
     markdown += "\n";
-    markdown += "#### " + normalizeTag(category.tag);
+    markdown += "#### " + category.heading;
 
     category.commits.forEach(function(commit) {
       markdown += "\n";
@@ -191,14 +157,14 @@ function createMarkdown(commitsByCategory) {
       }
 
       if (commit.number) {
-        var prUrl = "https://github.com/" + org + "/" + repo + "/pull/" + commit.number;
+        var prUrl = remote.getBasePullRequestUrl() + commit.number;
         markdown += repeat(" ", spaces) + "* ";
         markdown += "[#" + commit.number + "](" + prUrl + ")";
       }
 
 
       if (commit.title.match(fixesRegex)) {
-        commit.title = commit.title.replace(fixesRegex, "Fixes [$2](" + getBaseIssueUrl() + "$2)");
+        commit.title = commit.title.replace(fixesRegex, "Fixes [$2](" + remote.getBaseIssueUrl() + "$2)");
       }
 
       markdown += " " + commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
@@ -223,14 +189,18 @@ exports.execute = function () {
     process.exit(1);
   }
 
+  var config = new LernaRepo().lernaJson.changelog;
+
+  var remote = new RemoteRepo(config);
+
   var commits = getListOfCommits();
-  var commitInfo = getCommitInfo(commits);
+  var commitInfo = getCommitInfo(remote, commits);
 
   console.log(commitInfo);
 
   var committers = getCommiters(commitInfo);
-  var commitsByCategory = getCommitsByCategory(commitInfo);
-  var changelog = createMarkdown(commitsByCategory);
+  var commitsByCategory = getCommitsByCategory(remote, commitInfo);
+  var changelog = createMarkdown(remote, commitsByCategory);
 
   console.log(changelog);
 
