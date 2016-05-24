@@ -36,8 +36,8 @@ function getIssueData(issue) {
   return githubAPIrequest(url);
 }
 
-function getListOfCommits(config) {
-  var lastTag = getLastTag(config);
+function getListOfCommits() {
+  var lastTag = getLastTag();
   var commits = execSync("git log --first-parent --oneline " + lastTag + "..").split("\n");
   return commits;
 }
@@ -212,13 +212,13 @@ function repeat(str, times) {
 exports.description = "Create a changelog";
 
 
-exports.execute = function (config) {
+exports.execute = function () {
   if (!process.env.GITHUB_AUTH) {
     console.log(chalk.red("Must provide GITHUB_AUTH"));
     process.exit(1);
   }
 
-  var commits = getListOfCommits(config);
+  var commits = getListOfCommits();
   var commitInfo = getCommitInfo(commits);
 
   console.log(commitInfo);
