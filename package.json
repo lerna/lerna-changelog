@@ -25,5 +25,8 @@
   },
   "peerDependencies": {
     "lerna": "^2.0.0-beta.8"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3"
   }
 }

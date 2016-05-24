@@ -1,4 +1,4 @@
-var progressBar = require("../progress-bar");
+var progressBar = require("lerna/lib/progress-bar");
 var chalk       = require("chalk");
 var child       = require("child_process");
 
