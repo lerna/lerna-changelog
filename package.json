@@ -1,0 +1,23 @@
+{
+  "name": "lerna-changelog",
+  "version": "0.0.0",
+  "description": "Generate a changelog for a lerna monorepo",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redfin/lerna-changelog.git"
+  },
+  "keywords": [
+    "lerna",
+    "changelog"
+  ],
+  "author": "Bo Borgerson <gigabo@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/redfin/lerna-changelog/issues"
+  },
+  "homepage": "https://github.com/redfin/lerna-changelog#readme"
+}
