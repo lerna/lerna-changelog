@@ -205,8 +205,6 @@ exports.execute = function () {
   var commits = getListOfCommits();
   var commitInfo = getCommitInfo(remote, commits);
 
-  console.log(commitInfo);
-
   var committers = getCommiters(commitInfo);
   var commitsByCategory = getCommitsByCategory(remote, commitInfo);
   var changelog = createMarkdown(remote, commitsByCategory);
