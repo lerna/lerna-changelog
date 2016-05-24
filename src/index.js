@@ -21,7 +21,9 @@ var tags = [
   "tag: polish"
 ];
 
-var baseIssueUrl = "https://phabricator.babeljs.io/";
+function getBaseIssueUrl() {
+  return "https://github.com/" + org + "/" + repo + "/issues/";
+}
 
 function getLastTag() {
   return execSync("git describe --abbrev=0 --tags");
@@ -196,7 +198,7 @@ function createMarkdown(commitsByCategory) {
 
 
       if (commit.title.match(fixesRegex)) {
-        commit.title = commit.title.replace(fixesRegex, "Fixes [$2](" + baseIssueUrl + "$2)");
+        commit.title = commit.title.replace(fixesRegex, "Fixes [$2](" + getBaseIssueUrl() + "$2)");
       }
 
       markdown += " " + commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
