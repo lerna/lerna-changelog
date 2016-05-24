@@ -25,7 +25,8 @@ $ git diff lerna.json
 +    "labels": {
 +      "bug": "Bug fix",
 +      "cleanup": "Housekeeping"
-+    }
++    },
++    "cacheDir": ".changelog"
 +  },
    "lerna": "2.0.0-beta.9",
    "version": "0.2.11"
