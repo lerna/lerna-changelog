@@ -43,6 +43,7 @@ Run:
 
 ```bash
 $ lerna-changelog
+
 ## Unreleased (2016-05-24)
 
 #### Bug fix
