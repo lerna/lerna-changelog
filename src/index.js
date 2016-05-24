@@ -176,6 +176,16 @@ function createMarkdown(remote, commitsByCategory) {
   return markdown;
 }
 
+function getConfig() {
+  const lerna = new LernaRepo();
+
+  const config = lerna.lernaJson.changelog;
+
+  config.rootPath = lerna.rootPath;
+
+  return config;
+}
+
 function repeat(str, times) {
   return Array(times + 1).join(str);
 }
@@ -189,9 +199,8 @@ exports.execute = function () {
     process.exit(1);
   }
 
-  var config = new LernaRepo().lernaJson.changelog;
-
-  var remote = new RemoteRepo(config);
+  const config = getConfig();
+  const remote = new RemoteRepo(config);
 
   var commits = getListOfCommits();
   var commitInfo = getCommitInfo(remote, commits);

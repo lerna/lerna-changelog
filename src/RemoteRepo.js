@@ -1,9 +1,11 @@
-import * as GithubAPI from "./GithubAPI";
+import GithubAPI from "./GithubAPI";
 
 export default class RemoteRepo {
-  constructor({repo, labels}) {
+  constructor(config) {
+    const {repo, labels} = config;
     this.repo = repo;
     this.labels = labels;
+    this.githubAPI = new GithubAPI(config);
   }
 
   getLabels() {
@@ -23,7 +25,6 @@ export default class RemoteRepo {
   }
 
   getIssueData(issue) {
-    var url  = "https://api.github.com/repos/" + this.repo + "/issues/" + issue;
-    return GithubAPI.request(url);
+    return this.githubAPI.getIssueData(issue);
   }
 }
