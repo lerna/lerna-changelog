@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Generate a changelog for a lerna monorepo",
   "main": "index.js",
+  "bin": {
+    "lerna-changelog": "cli.js"
+  },
   "scripts": {
     "test": "eslint index.js"
   },
