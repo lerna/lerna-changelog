@@ -144,7 +144,7 @@ export default class Changelog {
       var response;
       progressBar.tick(sha);
 
-      var mergeCommit = message.match(/\(#\d{4}\)$/);
+      var mergeCommit = message.match(/\(#(\d+)\)$/);
 
       if (message.indexOf("Merge pull request ") === 0) {
         var start = message.indexOf("#") + 1;
@@ -156,7 +156,7 @@ export default class Changelog {
         response.mergeMessage = message;
         return response;
       } else if (mergeCommit) {
-        var issueNumber = mergeCommit[0].slice(2, 6);
+        var issueNumber = mergeCommit[1];
         response = JSON.parse(this.remote.getIssueData(issueNumber));
         response.commitSHA = sha;
         response.mergeMessage = message;
