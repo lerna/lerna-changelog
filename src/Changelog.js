@@ -90,7 +90,7 @@ export default class Changelog {
 
 
         if (commit.title.match(fixesRegex)) {
-          commit.title = commit.title.replace(fixesRegex, "Fixes [$2](" + remote.getBaseIssueUrl() + "$2)");
+          commit.title = commit.title.replace(fixesRegex, "Fixes [$2](" + this.remote.getBaseIssueUrl() + "$2)");
         }
 
         markdown += " " + commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
