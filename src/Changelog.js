@@ -120,16 +120,15 @@ export default class Changelog {
   getCommitters(commits) {
     var committers = {}
 
-    commits.forEach(function(commit) {
-      if (!commit.user) return;
-      const login = commit.user.login;
-      const url = commit.user.html_url;
-      if (login) {
-        committers[login] = url?`[${login}](${commit.user.html_url})`:login;
+    commits.forEach(commit => {
+      const login = (commit.user||{}).login;
+      if (login && !committers[login]){
+        const user = this.remote.getUserData(login);
+        committers[login] = `${user.name} ([${login}](${user.html_url}))`;
       }
     });
 
-    return Object.keys(committers).sort().map(k => committers[k]);
+    return Object.keys(committers).map(k => committers[k]).sort();
   }
 
   getCommitInfo() {
@@ -151,13 +150,13 @@ export default class Changelog {
         var end = message.slice(start).indexOf(" ");
         var issueNumber = message.slice(start, start + end);
 
-        response = JSON.parse(this.remote.getIssueData(issueNumber));
+        response = this.remote.getIssueData(issueNumber);
         response.commitSHA = sha;
         response.mergeMessage = message;
         return response;
       } else if (mergeCommit) {
         var issueNumber = mergeCommit[1];
-        response = JSON.parse(this.remote.getIssueData(issueNumber));
+        response = this.remote.getIssueData(issueNumber);
         response.commitSHA = sha;
         response.mergeMessage = message;
         return response;
