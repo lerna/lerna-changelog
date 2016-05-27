@@ -1,12 +1,12 @@
 import execSync from "./execSync";
-import IssueDataCache from "./IssueDataCache";
+import ApiDataCache from "./ApiDataCache";
 import ConfigurationError from "./ConfigurationError";
 
 export default class GithubAPI {
   constructor(config) {
     const {repo} = config;
     this.repo = repo;
-    this.cache = new IssueDataCache(config);
+    this.cache = new ApiDataCache('github', config);
     this.auth = process.env.GITHUB_AUTH;
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
@@ -14,10 +14,10 @@ export default class GithubAPI {
   }
 
   getIssueData(issue) {
-    let data = this.cache.get(issue);
+    let data = this.cache.get('issue', issue);
     if (!data) {
       data = this._fetch(issue);
-      this.cache.set(issue, data);
+      this.cache.set('issue', issue, data);
     }
     return data;
   }
