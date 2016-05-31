@@ -55,7 +55,7 @@ export default class Changelog {
         .split("\n")
         // remove files that aren't in packages/
         .filter(function(files) {
-          return files.indexOf("packages/") >= 0;
+          return files.indexOf("packages/") === 0;
         })
         // extract base package name
         .map(function(files) {
