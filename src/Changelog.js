@@ -40,14 +40,11 @@ export default class Changelog {
     }).forEach(category => {
       progressBar.tick(category.heading);
 
-      markdown += "\n";
-      markdown += "\n";
-      markdown += "#### " + category.heading;
+      const commitsByPackage = {};
 
       category.commits.forEach(commit => {
-        markdown += "\n";
 
-        // Unique packages.
+        // Array of unique packages.
         var changedPackages = Object.keys(
           execSync("git show -m --name-only --pretty='format:' --first-parent " + commit.commitSHA)
           // turn into an array
@@ -61,33 +58,39 @@ export default class Changelog {
           }, {})
         );
 
-        var spaces = 0;
+        const heading = changedPackages.length > 0
+          ?"* "+changedPackages.map(pkg => "`" + pkg + "`").join(", ")
+          :"* Other"; // No changes to packages, but still relevant.
 
-        if (changedPackages.length > 0) {
-          markdown += repeat(" ", spaces) + "* ";
-
-          changedPackages.forEach(function(pkg, i) {
-            markdown += (i === 0 ? "" : ", ") + "`" + pkg + "`";
-          });
-
-          markdown += "\n";
-
-          // indent more?
-          spaces = 2;
+        if (!commitsByPackage[heading]) {
+          commitsByPackage[heading] = [];
         }
 
-        if (commit.number) {
-          var prUrl = this.remote.getBasePullRequestUrl() + commit.number;
-          markdown += repeat(" ", spaces) + "* ";
-          markdown += "[#" + commit.number + "](" + prUrl + ")";
-        }
+        commitsByPackage[heading].push(commit);
+      });
 
+      markdown += "\n";
+      markdown += "\n";
+      markdown += "#### " + category.heading;
 
-        if (commit.title.match(fixesRegex)) {
-          commit.title = commit.title.replace(fixesRegex, "Fixes [#$2](" + this.remote.getBaseIssueUrl() + "$2)");
-        }
+      Object.keys(commitsByPackage).forEach(heading => {
+        markdown += "\n"+heading;
 
-        markdown += " " + commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
+        commitsByPackage[heading].forEach(commit => {
+
+          markdown += "\n  * ";
+
+          if (commit.number) {
+            var prUrl = this.remote.getBasePullRequestUrl() + commit.number;
+            markdown += "[#" + commit.number + "](" + prUrl + ") ";
+          }
+
+          if (commit.title.match(fixesRegex)) {
+            commit.title = commit.title.replace(fixesRegex, "Fixes [#$2](" + this.remote.getBaseIssueUrl() + "$2)");
+          }
+
+          markdown += commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
+        });
       });
     });
 
@@ -195,8 +198,4 @@ function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(text){
       return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
     });
-}
-
-function repeat(str, times) {
-  return Array(times + 1).join(str);
 }
