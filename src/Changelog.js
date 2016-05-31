@@ -52,13 +52,11 @@ export default class Changelog {
           execSync("git show -m --name-only --pretty='format:' --first-parent " + commit.commitSHA)
           // turn into an array
           .split("\n")
-          // remove files that aren't in packages/
-          .filter(function(files) {
-            return files.indexOf("packages/") === 0;
-          })
           // extract base package name, and stuff into an object for deduping.
           .reduce(function(obj, files) {
-            obj[files.slice(9).split("/", 1)[0]] = true;
+            if (files.indexOf("packages/") === 0) {
+              obj[files.slice(9).split("/", 1)[0]] = true;
+            }
             return obj;
           }, {})
         );
