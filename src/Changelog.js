@@ -47,25 +47,23 @@ export default class Changelog {
       category.commits.forEach(commit => {
         markdown += "\n";
 
-        var changedPackages =
-        execSync("git log -m --name-only --pretty='format:' " + commit.commitSHA)
-        // not sure why it's including extra files
-        .split("\n\n")[0]
-        // turn into an array
-        .split("\n")
-        // remove files that aren't in packages/
-        .filter(function(files) {
-          return files.indexOf("packages/") === 0;
-        })
-        // extract base package name
-        .map(function(files) {
-          files = files.slice(9);
-          return files.slice(0, files.indexOf("/"));
-        })
-        // unique packages
-        .filter(function(value, index, self) {
-          return self.indexOf(value) === index;
-        });
+        // Unique packages.
+        var changedPackages = Object.keys(
+          execSync("git log -m --name-only --pretty='format:' " + commit.commitSHA)
+          // not sure why it's including extra files
+          .split("\n\n")[0]
+          // turn into an array
+          .split("\n")
+          // remove files that aren't in packages/
+          .filter(function(files) {
+            return files.indexOf("packages/") === 0;
+          })
+          // extract base package name, and stuff into an object for deduping.
+          .reduce(function(obj, files) {
+            obj[files.slice(9).split("/", 1)[0]] = true;
+            return obj;
+          }, {})
+        );
 
         var spaces = 0;
 
