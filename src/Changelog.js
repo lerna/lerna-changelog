@@ -49,9 +49,7 @@ export default class Changelog {
 
         // Unique packages.
         var changedPackages = Object.keys(
-          execSync("git log -m --name-only --pretty='format:' " + commit.commitSHA)
-          // not sure why it's including extra files
-          .split("\n\n")[0]
+          execSync("git show -m --name-only --pretty='format:' --first-parent " + commit.commitSHA)
           // turn into an array
           .split("\n")
           // remove files that aren't in packages/
