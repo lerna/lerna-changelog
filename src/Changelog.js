@@ -121,7 +121,7 @@ export default class Changelog {
 
   getListOfCommits() {
     var lastTag = this.getLastTag();
-    var commits = execSync("git log --first-parent --oneline " + lastTag + "..").split("\n");
+    var commits = execSync("git log --oneline " + lastTag + "..").split("\n");
     return commits;
   }
 
