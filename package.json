@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gigabo/lerna-changelog.git"
+    "url": "git+https://github.com/lerna/lerna-changelog.git"
   },
   "keywords": [
     "lerna",
@@ -23,9 +23,9 @@
   "author": "Bo Borgerson <gigabo@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gigabo/lerna-changelog/issues"
+    "url": "https://github.com/lerna/lerna-changelog/issues"
   },
-  "homepage": "https://github.com/gigabo/lerna-changelog#readme",
+  "homepage": "https://github.com/lerna/lerna-changelog#readme",
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
