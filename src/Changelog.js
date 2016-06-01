@@ -1,7 +1,8 @@
-import LernaRepo   from "lerna/lib/Repository";
-import progressBar from "lerna/lib/progressBar";
-import RemoteRepo  from "./RemoteRepo";
-import execSync    from "./execSync";
+import LernaRepo          from "lerna/lib/Repository";
+import progressBar        from "lerna/lib/progressBar";
+import RemoteRepo         from "./RemoteRepo";
+import execSync           from "./execSync";
+import ConfigurationError from "./ConfigurationError";
 
 export default class Changelog {
   constructor(config) {
@@ -13,6 +14,13 @@ export default class Changelog {
     const lerna = new LernaRepo();
 
     const config = lerna.lernaJson.changelog;
+
+    if (!config) {
+      throw new ConfigurationError(
+        "Missing changelog config in `lerna.json`.\n"+
+        "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
+      );
+    }
 
     config.rootPath = lerna.rootPath;
 
