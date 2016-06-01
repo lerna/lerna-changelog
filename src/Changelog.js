@@ -1,7 +1,7 @@
-import LernaRepo   from "lerna/lib/Repository";
-import progressBar from "lerna/lib/progressBar";
-import RemoteRepo  from "./RemoteRepo";
-import execSync    from "./execSync";
+import LernaRepo          from "lerna/lib/Repository";
+import progressBar        from "lerna/lib/progressBar";
+import RemoteRepo         from "./RemoteRepo";
+import execSync           from "./execSync";
 import ConfigurationError from "./ConfigurationError";
 
 export default class Changelog {
