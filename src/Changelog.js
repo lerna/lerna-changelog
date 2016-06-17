@@ -48,60 +48,57 @@ export default class Changelog {
     }).forEach(category => {
       progressBar.tick(category.heading);
 
+      const commitsByPackage = {};
+
+      category.commits.forEach(commit => {
+
+        // Array of unique packages.
+        var changedPackages = Object.keys(
+          execSync("git show -m --name-only --pretty='format:' --first-parent " + commit.commitSHA)
+          // turn into an array
+          .split("\n")
+          // extract base package name, and stuff into an object for deduping.
+          .reduce(function(obj, files) {
+            if (files.indexOf("packages/") === 0) {
+              obj[files.slice(9).split("/", 1)[0]] = true;
+            }
+            return obj;
+          }, {})
+        );
+
+        const heading = changedPackages.length > 0
+          ?"* "+changedPackages.map(pkg => "`" + pkg + "`").join(", ")
+          :"* Other"; // No changes to packages, but still relevant.
+
+        if (!commitsByPackage[heading]) {
+          commitsByPackage[heading] = [];
+        }
+
+        commitsByPackage[heading].push(commit);
+      });
+
       markdown += "\n";
       markdown += "\n";
       markdown += "#### " + category.heading;
 
-      category.commits.forEach(commit => {
-        markdown += "\n";
+      Object.keys(commitsByPackage).forEach(heading => {
+        markdown += "\n"+heading;
 
-        var changedPackages =
-        execSync("git log -m --name-only --pretty='format:' " + commit.commitSHA)
-        // not sure why it's including extra files
-        .split("\n\n")[0]
-        // turn into an array
-        .split("\n")
-        // remove files that aren't in packages/
-        .filter(function(files) {
-          return files.indexOf("packages/") >= 0;
-        })
-        // extract base package name
-        .map(function(files) {
-          files = files.slice(9);
-          return files.slice(0, files.indexOf("/"));
-        })
-        // unique packages
-        .filter(function(value, index, self) {
-          return self.indexOf(value) === index;
+        commitsByPackage[heading].forEach(commit => {
+
+          markdown += "\n  * ";
+
+          if (commit.number) {
+            var prUrl = this.remote.getBasePullRequestUrl() + commit.number;
+            markdown += "[#" + commit.number + "](" + prUrl + ") ";
+          }
+
+          if (commit.title.match(fixesRegex)) {
+            commit.title = commit.title.replace(fixesRegex, "Fixes [#$2](" + this.remote.getBaseIssueUrl() + "$2)");
+          }
+
+          markdown += commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
         });
-
-        var spaces = 0;
-
-        if (changedPackages.length > 0) {
-          markdown += repeat(" ", spaces) + "* ";
-
-          changedPackages.forEach(function(pkg, i) {
-            markdown += (i === 0 ? "" : ", ") + "`" + pkg + "`";
-          });
-
-          markdown += "\n";
-
-          // indent more?
-          spaces = 2;
-        }
-
-        if (commit.number) {
-          var prUrl = this.remote.getBasePullRequestUrl() + commit.number;
-          markdown += repeat(" ", spaces) + "* ";
-          markdown += "[#" + commit.number + "](" + prUrl + ")";
-        }
-
-
-        if (commit.title.match(fixesRegex)) {
-          commit.title = commit.title.replace(fixesRegex, "Fixes [#$2](" + this.remote.getBaseIssueUrl() + "$2)");
-        }
-
-        markdown += " " + commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
       });
     });
 
@@ -209,8 +206,4 @@ function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(text){
       return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
     });
-}
-
-function repeat(str, times) {
-  return Array(times + 1).join(str);
 }
