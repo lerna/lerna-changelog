@@ -5,9 +5,13 @@ import execSync           from "./execSync";
 import ConfigurationError from "./ConfigurationError";
 
 export default class Changelog {
-  constructor(config) {
-    this.config = this.getConfig();
+  constructor(config, commitRange = `${this.getLastTag()}..`) {
+    this.config = config || this.getConfig();
     this.remote = new RemoteRepo(this.config);
+    if (commitRange.indexOf("..") === -1) {
+      commitRange += "..";
+    }
+    this.commitRange = commitRange;
   }
 
   getConfig() {
@@ -116,9 +120,8 @@ export default class Changelog {
     return execSync("git describe --abbrev=0 --tags");
   }
 
-  getListOfCommits() {
-    var lastTag = this.getLastTag();
-    var commits = execSync("git log --oneline " + lastTag + "..").split("\n");
+  getListOfCommits(commitRange) {
+    var commits = execSync(`git log --oneline ${commitRange}`).split("\n");
     return commits;
   }
 
@@ -137,7 +140,7 @@ export default class Changelog {
   }
 
   getCommitInfo() {
-    const commits = this.getListOfCommits();
+    const commits = this.getListOfCommits(this.commitRange);
 
     progressBar.init(commits.length);
 
