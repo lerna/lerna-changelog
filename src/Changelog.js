@@ -129,7 +129,12 @@ export default class Changelog {
       const login = (commit.user||{}).login;
       if (login && !committers[login]){
         const user = this.remote.getUserData(login);
-        committers[login] = `${user.name} ([${login}](${user.html_url}))`;
+        const userNameAndLink = `[${login}](${user.html_url})`;
+        if (user.name) {
+          committers[login] = `${user.name} (${userNameAndLink})`;
+        } else {
+          committers[login] = userNameAndLink;
+        }
       }
     });
 
