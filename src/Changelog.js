@@ -31,7 +31,7 @@ export default class Changelog {
     const commitInfo = this.getCommitInfo();
     const committers = this.getCommitters(commitInfo);
     const commitsByCategory = this.getCommitsByCategory(commitInfo);
-    const fixesRegex = /Fix(es)? [T#](\d+)/i;
+    const fixesRegex = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
 
     let date = new Date().toISOString();
 
@@ -93,8 +93,9 @@ export default class Changelog {
             markdown += "[#" + commit.number + "](" + prUrl + ") ";
           }
 
+
           if (commit.title.match(fixesRegex)) {
-            commit.title = commit.title.replace(fixesRegex, "Fixes [#$2](" + this.remote.getBaseIssueUrl() + "$2)");
+            commit.title = commit.title.replace(fixesRegex, "Closes [#$3](" + this.remote.getBaseIssueUrl() + "$3)");
           }
 
           markdown += commit.title + "." + " ([@" + commit.user.login + "](" + commit.user.html_url + "))";
