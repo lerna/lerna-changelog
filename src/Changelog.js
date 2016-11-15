@@ -105,7 +105,7 @@ export default class Changelog {
 
     progressBar.terminate();
 
-    markdown += "\n\n#### Commiters: " + committers.length + "\n";
+    markdown += "\n\n#### Committers: " + committers.length + "\n";
     markdown += committers.map(function(commiter) {
       return "- " + commiter;
     }).join("\n");
