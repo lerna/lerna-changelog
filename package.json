@@ -1,6 +1,6 @@
 {
   "name": "lerna-changelog",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Generate a changelog for a lerna monorepo",
   "main": "index.js",
   "bin": {
