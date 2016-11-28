@@ -190,7 +190,7 @@ export default class Changelog {
 
       logs.forEach(function(log) {
         var labels = log.labels.map(function(label) {
-          return label.name;
+          return label.name.toLowerCase();
         });
 
         if (labels.indexOf(label.toLowerCase()) >= 0) {
