@@ -1,0 +1,67 @@
+exports[`createMarkdown get markdown grouped by tags (with commit number link) 1`] = `
+"
+## v0.2.0 (2017-01-01)
+
+#### :rocket: New Feature
+* \`pkg-1\`, \`pkg-2\`
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) This is the commit title for the issue (#1). ([@test-user](https://github.com/test-user))
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) This is the commit title for the issue (#1). ([@test-user](https://github.com/test-user))
+
+#### Committers: 1
+- Test User ([test-user](https://github.com/test-user))
+
+
+## v0.1.0 (2017-01-01)
+
+#### Committers: 0
+"
+`;
+
+exports[`createMarkdown get markdown grouped by tags (with matching fix commit) 1`] = `
+"
+## v0.2.0 (2017-01-01)
+
+#### :rocket: New Feature
+* \`pkg-1\`, \`pkg-2\`
+  * refactor(module): something. Closes [#1](https://github.com/lerna/lerna-changelog/issues/1). ([@test-user](https://github.com/test-user))
+  * refactor(module): something. Closes [#1](https://github.com/lerna/lerna-changelog/issues/1). ([@test-user](https://github.com/test-user))
+
+#### Committers: 1
+- Test User ([test-user](https://github.com/test-user))
+
+
+## v0.1.0 (2017-01-01)
+
+#### Committers: 0
+"
+`;
+
+exports[`createMarkdown get markdown grouped by tags 1`] = `
+"
+## Unreleased (2017-01-15)
+
+#### :rocket: New Feature
+* \`pkg-1\`, \`pkg-2\`
+  * This is the commit title for the issue (#3). ([@test-user](https://github.com/test-user))
+  * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
+
+#### Committers: 1
+- Test User ([test-user](https://github.com/test-user))
+
+
+## v0.2.0 (2017-01-01)
+
+#### :rocket: New Feature
+* \`pkg-1\`, \`pkg-2\`
+  * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
+  * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
+
+#### Committers: 1
+- Test User ([test-user](https://github.com/test-user))
+
+
+## v0.1.0 (2017-01-01)
+
+#### Committers: 0
+"
+`;

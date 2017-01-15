@@ -161,7 +161,6 @@ describe("getCommitters", () => {
   })
 })
 
-// TODO: use snapshot testing (if possible) for the generated markdown ??
 describe("createMarkdown", () => {
   const MockedChangelog = require("../src/Changelog").default;
   const changelog = new MockedChangelog();
@@ -180,55 +179,14 @@ describe("createMarkdown", () => {
     ]);
     const today = require.requireActual("../src/Changelog").today();
     const markdown = changelog.createMarkdown();
-    expect(markdown).toEqual(`
-## Unreleased (${today})
-
-#### :rocket: New Feature
-* \`pkg-1\`, \`pkg-2\`
-  * This is the commit title for the issue (#3). ([@test-user](https://github.com/test-user))
-  * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
-
-#### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.2.0 (2017-01-01)
-
-#### :rocket: New Feature
-* \`pkg-1\`, \`pkg-2\`
-  * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
-  * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
-
-#### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.1.0 (2017-01-01)
-
-#### Committers: 0
-    `.replace(/\s\s\s\s$/, "")); // <-- remove the last 4 indentation spaces
+    expect(markdown).toMatchSnapshot();
   })
 
   it('get markdown grouped by tags (with commit number link)', () => {
     const issue = require("../src/GithubAPI").createTestIssue(1);
     require("../src/GithubAPI").__setIssue({ ...issue, number: 1 });
     const markdown = changelog.createMarkdown();
-    expect(markdown).toEqual(`
-## v0.2.0 (2017-01-01)
-
-#### :rocket: New Feature
-* \`pkg-1\`, \`pkg-2\`
-  * [#1](https://github.com/lerna/lerna-changelog/pull/1) This is the commit title for the issue (#1). ([@test-user](https://github.com/test-user))
-  * [#1](https://github.com/lerna/lerna-changelog/pull/1) This is the commit title for the issue (#1). ([@test-user](https://github.com/test-user))
-
-#### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.1.0 (2017-01-01)
-
-#### Committers: 0
-    `.replace(/\s\s\s\s$/, "")); // <-- remove the last 4 indentation spaces
+    expect(markdown).toMatchSnapshot();
   })
 
   it('get markdown grouped by tags (with matching fix commit)', () => {
@@ -238,21 +196,6 @@ describe("createMarkdown", () => {
       title: "refactor(module): something. Closes #1"
     });
     const markdown = changelog.createMarkdown();
-    expect(markdown).toEqual(`
-## v0.2.0 (2017-01-01)
-
-#### :rocket: New Feature
-* \`pkg-1\`, \`pkg-2\`
-  * refactor(module): something. Closes [#1](https://github.com/lerna/lerna-changelog/issues/1). ([@test-user](https://github.com/test-user))
-  * refactor(module): something. Closes [#1](https://github.com/lerna/lerna-changelog/issues/1). ([@test-user](https://github.com/test-user))
-
-#### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.1.0 (2017-01-01)
-
-#### Committers: 0
-    `.replace(/\s\s\s\s$/, "")); // <-- remove the last 4 indentation spaces
+    expect(markdown).toMatchSnapshot();
   })
 })
