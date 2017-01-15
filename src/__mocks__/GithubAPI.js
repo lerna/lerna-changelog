@@ -1,5 +1,3 @@
-const GithubAPI = jest.genMockFromModule("../GithubAPI");
-
 const defaultTestUser = {
   name: "Test User",
   login: "test-user",
