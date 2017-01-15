@@ -1,13 +1,26 @@
 #!/usr/bin/env node
 
 var chalk = require("chalk");
-var lib = require(".");
+var argv = require("yargs").argv;
+var Changelog = require(".").Changelog;
+var ConfigurationError = require(".").ConfigurationError;
 
-var Changelog = lib.Changelog;
-var ConfigurationError = lib.ConfigurationError;
+if (argv.help) {
+  console.log(
+    "\n" +
+    "  Usage: lerna-changelog [options]" +
+    "\n\n\n" +
+    "  Options:" +
+    "\n" +
+    "    --tagFrom <tag>  define a custom tag to determine the lower bound of the range of commits (default: last available git tag)" +
+    "\n" +
+    "    --tagTo <tag>    define a custom tag to determine the upper bound of the range of commits"
+  );
+  process.exit(0);
+}
 
 try {
-  console.log((new Changelog()).createMarkdown());
+  console.log((new Changelog(argv)).createMarkdown());
 } catch (e) {
   if (e instanceof ConfigurationError) {
     console.log(chalk.red(e.message));

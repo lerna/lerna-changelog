@@ -35,6 +35,8 @@
     "indent": ["error", 2]
   },
   "env": {
+    "es6": true,
+    "jest": true,
     "node": true
   }
 }
