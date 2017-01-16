@@ -170,26 +170,25 @@ describe("createMarkdown", () => {
     require("../src/Changelog").__resetDefaults();
   })
 
-  it('get markdown grouped by tags', () => {
+  it("get markdown grouped by tags", () => {
     require("../src/Changelog").__prependListOfCommits([
       // Add some commits that do not belong to a tag yet
       "a0000008;;Merge pull request #3 from my-fix-feature;2017-01-02",
       "a0000007;;feat(module): some unreleased feature;2017-01-02",
       "a0000006;;fix(module): fix a problem (#2);2017-01-02",
     ]);
-    const today = require.requireActual("../src/Changelog").today();
     const markdown = changelog.createMarkdown();
     expect(markdown).toMatchSnapshot();
   })
 
-  it('get markdown grouped by tags (with commit number link)', () => {
+  it("get markdown grouped by tags (with commit number link)", () => {
     const issue = require("../src/GithubAPI").createTestIssue(1);
     require("../src/GithubAPI").__setIssue({ ...issue, number: 1 });
     const markdown = changelog.createMarkdown();
     expect(markdown).toMatchSnapshot();
   })
 
-  it('get markdown grouped by tags (with matching fix commit)', () => {
+  it("get markdown grouped by tags (with matching fix commit)", () => {
     const issue = require("../src/GithubAPI").createTestIssue(1);
     require("../src/GithubAPI").__setIssue({
       ...issue,

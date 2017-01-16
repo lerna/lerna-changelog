@@ -38,7 +38,7 @@ exports[`createMarkdown get markdown grouped by tags (with matching fix commit) 
 
 exports[`createMarkdown get markdown grouped by tags 1`] = `
 "
-## Unreleased (2017-01-15)
+## Unreleased (2099-01-01)
 
 #### :rocket: New Feature
 * \`pkg-1\`, \`pkg-2\`

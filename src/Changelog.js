@@ -258,7 +258,7 @@ export default class Changelog {
           existingCommitsForTag = acc[currentTag].commits;
         }
 
-        let releaseDate = today();
+        let releaseDate = this.getToday();
         if (currentTag !== UNRELEASED_TAG) {
           releaseDate = acc[currentTag] ? acc[currentTag].date : commit.date;
         }
@@ -296,9 +296,9 @@ export default class Changelog {
       })
     );
   }
-}
 
-export function today() {
-  const date = new Date().toISOString();
-  return date.slice(0, date.indexOf("T"));
+  getToday() {
+    const date = new Date().toISOString();
+    return date.slice(0, date.indexOf("T"));
+  }
 }

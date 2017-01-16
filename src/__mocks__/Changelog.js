@@ -50,6 +50,9 @@ class MockedChangelog extends Changelog {
   getListOfCommits() {
     return currentListOfCommits;
   }
+  getToday() {
+    return "2099-01-01"
+  }
 }
 
 export default MockedChangelog;
