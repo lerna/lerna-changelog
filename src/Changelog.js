@@ -13,8 +13,8 @@ export default class Changelog {
     this.remote = new RemoteRepo(this.config);
 
     // CLI options
-    this.tagFrom = options.tagFrom;
-    this.tagTo = options.tagTo;
+    this.tagFrom = options["tag-from"];
+    this.tagTo = options["tag-to"];
   }
 
   getConfig() {
@@ -60,7 +60,8 @@ export default class Changelog {
           const commitsByPackage = category.commits.reduce(
             (acc, commit) => {
               // Array of unique packages.
-              const changedPackages = this.getListOfUniquePackages();
+              const changedPackages =
+                this.getListOfUniquePackages(commit.commitSHA);
 
               const heading = changedPackages.length > 0
                 ? "* " + changedPackages.map(pkg => "`" + pkg + "`").join(", ")

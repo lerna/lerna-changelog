@@ -1,23 +1,32 @@
 #!/usr/bin/env node
 
 var chalk = require("chalk");
-var argv = require("yargs").argv;
 var Changelog = require(".").Changelog;
 var ConfigurationError = require(".").ConfigurationError;
 
-if (argv.help) {
-  console.log(
-    "\n" +
-    "  Usage: lerna-changelog [options]" +
-    "\n\n\n" +
-    "  Options:" +
-    "\n" +
-    "    --tagFrom <tag>  define a custom tag to determine the lower bound of the range of commits (default: last available git tag)" +
-    "\n" +
-    "    --tagTo <tag>    define a custom tag to determine the upper bound of the range of commits"
-  );
-  process.exit(0);
-}
+var argv = require("yargs")
+  .usage("Usage: lerna-changelog [options]")
+  .options({
+    "tag-from": {
+      type: "string",
+      desc: "A git tag that determines the lower bound of the range of commits (defaults to last available)"
+    },
+    "tag-to": {
+      type: "string",
+      desc: "A git tag that determines the upper bound of the range of commits"
+    }
+  })
+  .example(
+    "lerna-changelog",
+    "create a changelog for the changes after the latest available tag"
+  )
+  .example(
+    "lerna-changelog --tag-from 0.1.0 --tag-to 0.3.0",
+    "create a changelog for the changes in all tags within the given range"
+  )
+  .version()
+  .help()
+  .argv;
 
 try {
   console.log((new Changelog(argv)).createMarkdown());
