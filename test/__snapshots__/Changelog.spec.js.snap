@@ -8,13 +8,7 @@ exports[`createMarkdown get markdown grouped by tags (with commit number link) 1
   * [#1](https://github.com/lerna/lerna-changelog/pull/1) This is the commit title for the issue (#1). ([@test-user](https://github.com/test-user))
 
 #### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.1.0 (2017-01-01)
-
-#### Committers: 0
-"
+- Test User ([test-user](https://github.com/test-user))"
 `;
 
 exports[`createMarkdown get markdown grouped by tags (with matching fix commit) 1`] = `
@@ -27,13 +21,7 @@ exports[`createMarkdown get markdown grouped by tags (with matching fix commit) 
   * refactor(module): something. Closes [#1](https://github.com/lerna/lerna-changelog/issues/1). ([@test-user](https://github.com/test-user))
 
 #### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.1.0 (2017-01-01)
-
-#### Committers: 0
-"
+- Test User ([test-user](https://github.com/test-user))"
 `;
 
 exports[`createMarkdown get markdown grouped by tags 1`] = `
@@ -57,11 +45,5 @@ exports[`createMarkdown get markdown grouped by tags 1`] = `
   * This is the commit title for the issue (#2). ([@test-user](https://github.com/test-user))
 
 #### Committers: 1
-- Test User ([test-user](https://github.com/test-user))
-
-
-## v0.1.0 (2017-01-01)
-
-#### Committers: 0
-"
+- Test User ([test-user](https://github.com/test-user))"
 `;

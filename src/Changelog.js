@@ -43,12 +43,17 @@ export default class Changelog {
 
     Object.keys(commitsByTag).forEach(tag => {
       const commitsForTag = commitsByTag[tag].commits;
+      const commitsByCategory = this.getCommitsByCategory(commitsForTag);
+      const committers = this.getCommitters(commitsForTag);
+
+      // Skip this iteration if there are no commits available for the tag
+      const hasCommitsForCurrentTag = commitsByCategory.some(
+        category => category.commits.length > 0
+      );
+      if (!hasCommitsForCurrentTag) return;
 
       const releaseTitle = tag === UNRELEASED_TAG ? "Unreleased" : tag;
       markdown += "## " + releaseTitle + " (" + commitsByTag[tag].date + ")";
-
-      const committers = this.getCommitters(commitsForTag);
-      const commitsByCategory = this.getCommitsByCategory(commitsForTag);
 
       progressBar.init(commitsByCategory.length);
 
@@ -110,9 +115,7 @@ export default class Changelog {
       progressBar.terminate();
 
       markdown += "\n\n#### Committers: " + committers.length + "\n";
-      markdown += committers.map(function(commiter) {
-        return "- " + commiter;
-      }).join("\n");
+      markdown += committers.map(commiter => "- " + commiter).join("\n");
       markdown += "\n\n\n";
     });
 

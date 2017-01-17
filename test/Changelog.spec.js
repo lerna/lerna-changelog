@@ -22,7 +22,7 @@ describe("contructor", () => {
     expect(changelog.remote).toBeDefined();
   });
   it("set cli options", () => {
-    const changelog = new MockedChangelog({ tagFrom: "1", tagTo: "2" });
+    const changelog = new MockedChangelog({ "tag-from": "1", "tag-to": "2" });
     expect(changelog.tagFrom).toBe("1");
     expect(changelog.tagTo).toBe("2");
   });
