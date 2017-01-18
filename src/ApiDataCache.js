@@ -4,7 +4,7 @@ import mkdirp from "mkdirp";
 import ConfigurationError from "./ConfigurationError";
 
 export default class ApiDataCache {
-  constructor(host, { rootPath, cacheDir }) {
+  constructor(host, {rootPath, cacheDir}) {
     this.host = host;
     const dir = this.dir = cacheDir && path.join(rootPath, cacheDir, host);
 
@@ -12,24 +12,22 @@ export default class ApiDataCache {
       try {
         mkdirp.sync(dir);
       } catch (e) {
-        throw new ConfigurationError(
-          `Can't use cacheDir "${cacheDir}" (${e.message})`
-        );
+        throw new ConfigurationError(`Can't use cacheDir "${cacheDir}" (${e.message})`);
       }
     }
   }
 
   get(type, key) {
-    if (!this.dir)
-      return;
+    if (!this.dir) return;
     try {
       return fs.readFileSync(this.fn(type, key), "utf-8");
-    } catch (e) {}
+    } catch (e) {
+      // Pass.
+    }
   }
 
   set(type, key, data) {
-    if (!this.dir)
-      return;
+    if (!this.dir) return;
     return fs.writeFileSync(this.fn(type, key), data);
   }
 

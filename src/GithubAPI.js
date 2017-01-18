@@ -4,9 +4,9 @@ import ConfigurationError from "./ConfigurationError";
 
 export default class GithubAPI {
   constructor(config) {
-    const { repo } = config;
+    const {repo} = config;
     this.repo = repo;
-    this.cache = new ApiDataCache("github", config);
+    this.cache = new ApiDataCache('github', config);
     this.auth = process.env.GITHUB_AUTH;
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
@@ -14,11 +14,11 @@ export default class GithubAPI {
   }
 
   getIssueData(issue) {
-    return this._get("issue", issue);
+    return this._get('issue', issue);
   }
 
   getUserData(login) {
-    return this._get("user", login);
+    return this._get('user', login);
   }
 
   _get(type, key) {
@@ -32,16 +32,10 @@ export default class GithubAPI {
 
   _fetch(type, key) {
     const path = {
-      issue: `/repos/${this.repo}/issues/${key}`,
-      user: `/users/${key}`
+      issue : `/repos/${this.repo}/issues/${key}`,
+      user  : `/users/${key}`
     }[type];
     const url = "https://api.github.com" + path;
-    return execSync(
-      "curl " +
-      "--silent " +
-      "--globoff " +
-      "-H 'Authorization: token " + process.env.GITHUB_AUTH + "' " +
-      url
-    );
+    return execSync("curl -H 'Authorization: token " + process.env.GITHUB_AUTH + "' --silent --globoff " + url)
   }
 }
