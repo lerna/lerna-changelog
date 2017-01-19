@@ -1,9 +1,8 @@
 jest.mock("lerna/lib/Repository");
 jest.mock("lerna/lib/progressBar");
 jest.mock("../src/ApiDataCache");
-jest.mock("../src/ConfigurationError");
-jest.mock("../src/GithubAPI");
 jest.mock("../src/Changelog");
+jest.mock("../src/execSync");
 
 describe("contructor", () => {
   const MockedChangelog = require("../src/Changelog").default;
@@ -29,6 +28,39 @@ describe("contructor", () => {
 });
 
 describe("getCommitsInfo", () => {
+  beforeEach(() => {
+    require("../src/execSync").__resetDefaults();
+    require("../src/ApiDataCache").__resetDefaults();
+  })
+  require("../src/execSync").__mockGitLog(
+    "a0000005;HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD;chore(release): releasing component;2017-01-01\n" +
+    "a0000004;;Merge pull request #2 from my-feature;2017-01-01\n" +
+    "a0000003;;feat(module) Add new module (#2);2017-01-01\n" +
+    "a0000002;;refactor(module) Simplify implementation;2017-01-01\n" +
+    "a0000001;tag: v0.1.0;chore(release): releasing component;2017-01-01"
+  );
+  const usersCache = {
+    "test-user": {
+      login: "test-user",
+      html_url: "https://github.com/test-user",
+      name: "Test User"
+    },
+  };
+  const issuesCache = {
+    2: {
+      number: 2,
+      title: "This is the commit title for the issue (#2)",
+      labels: [
+        { name: "Type: New Feature" },
+        { name: "Status: In Progress" },
+      ],
+      user: usersCache["test-user"],
+    }
+  };
+  require("../src/ApiDataCache").__setCache({
+    user: usersCache,
+    issue: issuesCache,
+  });
   const MockedChangelog = require("../src/Changelog").default;
   const changelog = new MockedChangelog();
   const commitsInfo = changelog.getCommitsInfo();
@@ -51,6 +83,7 @@ describe("getCommitsInfo", () => {
         ],
         mergeMessage: "Merge pull request #2 from my-feature",
         message: "Merge pull request #2 from my-feature",
+        number: 2,
         tag: "",
         title: "This is the commit title for the issue (#2)",
         user: {
@@ -68,6 +101,7 @@ describe("getCommitsInfo", () => {
         ],
         mergeMessage: "feat(module) Add new module (#2)",
         message: "feat(module) Add new module (#2)",
+        number: 2,
         tag: "",
         title: "This is the commit title for the issue (#2)",
         user: {
@@ -141,6 +175,36 @@ describe("getCommitsByCategory", () => {
 })
 
 describe("getCommitters", () => {
+  beforeEach(() => {
+    require("../src/ApiDataCache").__resetDefaults();
+  })
+
+  const usersCache = {
+    "test-user": {
+      login: "test-user",
+      html_url: "https://github.com/test-user",
+      name: "Test User"
+    },
+    "test-user-1": {
+      login: "test-user-1",
+      html_url: "https://github.com/test-user-1",
+      name: "Test User 1"
+    },
+    "test-user-2": {
+      login: "test-user-2",
+      html_url: "https://github.com/test-user-2",
+      name: "Test User 2"
+    },
+    "user-bot": {
+      login: "user-bot",
+      html_url: "https://github.com/user-bot",
+      name: "User Bot"
+    },
+  };
+  require("../src/ApiDataCache").__setCache({
+    user: usersCache,
+    issue: {},
+  });
   require("../src/Changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
   const MockedChangelog = require("../src/Changelog").default;
   const changelog = new MockedChangelog();
@@ -155,46 +219,8 @@ describe("getCommitters", () => {
 
   it("get list of valid commiters", () => {
     expect(committers).toEqual([
-      "Test User ([test-user-1](https://github.com/test-user))",
-      "Test User ([test-user-2](https://github.com/test-user))"
+      "Test User 1 ([test-user-1](https://github.com/test-user-1))",
+      "Test User 2 ([test-user-2](https://github.com/test-user-2))"
     ]);
-  })
-})
-
-describe("createMarkdown", () => {
-  const MockedChangelog = require("../src/Changelog").default;
-  const changelog = new MockedChangelog();
-
-  beforeEach(() => {
-    require("../src/GithubAPI").__resetDefaults();
-    require("../src/Changelog").__resetDefaults();
-  })
-
-  it("get markdown grouped by tags", () => {
-    require("../src/Changelog").__prependListOfCommits([
-      // Add some commits that do not belong to a tag yet
-      "a0000008;;Merge pull request #3 from my-fix-feature;2017-01-02",
-      "a0000007;;feat(module): some unreleased feature;2017-01-02",
-      "a0000006;;fix(module): fix a problem (#2);2017-01-02",
-    ]);
-    const markdown = changelog.createMarkdown();
-    expect(markdown).toMatchSnapshot();
-  })
-
-  it("get markdown grouped by tags (with commit number link)", () => {
-    const issue = require("../src/GithubAPI").createTestIssue(1);
-    require("../src/GithubAPI").__setIssue({ ...issue, number: 1 });
-    const markdown = changelog.createMarkdown();
-    expect(markdown).toMatchSnapshot();
-  })
-
-  it("get markdown grouped by tags (with matching fix commit)", () => {
-    const issue = require("../src/GithubAPI").createTestIssue(1);
-    require("../src/GithubAPI").__setIssue({
-      ...issue,
-      title: "refactor(module): something. Closes #1"
-    });
-    const markdown = changelog.createMarkdown();
-    expect(markdown).toMatchSnapshot();
   })
 })
