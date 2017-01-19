@@ -2,6 +2,7 @@ jest.mock("lerna/lib/Repository");
 jest.mock("lerna/lib/progressBar");
 jest.mock("../../src/ApiDataCache");
 jest.mock("../../src/Changelog");
+jest.mock("../../src/GithubAPI");
 jest.mock("../../src/execSync");
 
 const listOfCommits =

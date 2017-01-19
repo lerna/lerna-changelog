@@ -7,10 +7,14 @@ export default class GithubAPI {
     const {repo} = config;
     this.repo = repo;
     this.cache = new ApiDataCache('github', config);
-    this.auth = process.env.GITHUB_AUTH || "aa";
+    this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
     }
+  }
+
+  getAuthToken() {
+    return process.env.GITHUB_AUTH;
   }
 
   getIssueData(issue) {

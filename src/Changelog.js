@@ -1,7 +1,7 @@
-import LernaRepo from "lerna/lib/Repository";
-import progressBar from "lerna/lib/progressBar";
-import RemoteRepo from "./RemoteRepo";
-import execSync from "./execSync";
+import LernaRepo          from "lerna/lib/Repository";
+import progressBar        from "lerna/lib/progressBar";
+import RemoteRepo         from "./RemoteRepo";
+import execSync           from "./execSync";
 import ConfigurationError from "./ConfigurationError";
 
 const UNRELEASED_TAG = "___unreleased___";
@@ -24,8 +24,8 @@ export default class Changelog {
 
     if (!config) {
       throw new ConfigurationError(
-        "Missing changelog config in `lerna.json`.\n" +
-          "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
+        "Missing changelog config in `lerna.json`.\n"+
+        "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
       );
     }
 
@@ -164,7 +164,7 @@ export default class Changelog {
     const committers = {};
 
     commits.forEach(commit => {
-      const login = (commit.user || {}).login;
+      const login = (commit.user||{}).login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && (
