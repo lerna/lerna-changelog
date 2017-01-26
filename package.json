@@ -7,7 +7,7 @@
     "lerna-changelog": "cli.js"
   },
   "scripts": {
-    "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__/GithubAPI.js,src/__mocks__/Changelog.js,src/__mocks__/ApiDataCache.js,src/__mocks__/execSync.js",
+    "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
     "clean": "rimraf lib",
     "lint": "eslint index.js cli.js src",
     "test": "jest",
