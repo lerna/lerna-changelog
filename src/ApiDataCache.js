@@ -4,7 +4,7 @@ import mkdirp from "mkdirp";
 import ConfigurationError from "./ConfigurationError";
 
 export default class ApiDataCache {
-  constructor(host, {rootPath, cacheDir}) {
+  constructor(host, { rootPath, cacheDir }) {
     this.host = host;
     const dir = this.dir = cacheDir && path.join(rootPath, cacheDir, host);
 

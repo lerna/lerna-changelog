@@ -1,12 +1,12 @@
-let gitShowResult
-let gitDescribeResult
-let gitLogResult
-let gitTagResult
+let gitShowResult;
+let gitDescribeResult;
+let gitLogResult;
+let gitTagResult;
 export function __resetDefaults () {
-  gitShowResult = undefined
-  gitDescribeResult = undefined
-  gitLogResult = undefined
-  gitTagResult = undefined
+  gitShowResult = undefined;
+  gitDescribeResult = undefined;
+  gitLogResult = undefined;
+  gitTagResult = undefined;
 }
 export function __mockGitShow (result) {
   gitShowResult = result;

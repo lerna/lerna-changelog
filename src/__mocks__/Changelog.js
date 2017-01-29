@@ -30,7 +30,7 @@ class MockedChangelog extends Changelog {
     return currentConfig;
   }
   getToday() {
-    return "2099-01-01"
+    return "2099-01-01";
   }
 }
 

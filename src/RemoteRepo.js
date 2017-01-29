@@ -2,7 +2,7 @@ import GithubAPI from "./GithubAPI";
 
 export default class RemoteRepo {
   constructor(config) {
-    const {repo, labels} = config;
+    const { repo, labels } = config;
     this.repo = repo;
     this.labels = labels;
     this.githubAPI = new GithubAPI(config);
