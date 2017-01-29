@@ -11,6 +11,7 @@
     "watch": "npm run build -- --watch",
     "clean": "rimraf lib",
     "lint": "eslint index.js cli.js src",
+    "fix": "npm run lint -- --fix",
     "test": "jest",
     "test-ci": "npm run build && jest",
     "prepublish": "npm run build"
@@ -36,6 +37,8 @@
     "babel-plugin-transform-object-rest-spread": "6.20.2",
     "babel-preset-es2015": "^6.18.0",
     "eslint": "^3.13.1",
+    "eslint-config-babel": "^6.0.0",
+    "eslint-plugin-flowtype": "^2.30.0",
     "jest": "^18.1.0",
     "lerna": "^2.0.0-beta.32",
     "rimraf": "^2.5.4"

@@ -24,7 +24,7 @@ export default class Changelog {
 
     if (!config) {
       throw new ConfigurationError(
-        "Missing changelog config in `lerna.json`.\n"+
+        "Missing changelog config in `lerna.json`.\n" +
         "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
       );
     }
@@ -41,14 +41,14 @@ export default class Changelog {
     const commitsInfo = this.getCommitsInfo();
     const commitsByTag = this.getCommitsByTag(commitsInfo);
 
-    Object.keys(commitsByTag).forEach(tag => {
+    Object.keys(commitsByTag).forEach((tag) => {
       const commitsForTag = commitsByTag[tag].commits;
       const commitsByCategory = this.getCommitsByCategory(commitsForTag);
       const committers = this.getCommitters(commitsForTag);
 
       // Skip this iteration if there are no commits available for the tag
       const hasCommitsForCurrentTag = commitsByCategory.some(
-        category => category.commits.length > 0
+        (category) => category.commits.length > 0
       );
       if (!hasCommitsForCurrentTag) return;
 
@@ -58,8 +58,8 @@ export default class Changelog {
       progressBar.init(commitsByCategory.length);
 
       commitsByCategory
-        .filter(category => category.commits.length > 0)
-        .forEach(category => {
+        .filter((category) => category.commits.length > 0)
+        .forEach((category) => {
           progressBar.tick(category.heading);
 
           const commitsByPackage = category.commits.reduce(
@@ -69,7 +69,7 @@ export default class Changelog {
                 this.getListOfUniquePackages(commit.commitSHA);
 
               const heading = changedPackages.length > 0
-                ? "* " + changedPackages.map(pkg => "`" + pkg + "`").join(", ")
+                ? "* " + changedPackages.map((pkg) => "`" + pkg + "`").join(", ")
                 : "* Other";
               // No changes to packages, but still relevant.
               const existingCommitsForHeading = acc[heading] || [];
@@ -85,10 +85,10 @@ export default class Changelog {
           markdown += "\n";
           markdown += "#### " + category.heading;
 
-          Object.keys(commitsByPackage).forEach(heading => {
+          Object.keys(commitsByPackage).forEach((heading) => {
             markdown += "\n" + heading;
 
-            commitsByPackage[heading].forEach(commit => {
+            commitsByPackage[heading].forEach((commit) => {
               markdown += "\n  * ";
 
               if (commit.number) {
@@ -115,7 +115,7 @@ export default class Changelog {
       progressBar.terminate();
 
       markdown += "\n\n#### Committers: " + committers.length + "\n";
-      markdown += committers.map(commiter => "- " + commiter).join("\n");
+      markdown += committers.map((commiter) => "- " + commiter).join("\n");
       markdown += "\n\n\n";
     });
 
@@ -160,7 +160,7 @@ export default class Changelog {
     const commits = execSync(
       // Prints "<short-hash>;<ref-name>;<summary>;<date>"
       // This format is used in `getCommitsInfo` for easily analize the commit.
-      'git log --oneline --pretty="%h;%D;%s;%cd" --date=short ' + tagsRange
+      "git log --oneline --pretty=\"%h;%D;%s;%cd\" --date=short " + tagsRange
     );
     if (commits) {
       return commits.split("\n");
@@ -171,14 +171,14 @@ export default class Changelog {
   getCommitters(commits) {
     const committers = {};
 
-    commits.forEach(commit => {
-      const login = (commit.user||{}).login;
+    commits.forEach((commit) => {
+      const login = (commit.user || {}).login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && (
         !this.config.ignoreCommitters ||
         !this.config.ignoreCommitters.some(
-          c => c === login || login.indexOf(c) > -1
+          (c) => c === login || login.indexOf(c) > -1
         )
       );
       if (login && shouldKeepCommiter && !committers[login]) {
@@ -192,7 +192,7 @@ export default class Changelog {
       }
     });
 
-    return Object.keys(committers).map(k => committers[k]).sort();
+    return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
   getCommitsInfo() {
@@ -201,7 +201,7 @@ export default class Changelog {
 
     progressBar.init(commits.length);
 
-    const commitsInfo = commits.map(commit => {
+    const commitsInfo = commits.map((commit) => {
       // commit is formatted as following:
       // <short-hash>;<ref-name>;<summary>;<date>
       const parts = commit.split(";");
@@ -213,8 +213,8 @@ export default class Changelog {
         // we need to treat all of them as a list.
         tagsInCommit = allTags.reduce((acc, tag) => {
           if (_refs.indexOf(tag) < 0)
-            return acc
-          return acc.concat(tag)
+            return acc;
+          return acc.concat(tag);
         }, []);
       }
       const message = parts[2];
@@ -288,8 +288,8 @@ export default class Changelog {
             date: releaseDate,
             commits: existingCommitsForTag.concat(commit)
           }
-        }
-      }, {})
+        };
+      }, {});
 
 
       return {
@@ -301,7 +301,7 @@ export default class Changelog {
 
   getCommitsByCategory(commits) {
     return this.remote.getLabels().map(
-      label => ({
+      (label) => ({
         heading: this.remote.getHeadingForLabel(label),
         // Keep only the commits that have a matching label with the one
         // provided in the lerna.json config.
@@ -309,7 +309,7 @@ export default class Changelog {
           (acc, commit) => {
             if (
               commit.labels.some(
-                l => l.name.toLowerCase() === label.toLowerCase()
+                (l) => l.name.toLowerCase() === label.toLowerCase()
               )
             )
               return acc.concat(commit);
