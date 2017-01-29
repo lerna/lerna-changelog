@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
+    "watch": "npm run build -- --watch",
     "clean": "rimraf lib",
     "lint": "eslint index.js cli.js src",
     "test": "jest",

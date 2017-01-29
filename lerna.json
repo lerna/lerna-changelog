@@ -1,0 +1,19 @@
+{
+  "lerna": "2.0.0-beta.32",
+  "packages": [
+    "."
+  ],
+  "changelog": {
+    "repo": "lerna/lerna-changelog",
+    "labels": {
+      "Tag: Breaking Change": ":boom: Breaking Change",
+      "Tag: Enhancement": ":rocket: Enhancement",
+      "Tag: Bug Fix": ":bug: Bug Fix",
+      "Tag: Polish": ":nail_care: Polish",
+      "Tag: Documentation": ":memo: Documentation",
+      "Tag: Internal": ":house: Internal"
+    },
+    "cacheDir": ".changelog"
+  },
+  "version": "0.0.0"
+}
