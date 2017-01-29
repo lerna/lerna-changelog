@@ -40,6 +40,12 @@ describe("getCommitsInfo", () => {
     "a0000002;;refactor(module) Simplify implementation;2017-01-01\n" +
     "a0000001;tag: v0.1.0;chore(release): releasing component;2017-01-01"
   );
+  require("../src/execSync").__mockGitTag(
+    "v0.2.0\n" +
+    "v0.1.1\n" +
+    "v0.1.0\n" +
+    "v0.0.1"
+  );
   const usersCache = {
     "test-user": {
       login: "test-user",
@@ -73,7 +79,7 @@ describe("getCommitsInfo", () => {
         date: "2017-01-01",
         labels: [],
         message: "chore(release): releasing component",
-        tag: "v0.2.0"
+        tags: ["v0.2.0"],
       },
       {
         commitSHA: "a0000004",
@@ -85,13 +91,13 @@ describe("getCommitsInfo", () => {
         mergeMessage: "Merge pull request #2 from my-feature",
         message: "Merge pull request #2 from my-feature",
         number: 2,
-        tag: "",
+        tags: undefined,
         title: "This is the commit title for the issue (#2)",
         user: {
           html_url: "https://github.com/test-user",
           login: "test-user",
-          name: "Test User"
-        }
+          name: "Test User",
+        },
       },
       {
         commitSHA: "a0000003",
@@ -103,28 +109,28 @@ describe("getCommitsInfo", () => {
         mergeMessage: "feat(module) Add new module (#2)",
         message: "feat(module) Add new module (#2)",
         number: 2,
-        tag: "",
+        tags: undefined,
         title: "This is the commit title for the issue (#2)",
         user: {
           html_url: "https://github.com/test-user",
           login: "test-user",
-          name: "Test User"
-        }
+          name: "Test User",
+        },
       },
       {
         commitSHA: "a0000002",
         date: "2017-01-01",
         labels: [],
         message: "refactor(module) Simplify implementation",
-        tag: ""
+        tags: undefined,
       },
       {
         commitSHA: "a0000001",
         date: "2017-01-01",
         labels: [],
         message: "chore(release): releasing component",
-        tag: "v0.1.0"
-      }
+        tags: ["v0.1.0"],
+      },
     ]);
   });
 });

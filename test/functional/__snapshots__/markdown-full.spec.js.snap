@@ -1,4 +1,36 @@
-exports[`createMarkdown outputs correct changelog 1`] = `
+exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
+"
+## a-new-hope@4.0.0 (1977-05-25)
+
+#### :rocket: New Feature
+* \`a-new-hope\`
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+
+#### Committers: 1
+- Luke Skywalker ([luke](https://github.com/luke))
+
+
+## empire-strikes-back@5.0.0 (1977-05-25)
+
+#### :rocket: New Feature
+* \`a-new-hope\`
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+
+#### Committers: 1
+- Luke Skywalker ([luke](https://github.com/luke))
+
+
+## return-of-the-jedi@6.0.0 (1977-05-25)
+
+#### :rocket: New Feature
+* \`a-new-hope\`
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+
+#### Committers: 1
+- Luke Skywalker ([luke](https://github.com/luke))"
+`;
+
+exports[`createMarkdown single tags outputs correct changelog 1`] = `
 "
 ## Unreleased (2099-01-01)
 

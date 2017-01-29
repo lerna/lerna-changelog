@@ -138,6 +138,14 @@ export default class Changelog {
     );
   }
 
+  getListOfTags() {
+    const tags = execSync("git tag");
+    if (tags) {
+      return tags.split("\n");
+    }
+    return [];
+  }
+
   getLastTag() {
     return execSync("git describe --abbrev=0 --tags");
   }
@@ -189,6 +197,7 @@ export default class Changelog {
 
   getCommitsInfo() {
     const commits = this.getListOfCommits();
+    const allTags = this.getListOfTags();
 
     progressBar.init(commits.length);
 
@@ -197,14 +206,16 @@ export default class Changelog {
       // <short-hash>;<ref-name>;<summary>;<date>
       const parts = commit.split(";");
       const sha = parts[0];
-      const _refs = parts[1].split(",");
-      let tag;
-      if (_refs.length === 1) {
-        // "tag: <tag-name>
-        tag = _refs[0].replace(/tag:\s(.*?)$/, "$1").trim();
-      } else if (_refs.length === 4) {
-        // "HEAD -> master, tag: <tag-name>, origin/master, origin/HEAD"
-        tag = _refs[1].replace(/tag:\s(.*?)$/, "$1").trim();
+      const _refs = parts[1];
+      let tagsInCommit;
+      if (_refs.length > 1) {
+        // Since there might be multiple tags referenced by the same commit,
+        // we need to treat all of them as a list.
+        tagsInCommit = allTags.reduce((acc, tag) => {
+          if (_refs.indexOf(tag) < 0)
+            return acc
+          return acc.concat(tag)
+        }, []);
       }
       const message = parts[2];
       const date = parts[3];
@@ -219,7 +230,7 @@ export default class Changelog {
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
         labels: [],
-        tag,
+        tags: tagsInCommit,
         date
       };
 
@@ -249,14 +260,18 @@ export default class Changelog {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
-    let currentTag = UNRELEASED_TAG;
-    return commits.reduce(
-      (acc, commit) => {
-        const tag = commit.tag;
-        if (tag) {
-          currentTag = tag;
-        }
+    let currentTags = [UNRELEASED_TAG];
+    return commits.reduce((acc, commit) => {
+      if (commit.tags) {
+        currentTags = commit.tags;
+      }
 
+      // Tags referenced by commits are treated as a list. When grouping them,
+      // we split the commits referenced by multiple tags in their own group.
+      // This results in having one group of commits for each tag, even if
+      // the same commits are "duplicated" across the different tags
+      // referencing them.
+      const commitsForTags = currentTags.reduce((acc2, currentTag) => {
         let existingCommitsForTag = [];
         if ({}.hasOwnProperty.call(acc, currentTag)) {
           existingCommitsForTag = acc[currentTag].commits;
@@ -268,15 +283,20 @@ export default class Changelog {
         }
 
         return {
-          ...acc,
+          ...acc2,
           [currentTag]: {
             date: releaseDate,
             commits: existingCommitsForTag.concat(commit)
           }
-        };
-      },
-      {}
-    );
+        }
+      }, {})
+
+
+      return {
+        ...acc,
+        ...commitsForTags,
+      };
+    }, {});
   }
 
   getCommitsByCategory(commits) {
