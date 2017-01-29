@@ -4,7 +4,7 @@
   "description": "Generate a changelog for a lerna monorepo",
   "main": "index.js",
   "bin": {
-    "lerna-changelog": "cli.js"
+    "lerna-changelog": "./bin/cli.js"
   },
   "scripts": {
     "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",

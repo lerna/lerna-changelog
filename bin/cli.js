@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var chalk = require("chalk");
-var Changelog = require(".").Changelog;
-var ConfigurationError = require(".").ConfigurationError;
+var Changelog = require("../").Changelog;
+var ConfigurationError = require("../").ConfigurationError;
 
 var argv = require("yargs")
   .usage("Usage: lerna-changelog [options]")
