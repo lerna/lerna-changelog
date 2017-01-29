@@ -12,6 +12,7 @@
     "clean": "rimraf lib",
     "lint": "eslint index.js cli.js src",
     "test": "jest",
+    "test-ci": "npm run build && jest",
     "prepublish": "npm run build"
   },
   "repository": {

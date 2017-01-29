@@ -1,0 +1,25 @@
+git:
+  depth: 10
+sudo: false
+language: node_js
+cache:
+  yarn: true
+  directories:
+  - node_modules
+node_js:
+  - '7'
+  - '6'
+  - '4'
+
+env:
+  - JOB=test
+
+script:
+  - 'if [ "$JOB" = "test" ]; then npm run test-ci; fi'
+  - 'if [ "$JOB" = "lint" ]; then npm run lint; fi'
+
+matrix:
+  fast_finish: true
+  include:
+    - node_js: "node"
+      env: JOB=lint
