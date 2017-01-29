@@ -7,10 +7,14 @@ export default class GithubAPI {
     const {repo} = config;
     this.repo = repo;
     this.cache = new ApiDataCache('github', config);
-    this.auth = process.env.GITHUB_AUTH;
+    this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
     }
+  }
+
+  getAuthToken() {
+    return process.env.GITHUB_AUTH;
   }
 
   getIssueData(issue) {
@@ -36,6 +40,6 @@ export default class GithubAPI {
       user  : `/users/${key}`
     }[type];
     const url = "https://api.github.com" + path;
-    return execSync("curl -H 'Authorization: token " + process.env.GITHUB_AUTH + "' --silent " + url)
+    return execSync("curl -H 'Authorization: token " + process.env.GITHUB_AUTH + "' --silent --globoff " + url)
   }
 }

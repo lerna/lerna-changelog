@@ -71,6 +71,28 @@ You'll need a GitHub API [personal access token](https://github.com/settings/tok
 - `repo`: Your "org/repo" on GitHub
 - `cacheDir` [optional]: A place to stash GitHub API responses to avoid throttling
 - `labels`: GitHub issue/PR labels mapped to changelog section headers
+- `ignoreCommitters` [optional]: list of commiters to ignore (exact or partial match). Useful for example to ignore commits from bot agents
+
+## CLI
+
+```bash
+$ lerna-changelog
+Usage: lerna-changelog [options]
+
+Options:
+  --tag-from  A git tag that determines the lower bound of the range of commits
+              (defaults to last available)                              [string]
+  --tag-to    A git tag that determines the upper bound of the range of commits
+                                                                        [string]
+  --version   Show version number                                      [boolean]
+  --help      Show help                                                [boolean]
+
+Examples:
+  lerna-changelog                           create a changelog for the changes
+                                            after the latest available tag
+  lerna-changelog --tag-from 0.1.0          create a changelog for the changes
+  --tag-to 0.3.0                            in all tags within the given range
+```
 
 [lerna-homepage]: https://lernajs.io
 [hzoo-profile]: https://github.com/hzoo
