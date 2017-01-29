@@ -262,7 +262,7 @@ export default class Changelog {
     // multiple release tags.
     let currentTags = [UNRELEASED_TAG];
     return commits.reduce((acc, commit) => {
-      if (commit.tags) {
+      if (commit.tags && commit.tags.length > 0) {
         currentTags = commit.tags;
       }
 
