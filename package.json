@@ -14,7 +14,8 @@
     "fix": "npm run lint -- --fix",
     "test": "jest",
     "test-ci": "npm run build && jest",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "changelog": "node ./bin/cli.js"
   },
   "repository": {
     "type": "git",
