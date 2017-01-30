@@ -11,6 +11,15 @@
 - Henry Zhu ([hzoo](https://github.com/hzoo))
 - Nicola Molinari ([emmenko](https://github.com/emmenko))
 
+## v0.2.3 (2016-11-27)
+
+#### :bug: Bug Fix
+* Other
+  * [#28](https://github.com/lerna/lerna-changelog/pull/28) Convert label name to lowercase before matching. ([@fson](https://github.com/fson))
+
+#### Committers: 1
+- Ville Immonen ([fson](https://github.com/fson))
+
 ## v0.2.2 (2016-10-24)
 
 #### :bug: Bug Fix
