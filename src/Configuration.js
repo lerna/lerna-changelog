@@ -6,7 +6,10 @@ import execSync from "./execSync";
 
 export function fromGitRoot(cwd) {
   const rootPath = execSync("git rev-parse --show-toplevel", { cwd });
+  return fromPath(rootPath);
+}
 
+export function fromPath(rootPath) {
   const lernaPath = path.join(rootPath, "lerna.json");
   const lernaJson = JSON.parse(fs.readFileSync(lernaPath));
 
