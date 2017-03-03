@@ -1,8 +1,7 @@
-import LernaRepo          from "lerna/lib/Repository";
 import progressBar        from "lerna/lib/progressBar";
 import RemoteRepo         from "./RemoteRepo";
 import execSync           from "./execSync";
-import ConfigurationError from "./ConfigurationError";
+import * as Configuration from "./Configuration";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
@@ -18,20 +17,7 @@ export default class Changelog {
   }
 
   getConfig() {
-    const lerna = new LernaRepo();
-
-    const config = lerna.lernaJson.changelog;
-
-    if (!config) {
-      throw new ConfigurationError(
-        "Missing changelog config in `lerna.json`.\n" +
-        "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
-      );
-    }
-
-    config.rootPath = lerna.rootPath;
-
-    return config;
+    return Configuration.fromCWD();
   }
 
   createMarkdown() {
