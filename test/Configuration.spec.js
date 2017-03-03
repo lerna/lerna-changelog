@@ -1,10 +1,11 @@
 import path from "path";
-import { fromCWD } from "../src/Configuration";
+import { fromGitRoot } from "../src/Configuration";
 
 describe("Configuration", function() {
-  describe("fromCWD", function() {
+  describe("fromGitRoot", function() {
     it("reads the configuration from 'lerna.json'", function() {
-      const result = fromCWD();
+      const rootPath = path.resolve(`${__dirname}/..`);
+      const result = fromGitRoot(rootPath);
       expect(result).toEqual({
         "repo": "lerna/lerna-changelog",
         "labels": {
@@ -16,7 +17,7 @@ describe("Configuration", function() {
           "Tag: Internal": ":house: Internal"
         },
         "cacheDir": ".changelog",
-        "rootPath": path.resolve(`${__dirname}/..`),
+        rootPath,
       });
     });
   });

@@ -4,8 +4,8 @@ import path from "path";
 import ConfigurationError from "./ConfigurationError";
 import execSync from "./execSync";
 
-export function fromCWD() {
-  const rootPath = execSync("git rev-parse --show-toplevel");
+export function fromGitRoot(cwd) {
+  const rootPath = execSync("git rev-parse --show-toplevel", { cwd });
 
   const lernaPath = path.join(rootPath, "lerna.json");
   const lernaJson = JSON.parse(fs.readFileSync(lernaPath));

@@ -17,7 +17,7 @@ export default class Changelog {
   }
 
   getConfig() {
-    return Configuration.fromCWD();
+    return Configuration.fromGitRoot(process.cwd());
   }
 
   createMarkdown() {
