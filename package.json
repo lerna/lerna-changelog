@@ -10,7 +10,7 @@
     "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
     "watch": "npm run build -- --watch",
     "clean": "rimraf lib",
-    "lint": "eslint index.js cli.js src",
+    "lint": "eslint index.js cli.js src test",
     "fix": "npm run lint -- --fix",
     "test": "jest",
     "test-ci": "npm run build && jest",
