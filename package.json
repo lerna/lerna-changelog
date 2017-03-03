@@ -48,10 +48,6 @@
     "eslint-config-babel": "^6.0.0",
     "eslint-plugin-flowtype": "^2.30.0",
     "jest": "^18.1.0",
-    "lerna": "^2.0.0-beta.32",
     "rimraf": "^2.5.4"
-  },
-  "peerDependencies": {
-    "lerna": "^2.0.0-beta.8"
   }
 }
