@@ -25,7 +25,7 @@
     "changelog": "node ./bin/cli.js",
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
-    "lint": "eslint index.js cli.js src",
+    "lint": "eslint index.js cli.js src test",
     "prepublish": "npm run build",
     "test": "jest",
     "test-ci": "npm run build && jest",
