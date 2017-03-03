@@ -47,6 +47,7 @@
     "eslint": "^3.13.1",
     "eslint-config-babel": "^6.0.0",
     "eslint-plugin-flowtype": "^2.30.0",
+    "fs-extra": "^2.0.0",
     "jest": "^18.1.0",
     "rimraf": "^2.5.4"
   }

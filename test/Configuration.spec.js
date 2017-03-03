@@ -1,5 +1,7 @@
+import os from "os";
+import fs from "fs-extra";
 import path from "path";
-import { fromGitRoot } from "../src/Configuration";
+import { fromGitRoot, fromPath } from "../src/Configuration";
 
 describe("Configuration", function() {
   describe("fromGitRoot", function() {
@@ -19,6 +21,27 @@ describe("Configuration", function() {
         "cacheDir": ".changelog",
         rootPath,
       });
+    });
+  });
+
+  describe("fromPath", function() {
+    const tmpDir = `${os.tmpDir()}/changelog-test`;
+
+    beforeEach(function() {
+      fs.ensureDirSync(tmpDir);
+    });
+
+    afterEach(function() {
+      fs.removeSync(tmpDir);
+    });
+
+    it("reads the configuration from 'lerna.json'", function() {
+      fs.writeJsonSync(path.join(tmpDir, "lerna.json"), {
+        changelog: { repo: "foo/bar" },
+      });
+
+      const result = fromPath(tmpDir);
+      expect(result.repo).toEqual("foo/bar");
     });
   });
 });
