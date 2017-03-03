@@ -1,7 +1,9 @@
 import os from "os";
 import fs from "fs-extra";
 import path from "path";
+
 import { fromGitRoot, fromPath } from "../src/Configuration";
+import ConfigurationError from "../src/ConfigurationError";
 
 describe("Configuration", function() {
   describe("fromGitRoot", function() {
@@ -42,6 +44,32 @@ describe("Configuration", function() {
 
       const result = fromPath(tmpDir);
       expect(result.repo).toEqual("foo/bar");
+    });
+
+    it("reads the configuration from 'package.json'", function() {
+      fs.writeJsonSync(path.join(tmpDir, "package.json"), {
+        changelog: { repo: "foo/bar" },
+      });
+
+      const result = fromPath(tmpDir);
+      expect(result.repo).toEqual("foo/bar");
+    });
+
+    it("prefers 'package.json' over 'lerna.json'", function() {
+      fs.writeJsonSync(path.join(tmpDir, "lerna.json"), {
+        changelog: { repo: "foo/lerna" },
+      });
+
+      fs.writeJsonSync(path.join(tmpDir, "package.json"), {
+        changelog: { repo: "foo/package" },
+      });
+
+      const result = fromPath(tmpDir);
+      expect(result.repo).toEqual("foo/package");
+    });
+
+    it("throws ConfigurationError if neither 'package.json' nor 'lerna.json' exist", function() {
+      expect(() => fromPath(tmpDir)).toThrowError(ConfigurationError);
     });
   });
 });
