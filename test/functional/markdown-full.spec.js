@@ -1,4 +1,3 @@
-jest.mock("lerna/lib/Repository");
 jest.mock("lerna/lib/progressBar");
 jest.mock("../../src/ApiDataCache");
 jest.mock("../../src/Changelog");

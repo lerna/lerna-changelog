@@ -1,10 +1,16 @@
-import LernaRepo from "lerna/lib/Repository";
+import fs from "fs";
+import path from "path";
+
 import ConfigurationError from "./ConfigurationError";
+import execSync from "./execSync";
 
 export function fromCWD() {
-  const lerna = new LernaRepo();
+  const rootPath = execSync("git rev-parse --show-toplevel");
 
-  const config = lerna.lernaJson.changelog;
+  const lernaPath = path.join(rootPath, "lerna.json");
+  const lernaJson = JSON.parse(fs.readFileSync(lernaPath));
+
+  const config = lernaJson.changelog;
 
   if (!config) {
     throw new ConfigurationError(
@@ -13,7 +19,7 @@ export function fromCWD() {
     );
   }
 
-  config.rootPath = lerna.rootPath;
+  config.rootPath = rootPath;
 
   return config;
 }
