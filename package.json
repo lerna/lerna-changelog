@@ -2,35 +2,40 @@
   "name": "lerna-changelog",
   "version": "0.3.0",
   "description": "Generate a changelog for a lerna monorepo",
+  "keywords": [
+    "changelog",
+    "lerna"
+  ],
+  "homepage": "https://github.com/lerna/lerna-changelog#readme",
+  "bugs": {
+    "url": "https://github.com/lerna/lerna-changelog/issues"
+  },
+  "license": "MIT",
+  "author": "Bo Borgerson <gigabo@gmail.com>",
   "main": "index.js",
   "bin": {
     "lerna-changelog": "./bin/cli.js"
-  },
-  "scripts": {
-    "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
-    "watch": "npm run build -- --watch",
-    "clean": "rimraf lib",
-    "lint": "eslint index.js cli.js src test",
-    "fix": "npm run lint -- --fix",
-    "test": "jest",
-    "test-ci": "npm run build && jest",
-    "prepublish": "npm run build",
-    "changelog": "node ./bin/cli.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lerna/lerna-changelog.git"
   },
-  "keywords": [
-    "lerna",
-    "changelog"
-  ],
-  "author": "Bo Borgerson <gigabo@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lerna/lerna-changelog/issues"
+  "scripts": {
+    "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
+    "changelog": "node ./bin/cli.js",
+    "clean": "rimraf lib",
+    "fix": "npm run lint -- --fix",
+    "lint": "eslint index.js cli.js src test",
+    "prepublish": "npm run build",
+    "test": "jest",
+    "test-ci": "npm run build && jest",
+    "watch": "npm run build -- --watch"
   },
-  "homepage": "https://github.com/lerna/lerna-changelog#readme",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "mkdirp": "^0.5.1",
+    "yargs": "^6.6.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.1.1",
@@ -46,10 +51,5 @@
   },
   "peerDependencies": {
     "lerna": "^2.0.0-beta.8"
-  },
-  "dependencies": {
-    "chalk": "^1.1.3",
-    "mkdirp": "^0.5.1",
-    "yargs": "^6.6.0"
   }
 }
