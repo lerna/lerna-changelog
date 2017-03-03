@@ -5,7 +5,7 @@ describe("Configuration", function() {
   describe("fromGitRoot", function() {
     it("reads the configuration from 'lerna.json'", function() {
       const rootPath = path.resolve(`${__dirname}/..`);
-      const result = fromGitRoot(rootPath);
+      const result = fromGitRoot(path.join(rootPath, "src"));
       expect(result).toEqual({
         "repo": "lerna/lerna-changelog",
         "labels": {
