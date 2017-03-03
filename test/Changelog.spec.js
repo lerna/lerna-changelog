@@ -1,4 +1,4 @@
-jest.mock("lerna/lib/progressBar");
+jest.mock("../src/progressBar");
 jest.mock("../src/ApiDataCache");
 jest.mock("../src/Changelog");
 jest.mock("../src/GithubAPI");

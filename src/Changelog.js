@@ -1,4 +1,4 @@
-import progressBar        from "lerna/lib/progressBar";
+import progressBar        from "./progressBar";
 import RemoteRepo         from "./RemoteRepo";
 import execSync           from "./execSync";
 import * as Configuration from "./Configuration";
