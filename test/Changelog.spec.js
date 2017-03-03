@@ -11,7 +11,7 @@ describe("contructor", () => {
 
   beforeEach(() => {
     require("../src/Changelog").__resetDefaults();
-  })
+  });
 
   it("set config", () => {
     const changelog = new MockedChangelog();
@@ -32,9 +32,10 @@ describe("getCommitsInfo", () => {
   beforeEach(() => {
     require("../src/execSync").__resetDefaults();
     require("../src/ApiDataCache").__resetDefaults();
-  })
+  });
   require("../src/execSync").__mockGitLog(
-    "a0000005;HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD;chore(release): releasing component;2017-01-01\n" +
+    "a0000005;HEAD -> master, tag: v0.2.0, origin/master, " +
+    "origin/HEAD;chore(release): releasing component;2017-01-01\n" +
     "a0000004;;Merge pull request #2 from my-feature;2017-01-01\n" +
     "a0000003;;feat(module) Add new module (#2);2017-01-01\n" +
     "a0000002;;refactor(module) Simplify implementation;2017-01-01\n" +
@@ -150,7 +151,7 @@ describe("getCommitsByCategory", () => {
     },
     { commitSHA: "a0000002", labels: [] },
     { commitSHA: "a0000001", labels: [] }
-  ]
+  ];
   const commitsByCategory = changelog.getCommitsByCategory(testCommits);
 
   it("group commits by category", () => {
@@ -178,13 +179,13 @@ describe("getCommitsByCategory", () => {
       { commits: [], heading: ":memo: Documentation" },
       { commits: [], heading: ":house: Maintenance" }
     ]);
-  })
-})
+  });
+});
 
 describe("getCommitters", () => {
   beforeEach(() => {
     require("../src/ApiDataCache").__resetDefaults();
-  })
+  });
 
   const usersCache = {
     "test-user": {
@@ -221,7 +222,7 @@ describe("getCommitters", () => {
     { commitSHA: "a0000003", user: { login: "test-user-2" } },
     { commitSHA: "a0000002", user: { login: "user-bot" } },
     { commitSHA: "a0000001" },
-  ]
+  ];
   const committers = changelog.getCommitters(testCommits);
 
   it("get list of valid commiters", () => {
@@ -229,5 +230,5 @@ describe("getCommitters", () => {
       "Test User 1 ([test-user-1](https://github.com/test-user-1))",
       "Test User 2 ([test-user-2](https://github.com/test-user-2))"
     ]);
-  })
-})
+  });
+});

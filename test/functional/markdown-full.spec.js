@@ -8,7 +8,8 @@ jest.mock("../../src/execSync");
 const listOfCommits =
   "a0000015;;chore: making of episode viii;2015-12-18\n" +
   "a0000014;;feat: infiltration (#7);2015-12-18\n" +
-  "a0000013;HEAD -> master, tag: v6.0.0, origin/master, origin/HEAD;chore(release): releasing component;1983-05-25\n" +
+  "a0000013;HEAD -> master, tag: v6.0.0, origin/master, " +
+  "origin/HEAD;chore(release): releasing component;1983-05-25\n" +
   "a0000012;;Merge pull request #6 from return-of-the-jedi;1983-05-25\n" +
   "a0000011;;feat: I am your father (#5);1983-05-25\n" +
   "a0000010;;fix(han-solo): unfreezes (#4);1983-05-25\n" +
@@ -159,7 +160,7 @@ describe.only("createMarkdown", () => {
   beforeEach(() => {
     require("../../src/execSync").__resetDefaults();
     require("../../src/ApiDataCache").__resetDefaults();
-  })
+  });
 
   describe("single tags", () => {
     require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
@@ -169,7 +170,7 @@ describe.only("createMarkdown", () => {
     require("../../src/ApiDataCache").__setCache({
       user: usersCache,
       issue: issuesCache,
-    })
+    });
     const MockedChangelog = require("../../src/Changelog").default;
     const changelog = new MockedChangelog();
 
@@ -178,15 +179,16 @@ describe.only("createMarkdown", () => {
       "tag-to": undefined,
     });
     it("outputs correct changelog", () => {
-      expect(markdown).toMatchSnapshot()
-    })
-  })
+      expect(markdown).toMatchSnapshot();
+    });
+  });
 
   describe("multiple tags", () => {
     require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
     require("../../src/execSync").__mockGitDescribe("v8.0.0");
     require("../../src/execSync").__mockGitLog(
-      "a0000004;tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, tag: return-of-the-jedi@6.0.0;chore(release): releasing component;1977-05-25\n" +
+      "a0000004;tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, " +
+      "tag: return-of-the-jedi@6.0.0;chore(release): releasing component;1977-05-25\n" +
       "a0000003;;Merge pull request #1 from star-wars;1977-05-25\n" +
       "a0000002;tag: v0.1.0;chore(release): releasing component;1966-01-01\n" +
       "a0000001;;fix: some random fix which will be ignored;1966-01-01"
@@ -203,7 +205,7 @@ describe.only("createMarkdown", () => {
     require("../../src/ApiDataCache").__setCache({
       user: usersCache,
       issue: issuesCache,
-    })
+    });
     const MockedChangelog = require("../../src/Changelog").default;
     const changelog = new MockedChangelog();
 
@@ -212,7 +214,7 @@ describe.only("createMarkdown", () => {
       "tag-to": undefined,
     });
     it("outputs correct changelog", () => {
-      expect(markdown).toMatchSnapshot()
-    })
-  })
-})
+      expect(markdown).toMatchSnapshot();
+    });
+  });
+});
