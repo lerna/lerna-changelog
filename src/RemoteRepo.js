@@ -1,10 +1,12 @@
 import GithubAPI from "./GithubAPI";
+import { resolve } from "url";
 
 export default class RemoteRepo {
   constructor(config) {
-    const { repo, labels } = config;
+    const { repo, labels, enterpriseUrl } = config;
     this.repo = repo;
     this.labels = labels;
+    this.githubUrl = enterpriseUrl || "https://github.com/";
     this.githubAPI = new GithubAPI(config);
   }
 
@@ -17,11 +19,11 @@ export default class RemoteRepo {
   }
 
   getBaseIssueUrl() {
-    return "https://github.com/" + this.repo + "/issues/";
+    return resolve(this.githubUrl + this.repo + "/", "issues/");
   }
 
   getBasePullRequestUrl() {
-    return "https://github.com/" + this.repo + "/pull/";
+    return resolve(this.githubUrl + this.repo + "/", "pull/");
   }
 
   getIssueData(issue) {

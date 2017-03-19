@@ -39,6 +39,12 @@ Authenticate:
 $ export GITHUB_AUTH="..."
 ```
 
+Enterprise Authenticate:
+
+```
+$ export GITHUB_ENTERPRISE_AUTH="..."
+```
+
 Run:
 
 ```bash
@@ -69,6 +75,7 @@ You'll need a GitHub API [personal access token](https://github.com/settings/tok
 ## Configuration
 
 - `repo`: Your "org/repo" on GitHub
+- `enterpriseUrl`: Your Enterprise Github URL with trailing `/` (e.g: `https://github.privatecorp.com/`)
 - `cacheDir` [optional]: A place to stash GitHub API responses to avoid throttling
 - `labels`: GitHub issue/PR labels mapped to changelog section headers
 - `ignoreCommitters` [optional]: list of commiters to ignore (exact or partial match). Useful for example to ignore commits from bot agents

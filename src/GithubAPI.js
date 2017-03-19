@@ -1,11 +1,13 @@
 import execSync from "./execSync";
 import ApiDataCache from "./ApiDataCache";
 import ConfigurationError from "./ConfigurationError";
+import { resolve } from "url";
 
 export default class GithubAPI {
   constructor(config) {
-    const { repo } = config;
+    const { repo, enterpriseUrl } = config;
     this.repo = repo;
+    this.enterpriseUrl = enterpriseUrl && resolve(enterpriseUrl, "/api/v3/");
     this.cache = new ApiDataCache("github", config);
     this.auth = this.getAuthToken();
     if (!this.auth) {
@@ -14,7 +16,11 @@ export default class GithubAPI {
   }
 
   getAuthToken() {
-    return process.env.GITHUB_AUTH;
+    return this.enterpriseUrl ? process.env.GITHUB_ENTERPRISE_AUTH : process.env.GITHUB_AUTH;
+  }
+
+  getApiUrl () {
+    return this.enterpriseUrl || "https://api.github.com";
   }
 
   getIssueData(issue) {
@@ -36,12 +42,13 @@ export default class GithubAPI {
 
   _fetch(type, key) {
     const path = {
-      issue : `/repos/${this.repo}/issues/${key}`,
-      user  : `/users/${key}`
+      issue : `repos/${this.repo}/issues/${key}`,
+      user  : `users/${key}`
     }[type];
-    const url = "https://api.github.com" + path;
+    const token = this.getAuthToken();
+    const url = resolve(this.getApiUrl(), path);
     return execSync("curl -H 'Authorization: token " +
-      process.env.GITHUB_AUTH +
+      token +
       "' --silent --globoff " + url
     );
   }
