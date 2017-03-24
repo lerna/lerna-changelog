@@ -1,7 +1,9 @@
 import child from "child_process";
 
-export default function execSync(cmd) {
-  return child.execSync(cmd, {
+export default function execSync(cmd, options = {}) {
+  const opts = Object.assign({
     encoding: "utf8"
-  }).trim();
+  }, options);
+
+  return child.execSync(cmd, opts).trim();
 }
