@@ -1,3 +1,31 @@
+## v0.4.0 (2017-03-24)
+
+Notable changes:
+
+- We dropped Node 0.10/0.12
+- Adds support for the "changelog" config key from "package.json" instead of from "lerna.json"
+- Removes "lerna" peerDep
+
+> Basically removes ties to lerna so can be used standalone.
+
+#### :boom: Breaking Change
+* Other
+  * [#37](https://github.com/lerna/lerna-changelog/pull/37) Babel: Use "preset-env" instead of "preset-es2015". ([@Turbo87](https://github.com/Turbo87))
+
+#### :rocket: Enhancement
+* Other
+  * [#42](https://github.com/lerna/lerna-changelog/pull/42) Read "changelog" config key from "package.json" too. ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* Other
+  * [#41](https://github.com/lerna/lerna-changelog/pull/41) Remove "lerna" peer dependency. ([@Turbo87](https://github.com/Turbo87))
+  * [#39](https://github.com/lerna/lerna-changelog/pull/39) Update .gitignore file. ([@Turbo87](https://github.com/Turbo87))
+  * [#40](https://github.com/lerna/lerna-changelog/pull/40) package.json: Sort keys according to documentation. ([@Turbo87](https://github.com/Turbo87))
+  * [#38](https://github.com/lerna/lerna-changelog/pull/38) Apply ESLint to "test" folder too. ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
+
 ## v0.3.0 (2017-01-29)
 
 #### :rocket: Enhancement
