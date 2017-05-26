@@ -17,24 +17,24 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH;
   }
 
-  getIssueData(issue) {
+  async getIssueData(issue) {
     return this._get("issue", issue);
   }
 
-  getUserData(login) {
+  async getUserData(login) {
     return this._get("user", login);
   }
 
-  _get(type, key) {
+  async _get(type, key) {
     let data = this.cache.get(type, key);
     if (!data) {
-      data = this._fetch(type, key);
+      data = await this._fetch(type, key);
       this.cache.set(type, key, data);
     }
     return JSON.parse(data);
   }
 
-  _fetch(type, key) {
+  async _fetch(type, key) {
     const path = {
       issue : `/repos/${this.repo}/issues/${key}`,
       user  : `/users/${key}`
