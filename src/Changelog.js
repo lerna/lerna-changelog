@@ -136,7 +136,7 @@ export default class Changelog {
     return execSync("git describe --abbrev=0 --tags");
   }
 
-  getListOfCommits() {
+  async getListOfCommits() {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
@@ -182,7 +182,7 @@ export default class Changelog {
   }
 
   async getCommitsInfo() {
-    const commits = this.getListOfCommits();
+    const commits = await this.getListOfCommits();
     const allTags = this.getListOfTags();
 
     progressBar.init(commits.length);
