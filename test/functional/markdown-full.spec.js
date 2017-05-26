@@ -168,8 +168,8 @@ describe.only("createMarkdown", () => {
       require("../../src/execSync").__mockGitLog(listOfCommits);
       require("../../src/execSync").__mockGitTag(listOfTags);
       require("../../src/ApiDataCache").__setCache({
-        user: usersCache,
-        issue: issuesCache,
+        users: usersCache,
+        "repos/lerna/lerna-changelog/issues": issuesCache,
       });
       const MockedChangelog = require("../../src/Changelog").default;
       const changelog = new MockedChangelog();
@@ -204,8 +204,8 @@ describe.only("createMarkdown", () => {
         "the-phantom-menace@1.0.0"
       );
       require("../../src/ApiDataCache").__setCache({
-        user: usersCache,
-        issue: issuesCache,
+        users: usersCache,
+        "repos/lerna/lerna-changelog/issues": issuesCache,
       });
       const MockedChangelog = require("../../src/Changelog").default;
       const changelog = new MockedChangelog();

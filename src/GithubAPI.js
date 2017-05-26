@@ -19,11 +19,11 @@ export default class GithubAPI {
   }
 
   async getIssueData(issue) {
-    return this._get("issue", issue);
+    return this._get(`repos/${this.repo}/issues`, issue);
   }
 
   async getUserData(login) {
-    return this._get("user", login);
+    return this._get("users", login);
   }
 
   async _get(type, key) {
@@ -36,11 +36,7 @@ export default class GithubAPI {
   }
 
   async _fetch(type, key) {
-    const path = {
-      issue : `/repos/${this.repo}/issues/${key}`,
-      user  : `/users/${key}`
-    }[type];
-    const url = "https://api.github.com" + path;
+    const url = `https://api.github.com/${type}/${key}`;
     const res = await fetch(url, {
       headers: {
         "Authorization": `token ${this.auth}`,

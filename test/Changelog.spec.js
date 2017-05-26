@@ -68,8 +68,8 @@ describe("getCommitsInfo", () => {
       }
     };
     require("../src/ApiDataCache").__setCache({
-      user: usersCache,
-      issue: issuesCache,
+      users: usersCache,
+      "repos/lerna/lerna-changelog/issues": issuesCache,
     });
   });
 
@@ -213,8 +213,8 @@ describe("getCommitters", () => {
       },
     };
     require("../src/ApiDataCache").__setCache({
-      user: usersCache,
-      issue: {},
+      users: usersCache,
+      "repos/lerna/lerna-changelog/issues": {},
     });
     require("../src/Changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
   });
