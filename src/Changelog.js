@@ -20,7 +20,7 @@ export default class Changelog {
     return Configuration.fromGitRoot(process.cwd());
   }
 
-  createMarkdown() {
+  async createMarkdown() {
     let markdown = "\n";
 
     // Get all info about commits in a certain tags range
