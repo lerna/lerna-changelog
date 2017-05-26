@@ -143,7 +143,14 @@ export default class Changelog {
       `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
     );
     if (commits) {
-      return commits.split("\n");
+      return commits.split("\n").map((commit) => {
+        const parts = commit.split(";");
+        const sha = parts[0];
+        const refName = parts[1];
+        const summary = parts[2];
+        const date = parts[3];
+        return { sha, refName, summary, date };
+      });
     }
     return [];
   }
@@ -184,23 +191,18 @@ export default class Changelog {
     const commitsInfo = [];
 
     for (const commit of commits) {
-      // commit is formatted as following:
-      // <short-hash>;<ref-name>;<summary>;<date>
-      const parts = commit.split(";");
-      const sha = parts[0];
-      const _refs = parts[1];
+      const { sha, refName, summary: message, date } = commit;
+
       let tagsInCommit;
-      if (_refs.length > 1) {
+      if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
         // we need to treat all of them as a list.
         tagsInCommit = allTags.reduce((acc, tag) => {
-          if (_refs.indexOf(tag) < 0)
+          if (refName.indexOf(tag) < 0)
             return acc;
           return acc.concat(tag);
         }, []);
       }
-      const message = parts[2];
-      const date = parts[3];
 
       progressBar.tick(sha);
 
