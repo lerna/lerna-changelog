@@ -206,8 +206,6 @@ export default class Changelog {
 
       progressBar.tick(sha);
 
-      const mergeCommit = message.match(/\(#(\d+)\)$/);
-
       const commitInfo = {
         commitSHA: sha,
         message: message,
@@ -218,15 +216,8 @@ export default class Changelog {
         date
       };
 
-      if (message.indexOf("Merge pull request ") === 0 || mergeCommit) {
-        let issueNumber;
-        if (message.indexOf("Merge pull request ") === 0) {
-          const start = message.indexOf("#") + 1;
-          const end = message.slice(start).indexOf(" ");
-          issueNumber = message.slice(start, start + end);
-        } else
-          issueNumber = mergeCommit[1];
-
+      const issueNumber = this.detectIssueNumber(message);
+      if (issueNumber !== null) {
         const response = await this.remote.getIssueData(issueNumber);
         response.commitSHA = sha;
         response.mergeMessage = message;
@@ -238,6 +229,21 @@ export default class Changelog {
 
     progressBar.terminate();
     return commitsInfo;
+  }
+
+  detectIssueNumber(message) {
+    if (message.indexOf("Merge pull request ") === 0) {
+      const start = message.indexOf("#") + 1;
+      const end = message.slice(start).indexOf(" ");
+      return message.slice(start, start + end);
+    }
+
+    const mergeCommit = message.match(/\(#(\d+)\)$/);
+    if (mergeCommit) {
+      return mergeCommit[1];
+    }
+
+    return null;
   }
 
   async getCommitsByTag(commits) {
