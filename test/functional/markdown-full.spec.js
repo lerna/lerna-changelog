@@ -162,57 +162,59 @@ describe.only("createMarkdown", () => {
   });
 
   describe("single tags", () => {
-    require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
-    require("../../src/execSync").__mockGitDescribe("v8.0.0");
-    require("../../src/execSync").__mockGitLog(listOfCommits);
-    require("../../src/execSync").__mockGitTag(listOfTags);
-    require("../../src/ApiDataCache").__setCache({
-      user: usersCache,
-      issue: issuesCache,
-    });
-    const MockedChangelog = require("../../src/Changelog").default;
-    const changelog = new MockedChangelog();
-
-    const markdown = changelog.createMarkdown({
-      "tag-from": "v4.0.0",
-      "tag-to": undefined,
-    });
     it("outputs correct changelog", () => {
+      require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
+      require("../../src/execSync").__mockGitDescribe("v8.0.0");
+      require("../../src/execSync").__mockGitLog(listOfCommits);
+      require("../../src/execSync").__mockGitTag(listOfTags);
+      require("../../src/ApiDataCache").__setCache({
+        user: usersCache,
+        issue: issuesCache,
+      });
+      const MockedChangelog = require("../../src/Changelog").default;
+      const changelog = new MockedChangelog();
+
+      const markdown = changelog.createMarkdown({
+        "tag-from": "v4.0.0",
+        "tag-to": undefined,
+      });
+
       expect(markdown).toMatchSnapshot();
     });
   });
 
   describe("multiple tags", () => {
-    require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
-    require("../../src/execSync").__mockGitDescribe("v8.0.0");
-    require("../../src/execSync").__mockGitLog(
-      "a0000004;tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, " +
-      "tag: return-of-the-jedi@6.0.0;chore(release): releasing component;1977-05-25\n" +
-      "a0000003;;Merge pull request #1 from star-wars;1977-05-25\n" +
-      "a0000002;tag: v0.1.0;chore(release): releasing component;1966-01-01\n" +
-      "a0000001;;fix: some random fix which will be ignored;1966-01-01"
-    );
-    require("../../src/execSync").__mockGitTag(
-      "a-new-hope@4.0.0\n" +
-      "attack-of-the-clones@3.1.0\n" +
-      "empire-strikes-back@5.0.0\n" +
-      "return-of-the-jedi@6.0.0\n" +
-      "revenge-of-the-sith@3.0.0\n" +
-      "the-force-awakens@7.0.0\n" +
-      "the-phantom-menace@1.0.0"
-    );
-    require("../../src/ApiDataCache").__setCache({
-      user: usersCache,
-      issue: issuesCache,
-    });
-    const MockedChangelog = require("../../src/Changelog").default;
-    const changelog = new MockedChangelog();
-
-    const markdown = changelog.createMarkdown({
-      "tag-from": "v0.1.0",
-      "tag-to": undefined,
-    });
     it("outputs correct changelog", () => {
+      require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
+      require("../../src/execSync").__mockGitDescribe("v8.0.0");
+      require("../../src/execSync").__mockGitLog(
+        "a0000004;tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, " +
+        "tag: return-of-the-jedi@6.0.0;chore(release): releasing component;1977-05-25\n" +
+        "a0000003;;Merge pull request #1 from star-wars;1977-05-25\n" +
+        "a0000002;tag: v0.1.0;chore(release): releasing component;1966-01-01\n" +
+        "a0000001;;fix: some random fix which will be ignored;1966-01-01"
+      );
+      require("../../src/execSync").__mockGitTag(
+        "a-new-hope@4.0.0\n" +
+        "attack-of-the-clones@3.1.0\n" +
+        "empire-strikes-back@5.0.0\n" +
+        "return-of-the-jedi@6.0.0\n" +
+        "revenge-of-the-sith@3.0.0\n" +
+        "the-force-awakens@7.0.0\n" +
+        "the-phantom-menace@1.0.0"
+      );
+      require("../../src/ApiDataCache").__setCache({
+        user: usersCache,
+        issue: issuesCache,
+      });
+      const MockedChangelog = require("../../src/Changelog").default;
+      const changelog = new MockedChangelog();
+
+      const markdown = changelog.createMarkdown({
+        "tag-from": "v0.1.0",
+        "tag-to": undefined,
+      });
+
       expect(markdown).toMatchSnapshot();
     });
   });
