@@ -132,7 +132,7 @@ export default class Changelog {
     return [];
   }
 
-  getLastTag() {
+  async getLastTag() {
     return execSync("git describe --abbrev=0 --tags");
   }
 
@@ -140,7 +140,7 @@ export default class Changelog {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.tagFrom || this.getLastTag();
+    const tagFrom = this.tagFrom || (await this.getLastTag());
     const tagTo = this.tagTo || "";
     const tagsRange = tagFrom + ".." + tagTo;
     const commits = execSync(
