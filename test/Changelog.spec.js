@@ -73,10 +73,10 @@ describe("getCommitsInfo", () => {
     });
   });
 
-  it("parse commits with different tags", () => {
+  it("parse commits with different tags", async () => {
     const MockedChangelog = require("../src/Changelog").default;
     const changelog = new MockedChangelog();
-    const commitsInfo = changelog.getCommitsInfo();
+    const commitsInfo = await changelog.getCommitsInfo();
 
     expect(commitsInfo).toEqual([
       {

@@ -24,7 +24,7 @@ export default class Changelog {
     let markdown = "\n";
 
     // Get all info about commits in a certain tags range
-    const commitsInfo = this.getCommitsInfo();
+    const commitsInfo = await this.getCommitsInfo();
     const commitsByTag = this.getCommitsByTag(commitsInfo);
 
     Object.keys(commitsByTag).forEach((tag) => {
@@ -181,7 +181,7 @@ export default class Changelog {
     return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
-  getCommitsInfo() {
+  async getCommitsInfo() {
     const commits = this.getListOfCommits();
     const allTags = this.getListOfTags();
 
