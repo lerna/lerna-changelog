@@ -124,7 +124,7 @@ export default class Changelog {
     );
   }
 
-  getListOfTags() {
+  async getListOfTags() {
     const tags = execSync("git tag");
     if (tags) {
       return tags.split("\n");
@@ -183,7 +183,7 @@ export default class Changelog {
 
   async getCommitsInfo() {
     const commits = await this.getListOfCommits();
-    const allTags = this.getListOfTags();
+    const allTags = await this.getListOfTags();
 
     progressBar.init(commits.length);
 
