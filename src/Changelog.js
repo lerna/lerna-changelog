@@ -157,7 +157,7 @@ export default class Changelog {
   async getCommitters(commits) {
     const committers = {};
 
-    commits.forEach((commit) => {
+    for (const commit of commits) {
       const login = (commit.user || {}).login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
@@ -168,7 +168,7 @@ export default class Changelog {
         )
       );
       if (login && shouldKeepCommiter && !committers[login]) {
-        const user = this.remote.getUserData(login);
+        const user = await this.remote.getUserData(login);
         const userNameAndLink = `[${login}](${user.html_url})`;
         if (user.name) {
           committers[login] = `${user.name} (${userNameAndLink})`;
@@ -176,7 +176,7 @@ export default class Changelog {
           committers[login] = userNameAndLink;
         }
       }
-    });
+    }
 
     return Object.keys(committers).map((k) => committers[k]).sort();
   }

@@ -28,7 +28,7 @@ export default class RemoteRepo {
     return this.githubAPI.getIssueData(issue);
   }
 
-  getUserData(login) {
+  async getUserData(login) {
     return this.githubAPI.getUserData(login);
   }
 }
