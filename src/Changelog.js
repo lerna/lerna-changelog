@@ -1,3 +1,5 @@
+import pMap from "p-map";
+
 import progressBar        from "./progressBar";
 import RemoteRepo         from "./RemoteRepo";
 import execSync           from "./execSync";
@@ -188,9 +190,7 @@ export default class Changelog {
 
     progressBar.init(commits.length);
 
-    const commitsInfo = [];
-
-    for (const commit of commits) {
+    const commitsInfo = await pMap(commits, async (commit) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
@@ -233,8 +233,8 @@ export default class Changelog {
         Object.assign(commitInfo, response);
       }
 
-      commitsInfo.push(commitInfo);
-    }
+      return commitInfo;
+    }, { concurrency: 5 });
 
     progressBar.terminate();
     return commitsInfo;
