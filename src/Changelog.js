@@ -43,60 +43,58 @@ export default class Changelog {
 
       progressBar.init(commitsByCategory.length);
 
-      commitsByCategory
-        .filter((category) => category.commits.length > 0)
-        .forEach((category) => {
-          progressBar.tick(category.heading);
+      const categoriesWithCommits = commitsByCategory
+        .filter((category) => category.commits.length > 0);
 
-          const commitsByPackage = category.commits.reduce(
-            (acc, commit) => {
-              // Array of unique packages.
-              const changedPackages =
-                this.getListOfUniquePackages(commit.commitSHA);
+      for (const category of categoriesWithCommits) {
+        progressBar.tick(category.heading);
 
-              const heading = changedPackages.length > 0
-                ? "* " + changedPackages.map((pkg) => "`" + pkg + "`").join(", ")
-                : "* Other";
-              // No changes to packages, but still relevant.
-              const existingCommitsForHeading = acc[heading] || [];
-              return {
-                ...acc,
-                [heading]: existingCommitsForHeading.concat(commit)
-              };
-            },
-            {}
-          );
+        const commitsByPackage = category.commits.reduce((acc, commit) => {
+          // Array of unique packages.
+          const changedPackages =
+            this.getListOfUniquePackages(commit.commitSHA);
 
-          markdown += "\n";
-          markdown += "\n";
-          markdown += "#### " + category.heading;
+          const heading = changedPackages.length > 0
+            ? "* " + changedPackages.map((pkg) => "`" + pkg + "`").join(", ")
+            : "* Other";
+          // No changes to packages, but still relevant.
+          const existingCommitsForHeading = acc[heading] || [];
+          return {
+            ...acc,
+            [heading]: existingCommitsForHeading.concat(commit)
+          };
+        }, {});
 
-          Object.keys(commitsByPackage).forEach((heading) => {
-            markdown += "\n" + heading;
+        markdown += "\n";
+        markdown += "\n";
+        markdown += "#### " + category.heading;
 
-            commitsByPackage[heading].forEach((commit) => {
-              markdown += "\n  * ";
+        for (const heading of Object.keys(commitsByPackage)) {
+          markdown += "\n" + heading;
 
-              if (commit.number) {
-                const prUrl = this.remote.getBasePullRequestUrl() +
-                  commit.number;
-                markdown += "[#" + commit.number + "](" + prUrl + ") ";
-              }
+          commitsByPackage[heading].forEach((commit) => {
+            markdown += "\n  * ";
 
-              if (commit.title.match(COMMIT_FIX_REGEX)) {
-                commit.title = commit.title.replace(
-                  COMMIT_FIX_REGEX,
-                  "Closes [#$3](" + this.remote.getBaseIssueUrl() + "$3)"
-                );
-              }
+            if (commit.number) {
+              const prUrl = this.remote.getBasePullRequestUrl() +
+                commit.number;
+              markdown += "[#" + commit.number + "](" + prUrl + ") ";
+            }
 
-              markdown += commit.title + "." + " ([@" + commit.user.login +
-                "](" +
-                commit.user.html_url +
-                "))";
-            });
+            if (commit.title.match(COMMIT_FIX_REGEX)) {
+              commit.title = commit.title.replace(
+                COMMIT_FIX_REGEX,
+                "Closes [#$3](" + this.remote.getBaseIssueUrl() + "$3)"
+              );
+            }
+
+            markdown += commit.title + "." + " ([@" + commit.user.login +
+              "](" +
+              commit.user.html_url +
+              "))";
           });
-        });
+        }
+      }
 
       progressBar.terminate();
 
