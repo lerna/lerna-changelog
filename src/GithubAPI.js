@@ -43,7 +43,7 @@ export default class GithubAPI {
     const url = "https://api.github.com" + path;
     const res = await fetch(url, {
       headers: {
-        "Authorization": `token ${process.env.GITHUB_AUTH}`,
+        "Authorization": `token ${this.auth}`,
       },
     });
     return res.text();
