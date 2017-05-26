@@ -39,7 +39,7 @@ export default class Changelog {
       if (!hasCommitsForCurrentTag) continue;
 
       const releaseTitle = tag === UNRELEASED_TAG ? "Unreleased" : tag;
-      markdown += "## " + releaseTitle + " (" + commitsByTag[tag].date + ")";
+      markdown += `## ${releaseTitle} (${commitsByTag[tag].date})`;
 
       progressBar.init(commitsByCategory.length);
 
@@ -55,7 +55,7 @@ export default class Changelog {
             this.getListOfUniquePackages(commit.commitSHA);
 
           const heading = changedPackages.length > 0
-            ? "* " + changedPackages.map((pkg) => "`" + pkg + "`").join(", ")
+            ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
             : "* Other";
           // No changes to packages, but still relevant.
           const existingCommitsForHeading = acc[heading] || [];
@@ -67,39 +67,35 @@ export default class Changelog {
 
         markdown += "\n";
         markdown += "\n";
-        markdown += "#### " + category.heading;
+        markdown += `#### ${category.heading}`;
 
         for (const heading of Object.keys(commitsByPackage)) {
-          markdown += "\n" + heading;
+          markdown += `\n${heading}`;
 
           commitsByPackage[heading].forEach((commit) => {
             markdown += "\n  * ";
 
             if (commit.number) {
-              const prUrl = this.remote.getBasePullRequestUrl() +
-                commit.number;
-              markdown += "[#" + commit.number + "](" + prUrl + ") ";
+              const prUrl = this.remote.getBasePullRequestUrl() + commit.number;
+              markdown += `[#${commit.number}](${prUrl}) `;
             }
 
             if (commit.title.match(COMMIT_FIX_REGEX)) {
               commit.title = commit.title.replace(
                 COMMIT_FIX_REGEX,
-                "Closes [#$3](" + this.remote.getBaseIssueUrl() + "$3)"
+                `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
               );
             }
 
-            markdown += commit.title + "." + " ([@" + commit.user.login +
-              "](" +
-              commit.user.html_url +
-              "))";
+            markdown += `${commit.title}. ([@${commit.user.login}](${commit.user.html_url}))`;
           });
         }
       }
 
       progressBar.terminate();
 
-      markdown += "\n\n#### Committers: " + committers.length + "\n";
-      markdown += committers.map((commiter) => "- " + commiter).join("\n");
+      markdown += `\n\n#### Committers: ${committers.length}\n`;
+      markdown += committers.map((commiter) => `- ${commiter}`).join("\n");
       markdown += "\n\n\n";
     }
 
@@ -110,7 +106,7 @@ export default class Changelog {
     return Object.keys(
       // turn into an array
       execSync(
-        "git show -m --name-only --pretty='format:' --first-parent " + sha
+        `git show -m --name-only --pretty='format:' --first-parent ${sha}`
       )
       .split("\n")
       .reduce((acc, files) => {
@@ -144,7 +140,7 @@ export default class Changelog {
     const commits = execSync(
       // Prints "<short-hash>;<ref-name>;<summary>;<date>"
       // This format is used in `getCommitsInfo` for easily analize the commit.
-      "git log --oneline --pretty=\"%h;%D;%s;%cd\" --date=short " + tagsRange
+      `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
     );
     if (commits) {
       return commits.split("\n");
