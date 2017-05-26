@@ -8,7 +8,7 @@ export function __setCache(cache) {
 
 class MockedApiDataCache {
   get(type, key) {
-    return JSON.stringify(localCache[type][key]);
+    return localCache[type][key];
   }
 }
 

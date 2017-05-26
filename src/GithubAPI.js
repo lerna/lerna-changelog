@@ -32,7 +32,7 @@ export default class GithubAPI {
       data = await this._fetch(type, key);
       this.cache.set(type, key, data);
     }
-    return JSON.parse(data);
+    return data;
   }
 
   async _fetch(type, key) {
@@ -42,6 +42,6 @@ export default class GithubAPI {
         "Authorization": `token ${this.auth}`,
       },
     });
-    return res.text();
+    return res.json();
   }
 }
