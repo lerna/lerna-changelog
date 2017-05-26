@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
 "
 ## a-new-hope@4.0.0 (1977-05-25)
