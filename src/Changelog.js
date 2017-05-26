@@ -187,7 +187,9 @@ export default class Changelog {
 
     progressBar.init(commits.length);
 
-    const commitsInfo = commits.map((commit) => {
+    const commitsInfo = [];
+
+    for (const commit of commits) {
       // commit is formatted as following:
       // <short-hash>;<ref-name>;<summary>;<date>
       const parts = commit.split(";");
@@ -229,14 +231,14 @@ export default class Changelog {
         } else
           issueNumber = mergeCommit[1];
 
-        const response = this.remote.getIssueData(issueNumber);
+        const response = await this.remote.getIssueData(issueNumber);
         response.commitSHA = sha;
         response.mergeMessage = message;
         Object.assign(commitInfo, response);
       }
 
-      return commitInfo;
-    });
+      commitsInfo.push(commitInfo);
+    }
 
     progressBar.terminate();
     return commitsInfo;
