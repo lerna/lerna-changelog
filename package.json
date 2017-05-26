@@ -41,7 +41,7 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.1.1",
-    "babel-jest": "^18.0.0",
+    "babel-jest": "^20.0.3",
     "babel-plugin-transform-object-rest-spread": "6.20.2",
     "babel-preset-env": "^1.1.11",
     "eslint": "^3.13.1",
