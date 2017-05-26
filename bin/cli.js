@@ -33,6 +33,8 @@ const argv = require("yargs")
 try {
   (new Changelog(argv)).createMarkdown().then((result) => {
     console.log(result);
+  }).catch((e) => {
+    console.log(chalk.red(e.stack));
   });
 } catch (e) {
   if (e instanceof ConfigurationError) {
