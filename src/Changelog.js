@@ -27,16 +27,16 @@ export default class Changelog {
     const commitsInfo = await this.getCommitsInfo();
     const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
-    Object.keys(commitsByTag).forEach((tag) => {
+    for (const tag of Object.keys(commitsByTag)) {
       const commitsForTag = commitsByTag[tag].commits;
       const commitsByCategory = this.getCommitsByCategory(commitsForTag);
-      const committers = this.getCommitters(commitsForTag);
+      const committers = await this.getCommitters(commitsForTag);
 
       // Skip this iteration if there are no commits available for the tag
       const hasCommitsForCurrentTag = commitsByCategory.some(
         (category) => category.commits.length > 0
       );
-      if (!hasCommitsForCurrentTag) return;
+      if (!hasCommitsForCurrentTag) continue;
 
       const releaseTitle = tag === UNRELEASED_TAG ? "Unreleased" : tag;
       markdown += "## " + releaseTitle + " (" + commitsByTag[tag].date + ")";
@@ -103,7 +103,7 @@ export default class Changelog {
       markdown += "\n\n#### Committers: " + committers.length + "\n";
       markdown += committers.map((commiter) => "- " + commiter).join("\n");
       markdown += "\n\n\n";
-    });
+    }
 
     return markdown.substring(0, markdown.length - 3);
   }
@@ -154,7 +154,7 @@ export default class Changelog {
     return [];
   }
 
-  getCommitters(commits) {
+  async getCommitters(commits) {
     const committers = {};
 
     commits.forEach((commit) => {
