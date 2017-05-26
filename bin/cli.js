@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
-var chalk = require("chalk");
-var Changelog = require("../").Changelog;
-var ConfigurationError = require("../").ConfigurationError;
+"use strict";
 
-var argv = require("yargs")
+const chalk = require("chalk");
+const Changelog = require("../").Changelog;
+const ConfigurationError = require("../").ConfigurationError;
+
+const argv = require("yargs")
   .usage("Usage: lerna-changelog [options]")
   .options({
     "tag-from": {
