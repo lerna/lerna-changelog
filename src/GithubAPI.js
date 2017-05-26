@@ -1,4 +1,5 @@
-import execSync from "./execSync";
+import fetch from "node-fetch";
+
 import ApiDataCache from "./ApiDataCache";
 import ConfigurationError from "./ConfigurationError";
 
@@ -40,9 +41,11 @@ export default class GithubAPI {
       user  : `/users/${key}`
     }[type];
     const url = "https://api.github.com" + path;
-    return execSync("curl -H 'Authorization: token " +
-      process.env.GITHUB_AUTH +
-      "' --silent --globoff " + url
-    );
+    const res = await fetch(url, {
+      headers: {
+        "Authorization": `token ${process.env.GITHUB_AUTH}`,
+      },
+    });
+    return res.text();
   }
 }
