@@ -25,7 +25,7 @@ export default class Changelog {
 
     // Get all info about commits in a certain tags range
     const commitsInfo = await this.getCommitsInfo();
-    const commitsByTag = this.getCommitsByTag(commitsInfo);
+    const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
     Object.keys(commitsByTag).forEach((tag) => {
       const commitsForTag = commitsByTag[tag].commits;
@@ -242,7 +242,7 @@ export default class Changelog {
     return commitsInfo;
   }
 
-  getCommitsByTag(commits) {
+  async getCommitsByTag(commits) {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
