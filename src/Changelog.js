@@ -70,12 +70,17 @@ export default class Changelog {
         markdown += `#### ${category.heading}`;
 
         const headings = Object.keys(commitsByPackage);
+        const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
+
         for (const heading of headings) {
           const commits = commitsByPackage[heading];
 
-          markdown += `\n${heading}`;
+          if (!onlyOtherHeading) {
+            markdown += `\n${heading}`;
+          }
+
           for (const commit of commits) {
-            markdown += "\n  * ";
+            markdown += onlyOtherHeading ? "\n* " : "\n  * ";
 
             if (commit.number) {
               const prUrl = this.remote.getBasePullRequestUrl() + commit.number;
