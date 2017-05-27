@@ -53,29 +53,34 @@ export default class Changelog {
 
         const commitsByPackage = category.commits.reduce((acc, commit) => {
           // Array of unique packages.
-          const changedPackages =
-            this.getListOfUniquePackages(commit.commitSHA);
+          const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
 
           const heading = changedPackages.length > 0
             ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
             : "* Other";
-          // No changes to packages, but still relevant.
-          const existingCommitsForHeading = acc[heading] || [];
-          return {
-            ...acc,
-            [heading]: existingCommitsForHeading.concat(commit)
-          };
+
+          acc[heading] = acc[heading] || [];
+          acc[heading].push(commit);
+
+          return acc;
         }, {});
 
         markdown += "\n";
         markdown += "\n";
         markdown += `#### ${category.heading}`;
 
-        for (const heading of Object.keys(commitsByPackage)) {
-          markdown += `\n${heading}`;
+        const headings = Object.keys(commitsByPackage);
+        const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
 
-          commitsByPackage[heading].forEach((commit) => {
-            markdown += "\n  * ";
+        for (const heading of headings) {
+          const commits = commitsByPackage[heading];
+
+          if (!onlyOtherHeading) {
+            markdown += `\n${heading}`;
+          }
+
+          for (const commit of commits) {
+            markdown += onlyOtherHeading ? "\n* " : "\n  * ";
 
             if (commit.number) {
               const prUrl = this.remote.getBasePullRequestUrl() + commit.number;
@@ -90,7 +95,7 @@ export default class Changelog {
             }
 
             markdown += `${commit.title}. ([@${commit.user.login}](${commit.user.html_url}))`;
-          });
+          }
         }
       }
 
