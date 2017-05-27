@@ -1,4 +1,4 @@
-import pMap from "p-map";
+const pMap = require("p-map");
 
 import progressBar        from "./progressBar";
 import RemoteRepo         from "./RemoteRepo";

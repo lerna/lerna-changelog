@@ -1,5 +1,5 @@
-import ProgressBar from "progress";
-import padEnd from "string.prototype.padend";
+const ProgressBar = require("progress");
+const padEnd = require("string.prototype.padend");
 
 class ProgressBarController {
   constructor() {

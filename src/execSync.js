@@ -1,4 +1,4 @@
-import child from "child_process";
+const child = require("child_process");
 
 export default function execSync(cmd, options = {}) {
   const opts = Object.assign({

@@ -1,6 +1,7 @@
-import fs from "fs";
-import path from "path";
-import mkdirp from "mkdirp";
+const fs = require("fs");
+const path = require("path");
+const mkdirp = require("mkdirp");
+
 import ConfigurationError from "./ConfigurationError";
 
 export default class ApiDataCache {
