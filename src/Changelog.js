@@ -71,9 +71,10 @@ export default class Changelog {
 
         const headings = Object.keys(commitsByPackage);
         for (const heading of headings) {
-          markdown += `\n${heading}`;
+          const commits = commitsByPackage[heading];
 
-          commitsByPackage[heading].forEach((commit) => {
+          markdown += `\n${heading}`;
+          for (const commit of commits) {
             markdown += "\n  * ";
 
             if (commit.number) {
@@ -89,7 +90,7 @@ export default class Changelog {
             }
 
             markdown += `${commit.title}. ([@${commit.user.login}](${commit.user.html_url}))`;
-          });
+          }
         }
       }
 
