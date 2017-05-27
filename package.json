@@ -51,7 +51,8 @@
     "eslint-plugin-flowtype": "^2.30.0",
     "fs-extra": "^2.0.0",
     "jest": "^20.0.4",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "typescript": "^2.3.3"
   },
   "changelog": {
     "repo": "lerna/lerna-changelog",
