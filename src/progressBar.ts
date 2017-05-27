@@ -2,11 +2,13 @@ const ProgressBar = require("progress");
 const padEnd = require("string.prototype.padend");
 
 class ProgressBarController {
+  bar: any;
+
   constructor() {
     this.bar = null;
   }
 
-  init(total) {
+  init(total: number) {
     if (this.bar) {
       this.terminate();
     }
@@ -24,11 +26,11 @@ class ProgressBarController {
       clear: true,
 
       // terminal columns - package name length - additional characters length
-      width: (process.stdout.columns || 100) - 50 - 3
+      width: ((process.stdout as any).columns || 100) - 50 - 3
     });
   }
 
-  tick(name) {
+  tick(name: string) {
     if (this.bar) {
       this.bar.tick({
         packagename: padEnd(name.slice(0, 50), 50)
