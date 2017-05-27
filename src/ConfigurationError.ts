@@ -1,6 +1,7 @@
 export default class ConfigurationError {
-  constructor(message) {
+  name = "ConfigurationError";
+
+  constructor(message: string) {
     Error.apply(this, arguments);
-    this.name = "ConfigurationError";
   }
 }
