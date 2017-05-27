@@ -69,7 +69,8 @@ export default class Changelog {
         markdown += "\n";
         markdown += `#### ${category.heading}`;
 
-        for (const heading of Object.keys(commitsByPackage)) {
+        const headings = Object.keys(commitsByPackage);
+        for (const heading of headings) {
           markdown += `\n${heading}`;
 
           commitsByPackage[heading].forEach((commit) => {
