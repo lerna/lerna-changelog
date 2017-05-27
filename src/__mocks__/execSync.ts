@@ -1,26 +1,26 @@
-let gitShowResult;
-let gitDescribeResult;
-let gitLogResult;
-let gitTagResult;
+let gitShowResult: { [id: string]: string } = {};
+let gitDescribeResult: string | undefined;
+let gitLogResult: string | undefined;
+let gitTagResult: string | undefined;
 export function __resetDefaults () {
-  gitShowResult = undefined;
+  gitShowResult = {};
   gitDescribeResult = undefined;
   gitLogResult = undefined;
   gitTagResult = undefined;
 }
-export function __mockGitShow (result) {
+export function __mockGitShow (result: { [id: string]: string }) {
   gitShowResult = result;
 }
-export function __mockGitDescribe (result) {
+export function __mockGitDescribe (result: string) {
   gitDescribeResult = result;
 }
-export function __mockGitLog (result) {
+export function __mockGitLog (result: string) {
   gitLogResult = result;
 }
-export function __mockGitTag (result) {
+export function __mockGitTag (result: string) {
   gitTagResult = result;
 }
-export default function execSync(cmd) {
+export default function execSync(cmd: string): string | undefined {
   if (cmd.indexOf("git show") === 0) {
     const sha = cmd.split("--first-parent")[1].trim();
     return gitShowResult[sha];
