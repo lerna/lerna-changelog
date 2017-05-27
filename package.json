@@ -41,6 +41,7 @@
     "yargs": "^6.6.0"
   },
   "devDependencies": {
+    "@types/jest": "^19.2.3",
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.3",
@@ -52,6 +53,7 @@
     "fs-extra": "^2.0.0",
     "jest": "^20.0.4",
     "rimraf": "^2.5.4",
+    "ts-jest": "^20.0.4",
     "typescript": "^2.3.3"
   },
   "changelog": {
@@ -65,5 +67,18 @@
       "Tag: Internal": ":house: Internal"
     },
     "cacheDir": ".changelog"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }
