@@ -53,18 +53,16 @@ export default class Changelog {
 
         const commitsByPackage = category.commits.reduce((acc, commit) => {
           // Array of unique packages.
-          const changedPackages =
-            this.getListOfUniquePackages(commit.commitSHA);
+          const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
 
           const heading = changedPackages.length > 0
             ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
             : "* Other";
-          // No changes to packages, but still relevant.
-          const existingCommitsForHeading = acc[heading] || [];
-          return {
-            ...acc,
-            [heading]: existingCommitsForHeading.concat(commit)
-          };
+
+          acc[heading] = acc[heading] || [];
+          acc[heading].push(commit);
+
+          return acc;
         }, {});
 
         markdown += "\n";
