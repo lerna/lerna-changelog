@@ -21,7 +21,7 @@
     "url": "git+https://github.com/lerna/lerna-changelog.git"
   },
   "scripts": {
-    "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
+    "build": "npm run clean && tsc",
     "changelog": "node ./bin/cli.js",
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
