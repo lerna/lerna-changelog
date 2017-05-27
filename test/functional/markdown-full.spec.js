@@ -162,19 +162,19 @@ describe.only("createMarkdown", () => {
   });
 
   describe("single tags", () => {
-    it("outputs correct changelog", () => {
+    it("outputs correct changelog", async () => {
       require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
       require("../../src/execSync").__mockGitDescribe("v8.0.0");
       require("../../src/execSync").__mockGitLog(listOfCommits);
       require("../../src/execSync").__mockGitTag(listOfTags);
       require("../../src/ApiDataCache").__setCache({
-        user: usersCache,
-        issue: issuesCache,
+        users: usersCache,
+        "repos/lerna/lerna-changelog/issues": issuesCache,
       });
       const MockedChangelog = require("../../src/Changelog").default;
       const changelog = new MockedChangelog();
 
-      const markdown = changelog.createMarkdown({
+      const markdown = await changelog.createMarkdown({
         "tag-from": "v4.0.0",
         "tag-to": undefined,
       });
@@ -184,7 +184,7 @@ describe.only("createMarkdown", () => {
   });
 
   describe("multiple tags", () => {
-    it("outputs correct changelog", () => {
+    it("outputs correct changelog", async () => {
       require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
       require("../../src/execSync").__mockGitDescribe("v8.0.0");
       require("../../src/execSync").__mockGitLog(
@@ -204,13 +204,13 @@ describe.only("createMarkdown", () => {
         "the-phantom-menace@1.0.0"
       );
       require("../../src/ApiDataCache").__setCache({
-        user: usersCache,
-        issue: issuesCache,
+        users: usersCache,
+        "repos/lerna/lerna-changelog/issues": issuesCache,
       });
       const MockedChangelog = require("../../src/Changelog").default;
       const changelog = new MockedChangelog();
 
-      const markdown = changelog.createMarkdown({
+      const markdown = await changelog.createMarkdown({
         "tag-from": "v0.1.0",
         "tag-to": undefined,
       });

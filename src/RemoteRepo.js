@@ -24,11 +24,11 @@ export default class RemoteRepo {
     return "https://github.com/" + this.repo + "/pull/";
   }
 
-  getIssueData(issue) {
+  async getIssueData(issue) {
     return this.githubAPI.getIssueData(issue);
   }
 
-  getUserData(login) {
+  async getUserData(login) {
     return this.githubAPI.getUserData(login);
   }
 }

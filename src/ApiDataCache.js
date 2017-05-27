@@ -20,7 +20,7 @@ export default class ApiDataCache {
   get(type, key) {
     if (!this.dir) return;
     try {
-      return fs.readFileSync(this.fn(type, key), "utf-8");
+      return JSON.parse(fs.readFileSync(this.fn(type, key), "utf-8"));
     } catch (e) {
       // Pass.
     }
@@ -28,7 +28,7 @@ export default class ApiDataCache {
 
   set(type, key, data) {
     if (!this.dir) return;
-    return fs.writeFileSync(this.fn(type, key), data);
+    return fs.writeFileSync(this.fn(type, key), JSON.stringify(data, null, 2));
   }
 
   fn(type, key) {
@@ -37,6 +37,6 @@ export default class ApiDataCache {
     // Ensure the directory for this type is there.
     mkdirp.sync(dir);
 
-    return path.join(dir, key);
+    return path.join(dir, key) + ".json";
   }
 }

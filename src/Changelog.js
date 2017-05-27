@@ -1,3 +1,5 @@
+import pMap from "p-map";
+
 import progressBar        from "./progressBar";
 import RemoteRepo         from "./RemoteRepo";
 import execSync           from "./execSync";
@@ -20,90 +22,84 @@ export default class Changelog {
     return Configuration.fromGitRoot(process.cwd());
   }
 
-  createMarkdown() {
+  async createMarkdown() {
     let markdown = "\n";
 
     // Get all info about commits in a certain tags range
-    const commitsInfo = this.getCommitsInfo();
-    const commitsByTag = this.getCommitsByTag(commitsInfo);
+    const commitsInfo = await this.getCommitsInfo();
+    const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
-    Object.keys(commitsByTag).forEach((tag) => {
+    for (const tag of Object.keys(commitsByTag)) {
       const commitsForTag = commitsByTag[tag].commits;
       const commitsByCategory = this.getCommitsByCategory(commitsForTag);
-      const committers = this.getCommitters(commitsForTag);
+      const committers = await this.getCommitters(commitsForTag);
 
       // Skip this iteration if there are no commits available for the tag
       const hasCommitsForCurrentTag = commitsByCategory.some(
         (category) => category.commits.length > 0
       );
-      if (!hasCommitsForCurrentTag) return;
+      if (!hasCommitsForCurrentTag) continue;
 
       const releaseTitle = tag === UNRELEASED_TAG ? "Unreleased" : tag;
-      markdown += "## " + releaseTitle + " (" + commitsByTag[tag].date + ")";
+      markdown += `## ${releaseTitle} (${commitsByTag[tag].date})`;
 
       progressBar.init(commitsByCategory.length);
 
-      commitsByCategory
-        .filter((category) => category.commits.length > 0)
-        .forEach((category) => {
-          progressBar.tick(category.heading);
+      const categoriesWithCommits = commitsByCategory
+        .filter((category) => category.commits.length > 0);
 
-          const commitsByPackage = category.commits.reduce(
-            (acc, commit) => {
-              // Array of unique packages.
-              const changedPackages =
-                this.getListOfUniquePackages(commit.commitSHA);
+      for (const category of categoriesWithCommits) {
+        progressBar.tick(category.heading);
 
-              const heading = changedPackages.length > 0
-                ? "* " + changedPackages.map((pkg) => "`" + pkg + "`").join(", ")
-                : "* Other";
-              // No changes to packages, but still relevant.
-              const existingCommitsForHeading = acc[heading] || [];
-              return {
-                ...acc,
-                [heading]: existingCommitsForHeading.concat(commit)
-              };
-            },
-            {}
-          );
+        const commitsByPackage = category.commits.reduce((acc, commit) => {
+          // Array of unique packages.
+          const changedPackages =
+            this.getListOfUniquePackages(commit.commitSHA);
 
-          markdown += "\n";
-          markdown += "\n";
-          markdown += "#### " + category.heading;
+          const heading = changedPackages.length > 0
+            ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
+            : "* Other";
+          // No changes to packages, but still relevant.
+          const existingCommitsForHeading = acc[heading] || [];
+          return {
+            ...acc,
+            [heading]: existingCommitsForHeading.concat(commit)
+          };
+        }, {});
 
-          Object.keys(commitsByPackage).forEach((heading) => {
-            markdown += "\n" + heading;
+        markdown += "\n";
+        markdown += "\n";
+        markdown += `#### ${category.heading}`;
 
-            commitsByPackage[heading].forEach((commit) => {
-              markdown += "\n  * ";
+        for (const heading of Object.keys(commitsByPackage)) {
+          markdown += `\n${heading}`;
 
-              if (commit.number) {
-                const prUrl = this.remote.getBasePullRequestUrl() +
-                  commit.number;
-                markdown += "[#" + commit.number + "](" + prUrl + ") ";
-              }
+          commitsByPackage[heading].forEach((commit) => {
+            markdown += "\n  * ";
 
-              if (commit.title.match(COMMIT_FIX_REGEX)) {
-                commit.title = commit.title.replace(
-                  COMMIT_FIX_REGEX,
-                  "Closes [#$3](" + this.remote.getBaseIssueUrl() + "$3)"
-                );
-              }
+            if (commit.number) {
+              const prUrl = this.remote.getBasePullRequestUrl() + commit.number;
+              markdown += `[#${commit.number}](${prUrl}) `;
+            }
 
-              markdown += commit.title + "." + " ([@" + commit.user.login +
-                "](" +
-                commit.user.html_url +
-                "))";
-            });
+            if (commit.title.match(COMMIT_FIX_REGEX)) {
+              commit.title = commit.title.replace(
+                COMMIT_FIX_REGEX,
+                `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
+              );
+            }
+
+            markdown += `${commit.title}. ([@${commit.user.login}](${commit.user.html_url}))`;
           });
-        });
+        }
+      }
 
       progressBar.terminate();
 
-      markdown += "\n\n#### Committers: " + committers.length + "\n";
-      markdown += committers.map((commiter) => "- " + commiter).join("\n");
+      markdown += `\n\n#### Committers: ${committers.length}\n`;
+      markdown += committers.map((commiter) => `- ${commiter}`).join("\n");
       markdown += "\n\n\n";
-    });
+    }
 
     return markdown.substring(0, markdown.length - 3);
   }
@@ -112,7 +108,7 @@ export default class Changelog {
     return Object.keys(
       // turn into an array
       execSync(
-        "git show -m --name-only --pretty='format:' --first-parent " + sha
+        `git show -m --name-only --pretty='format:' --first-parent ${sha}`
       )
       .split("\n")
       .reduce((acc, files) => {
@@ -124,7 +120,7 @@ export default class Changelog {
     );
   }
 
-  getListOfTags() {
+  async getListOfTags() {
     const tags = execSync("git tag");
     if (tags) {
       return tags.split("\n");
@@ -132,32 +128,39 @@ export default class Changelog {
     return [];
   }
 
-  getLastTag() {
+  async getLastTag() {
     return execSync("git describe --abbrev=0 --tags");
   }
 
-  getListOfCommits() {
+  async getListOfCommits() {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.tagFrom || this.getLastTag();
+    const tagFrom = this.tagFrom || (await this.getLastTag());
     const tagTo = this.tagTo || "";
     const tagsRange = tagFrom + ".." + tagTo;
     const commits = execSync(
       // Prints "<short-hash>;<ref-name>;<summary>;<date>"
       // This format is used in `getCommitsInfo` for easily analize the commit.
-      "git log --oneline --pretty=\"%h;%D;%s;%cd\" --date=short " + tagsRange
+      `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
     );
     if (commits) {
-      return commits.split("\n");
+      return commits.split("\n").map((commit) => {
+        const parts = commit.split(";");
+        const sha = parts[0];
+        const refName = parts[1];
+        const summary = parts[2];
+        const date = parts[3];
+        return { sha, refName, summary, date };
+      });
     }
     return [];
   }
 
-  getCommitters(commits) {
+  async getCommitters(commits) {
     const committers = {};
 
-    commits.forEach((commit) => {
+    for (const commit of commits) {
       const login = (commit.user || {}).login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
@@ -168,7 +171,7 @@ export default class Changelog {
         )
       );
       if (login && shouldKeepCommiter && !committers[login]) {
-        const user = this.remote.getUserData(login);
+        const user = await this.remote.getUserData(login);
         const userNameAndLink = `[${login}](${user.html_url})`;
         if (user.name) {
           committers[login] = `${user.name} (${userNameAndLink})`;
@@ -176,39 +179,32 @@ export default class Changelog {
           committers[login] = userNameAndLink;
         }
       }
-    });
+    }
 
     return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
-  getCommitsInfo() {
-    const commits = this.getListOfCommits();
-    const allTags = this.getListOfTags();
+  async getCommitsInfo() {
+    const commits = await this.getListOfCommits();
+    const allTags = await this.getListOfTags();
 
     progressBar.init(commits.length);
 
-    const commitsInfo = commits.map((commit) => {
-      // commit is formatted as following:
-      // <short-hash>;<ref-name>;<summary>;<date>
-      const parts = commit.split(";");
-      const sha = parts[0];
-      const _refs = parts[1];
+    const commitsInfo = await pMap(commits, async (commit) => {
+      const { sha, refName, summary: message, date } = commit;
+
       let tagsInCommit;
-      if (_refs.length > 1) {
+      if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
         // we need to treat all of them as a list.
         tagsInCommit = allTags.reduce((acc, tag) => {
-          if (_refs.indexOf(tag) < 0)
+          if (refName.indexOf(tag) < 0)
             return acc;
           return acc.concat(tag);
         }, []);
       }
-      const message = parts[2];
-      const date = parts[3];
 
       progressBar.tick(sha);
-
-      const mergeCommit = message.match(/\(#(\d+)\)$/);
 
       const commitInfo = {
         commitSHA: sha,
@@ -220,29 +216,37 @@ export default class Changelog {
         date
       };
 
-      if (message.indexOf("Merge pull request ") === 0 || mergeCommit) {
-        let issueNumber;
-        if (message.indexOf("Merge pull request ") === 0) {
-          const start = message.indexOf("#") + 1;
-          const end = message.slice(start).indexOf(" ");
-          issueNumber = message.slice(start, start + end);
-        } else
-          issueNumber = mergeCommit[1];
-
-        const response = this.remote.getIssueData(issueNumber);
+      const issueNumber = this.detectIssueNumber(message);
+      if (issueNumber !== null) {
+        const response = await this.remote.getIssueData(issueNumber);
         response.commitSHA = sha;
         response.mergeMessage = message;
         Object.assign(commitInfo, response);
       }
 
       return commitInfo;
-    });
+    }, { concurrency: 5 });
 
     progressBar.terminate();
     return commitsInfo;
   }
 
-  getCommitsByTag(commits) {
+  detectIssueNumber(message) {
+    if (message.indexOf("Merge pull request ") === 0) {
+      const start = message.indexOf("#") + 1;
+      const end = message.slice(start).indexOf(" ");
+      return message.slice(start, start + end);
+    }
+
+    const mergeCommit = message.match(/\(#(\d+)\)$/);
+    if (mergeCommit) {
+      return mergeCommit[1];
+    }
+
+    return null;
+  }
+
+  async getCommitsByTag(commits) {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.

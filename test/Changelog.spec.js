@@ -68,15 +68,15 @@ describe("getCommitsInfo", () => {
       }
     };
     require("../src/ApiDataCache").__setCache({
-      user: usersCache,
-      issue: issuesCache,
+      users: usersCache,
+      "repos/lerna/lerna-changelog/issues": issuesCache,
     });
   });
 
-  it("parse commits with different tags", () => {
+  it("parse commits with different tags", async () => {
     const MockedChangelog = require("../src/Changelog").default;
     const changelog = new MockedChangelog();
-    const commitsInfo = changelog.getCommitsInfo();
+    const commitsInfo = await changelog.getCommitsInfo();
 
     expect(commitsInfo).toEqual([
       {
@@ -213,13 +213,13 @@ describe("getCommitters", () => {
       },
     };
     require("../src/ApiDataCache").__setCache({
-      user: usersCache,
-      issue: {},
+      users: usersCache,
+      "repos/lerna/lerna-changelog/issues": {},
     });
     require("../src/Changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
   });
 
-  it("get list of valid commiters", () => {
+  it("get list of valid commiters", async () => {
     const MockedChangelog = require("../src/Changelog").default;
     const changelog = new MockedChangelog();
 
@@ -229,7 +229,7 @@ describe("getCommitters", () => {
       { commitSHA: "a0000002", user: { login: "user-bot" } },
       { commitSHA: "a0000001" },
     ];
-    const committers = changelog.getCommitters(testCommits);
+    const committers = await changelog.getCommitters(testCommits);
 
     expect(committers).toEqual([
       "Test User 1 ([test-user-1](https://github.com/test-user-1))",

@@ -1,4 +1,5 @@
-import execSync from "./execSync";
+import fetch from "node-fetch";
+
 import ApiDataCache from "./ApiDataCache";
 import ConfigurationError from "./ConfigurationError";
 
@@ -17,32 +18,30 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH;
   }
 
-  getIssueData(issue) {
-    return this._get("issue", issue);
+  async getIssueData(issue) {
+    return this._get(`repos/${this.repo}/issues`, issue);
   }
 
-  getUserData(login) {
-    return this._get("user", login);
+  async getUserData(login) {
+    return this._get("users", login);
   }
 
-  _get(type, key) {
+  async _get(type, key) {
     let data = this.cache.get(type, key);
     if (!data) {
-      data = this._fetch(type, key);
+      data = await this._fetch(type, key);
       this.cache.set(type, key, data);
     }
-    return JSON.parse(data);
+    return data;
   }
 
-  _fetch(type, key) {
-    const path = {
-      issue : `/repos/${this.repo}/issues/${key}`,
-      user  : `/users/${key}`
-    }[type];
-    const url = "https://api.github.com" + path;
-    return execSync("curl -H 'Authorization: token " +
-      process.env.GITHUB_AUTH +
-      "' --silent --globoff " + url
-    );
+  async _fetch(type, key) {
+    const url = `https://api.github.com/${type}/${key}`;
+    const res = await fetch(url, {
+      headers: {
+        "Authorization": `token ${this.auth}`,
+      },
+    });
+    return res.json();
   }
 }
