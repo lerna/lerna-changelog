@@ -85,12 +85,14 @@ describe("Changelog", () => {
           date: "2017-01-01",
           message: "chore(release): releasing component",
           tags: ["v0.2.0"],
+          issueNumber: null,
         },
         {
           commitSHA: "a0000004",
           date: "2017-01-01",
           message: "Merge pull request #2 from my-feature",
           tags: undefined,
+          issueNumber: "2",
           githubIssue: {
             labels: [
               { name: "Type: New Feature" },
@@ -110,6 +112,7 @@ describe("Changelog", () => {
           date: "2017-01-01",
           message: "feat(module) Add new module (#2)",
           tags: undefined,
+          issueNumber: "2",
           githubIssue: {
             labels: [
               { name: "Type: New Feature" },
@@ -129,12 +132,14 @@ describe("Changelog", () => {
           date: "2017-01-01",
           message: "refactor(module) Simplify implementation",
           tags: undefined,
+          issueNumber: null,
         },
         {
           commitSHA: "a0000001",
           date: "2017-01-01",
           message: "chore(release): releasing component",
           tags: ["v0.1.0"],
+          issueNumber: null,
         },
       ]);
     });

@@ -15,6 +15,7 @@ interface CommitInfo {
   message: string;
   tags?: string[];
   date: string;
+  issueNumber: string | null;
   githubIssue?: GitHubIssueResponse;
 }
 
@@ -222,12 +223,15 @@ export default class Changelog {
         tagsInCommit = allTags.filter(tag => refName.indexOf(tag) !== -1);
       }
 
+      const issueNumber = findPullRequestId(message);
+
       return {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
         tags: tagsInCommit,
+        issueNumber,
         date
       } as CommitInfo;
     });
@@ -238,9 +242,8 @@ export default class Changelog {
     await pMap(commitInfos, async (commitInfo: CommitInfo) => {
       progressBar.setTitle(commitInfo.commitSHA);
 
-      const issueNumber = findPullRequestId(commitInfo.message);
-      if (issueNumber !== null) {
-        commitInfo.githubIssue = await this.remote.getIssueData(issueNumber);
+      if (commitInfo.issueNumber) {
+        commitInfo.githubIssue = await this.remote.getIssueData(commitInfo.issueNumber);
       }
 
       progressBar.tick();
