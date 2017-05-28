@@ -9,11 +9,6 @@
     "lib": ["es2015.promise", "es5"]
   },
   "include": [
-    "src/**/*.js",
     "src/**/*.ts"
-  ],
-  "exclude": [
-    "**/__mocks__/*.js",
-    "**/__mocks__/*.ts"
   ]
 }

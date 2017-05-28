@@ -63,6 +63,7 @@
     "cacheDir": ".changelog"
   },
   "jest": {
+    "roots": ["src"],
     "transform": {
       "^.+\\.jsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
