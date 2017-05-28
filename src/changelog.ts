@@ -57,11 +57,17 @@ export default class Changelog {
 
     // Get all info about commits in a certain tags range
     const commitsInfo = await this.getCommitInfos();
+
+    // Step 4: Group commits by tag (local)
     const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
     for (const tag of Object.keys(commitsByTag)) {
       const commitsForTag = commitsByTag[tag].commits;
+
+      // Step 5: Group commits in release by category (local)
       const commitsByCategory = this.getCommitsByCategory(commitsForTag);
+
+      // Step 6: Compile list of committers in release (local + remote)
       const committers = await this.getCommitters(commitsForTag);
 
       // Skip this iteration if there are no commits available for the tag
@@ -81,6 +87,7 @@ export default class Changelog {
       for (const category of categoriesWithCommits) {
         progressBar.tick(category.heading || "Other");
 
+        // Step 7: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = category.commits.reduce((acc: { [id: string]: CommitInfo[] }, commit) => {
           // Array of unique packages.
           const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
@@ -102,6 +109,7 @@ export default class Changelog {
         const headings = Object.keys(commitsByPackage);
         const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
 
+        // Step 8: Print commits
         for (const heading of headings) {
           const commits = commitsByPackage[heading];
 
@@ -190,6 +198,7 @@ export default class Changelog {
   }
 
   async getCommitInfos(): Promise<CommitInfo[]> {
+    // Step 1: Get list of commits between tag A and B (local)
     const commits = await this.getListOfCommits();
     const allTags = await this.getListOfTags();
 
@@ -198,6 +207,7 @@ export default class Changelog {
     const commitInfos = await pMap(commits, async (commit: Git.CommitListItem) => {
       const { sha, refName, summary: message, date } = commit;
 
+      // Step 2: Find tagged commits (local)
       let tagsInCommit;
       if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
@@ -217,6 +227,7 @@ export default class Changelog {
         date
       };
 
+      // Step 3: Download PR data (remote)
       const issueNumber = findPullRequestId(message);
       if (issueNumber !== null) {
         const response = await this.remote.getIssueData(issueNumber);
