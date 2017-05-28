@@ -130,7 +130,7 @@ export default class Changelog {
     );
   }
 
-  async getListOfTags() {
+  async getListOfTags(): Promise<string[]> {
     const tags = execSync("git tag");
     if (tags) {
       return tags.split("\n");
