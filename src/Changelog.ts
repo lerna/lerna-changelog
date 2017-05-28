@@ -207,11 +207,7 @@ export default class Changelog {
       if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
         // we need to treat all of them as a list.
-        tagsInCommit = allTags.reduce((acc: any, tag: string) => {
-          if (refName.indexOf(tag) < 0)
-            return acc;
-          return acc.concat(tag);
-        }, []);
+        tagsInCommit = allTags.filter(tag => refName.indexOf(tag) !== -1);
       }
 
       progressBar.tick(sha);
