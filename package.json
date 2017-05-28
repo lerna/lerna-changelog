@@ -25,7 +25,7 @@
     "changelog": "node ./bin/cli.js",
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
-    "lint": "eslint bin src test *.js",
+    "lint": "tslint src test",
     "prepublish": "npm run build",
     "test": "jest",
     "test-ci": "npm run build && jest",
@@ -55,6 +55,7 @@
     "jest": "^20.0.4",
     "rimraf": "^2.5.4",
     "ts-jest": "^20.0.4",
+    "tslint": "^5.3.2",
     "typescript": "^2.3.3"
   },
   "changelog": {
