@@ -1,18 +1,27 @@
-let localCache: any;
+let localCache: { [id: string]: any } = {};
 export function __resetDefaults() {
-  localCache = undefined;
+  localCache = {};
 }
 export function __setCache(cache: any) {
-  localCache = cache;
+  localCache = {};
+  for (const key of Object.keys(cache)) {
+    let value = cache[key];
+
+    for (const key2 of Object.keys(value)) {
+      let value2 = value[key2];
+      let combinedKey = `${key}/${key2}`;
+      localCache[combinedKey] = value2;
+    }
+  }
 }
 
 class MockedApiDataCache {
-  get(type: string, key: string) {
-    return localCache[type][key];
+  get(key: string) {
+    return localCache[key];
   }
 
-  async getOrRequest(type: string, key: string) {
-    return this.get(type, key);
+  async getOrRequest(key: string) {
+    return this.get(key);
   }
 }
 

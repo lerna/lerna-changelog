@@ -23,35 +23,26 @@ export default class ApiDataCache {
     }
   }
 
-  get(type: string, key: string): any {
+  get(key: string): any {
     if (!this.path) return;
     try {
-      return fs.readJsonSync(this.fn(type, key));
+      return fs.readJsonSync(`${this.path}/${key}.json`);
     } catch (e) {
       // Pass.
     }
   }
 
-  async getOrRequest<T>(type: string, key: string, fn: () => Promise<T>): Promise<T> {
-    let data = this.get(type, key);
+  async getOrRequest<T>(key: string, fn: () => Promise<T>): Promise<T> {
+    let data = this.get(key);
     if (!data) {
       data = await fn();
-      this.set(type, key, data);
+      this.set(key, data);
     }
     return data;
   }
 
-  set(type: string, key: string, data: any) {
+  set(key: string, data: any) {
     if (!this.path) return;
-    return fs.outputJsonSync(this.fn(type, key), data, { spaces: 2 });
-  }
-
-  fn(type: string, key: string): string {
-    const dir = path.join(this.path, type);
-
-    // Ensure the directory for this type is there.
-    mkdirp.sync(dir);
-
-    return path.join(dir, key) + ".json";
+    return fs.outputJsonSync(`${this.path}/${key}.json`, data, { spaces: 2 });
   }
 }
