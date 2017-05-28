@@ -16,6 +16,30 @@ interface CommitListItem {
   date: string;
 }
 
+interface CommitInfo {
+  number?: number;
+  title?: string;
+  pull_request?: {
+    html_url: string;
+  },
+  commitSHA: string;
+  message: string;
+  labels: any[];
+  tags?: string[];
+  date: string;
+  user?: any;
+}
+
+interface TagInfo {
+  date: string;
+  commits: CommitInfo[];
+}
+
+interface CategoryInfo {
+  heading: string | undefined;
+  commits: CommitInfo[];
+}
+
 export default class Changelog {
   config: any;
   remote: RemoteRepo;
@@ -64,7 +88,7 @@ export default class Changelog {
       for (const category of categoriesWithCommits) {
         progressBar.tick(category.heading || "Other");
 
-        const commitsByPackage = category.commits.reduce((acc: any, commit: any) => {
+        const commitsByPackage: { [id: string]: CommitInfo[] } = category.commits.reduce((acc: { [id: string]: CommitInfo[] }, commit) => {
           // Array of unique packages.
           const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
 
@@ -95,12 +119,12 @@ export default class Changelog {
           for (const commit of commits) {
             markdown += onlyOtherHeading ? "\n* " : "\n  * ";
 
-            if (commit.number) {
+            if (commit.number && commit.pull_request && commit.pull_request.html_url) {
               const prUrl = commit.pull_request.html_url;
               markdown += `[#${commit.number}](${prUrl}) `;
             }
 
-            if (commit.title.match(COMMIT_FIX_REGEX)) {
+            if (commit.title && commit.title.match(COMMIT_FIX_REGEX)) {
               commit.title = commit.title.replace(
                 COMMIT_FIX_REGEX,
                 `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
@@ -175,7 +199,7 @@ export default class Changelog {
     return [];
   }
 
-  async getCommitters(commits: any[]) {
+  async getCommitters(commits: CommitInfo[]): Promise<string[]> {
     const committers: { [id: string]: string } = {};
 
     for (const commit of commits) {
@@ -202,7 +226,7 @@ export default class Changelog {
     return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
-  async getCommitInfos() {
+  async getCommitInfos(): Promise<CommitInfo[]> {
     const commits = await this.getListOfCommits();
     const allTags = await this.getListOfTags();
 
@@ -220,7 +244,7 @@ export default class Changelog {
 
       progressBar.tick(sha);
 
-      let commitInfo: any = {
+      let commitInfo: CommitInfo = {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
@@ -248,12 +272,12 @@ export default class Changelog {
     return commitInfos;
   }
 
-  async getCommitsByTag(commits: any[]) {
+  async getCommitsByTag(commits: CommitInfo[]): Promise<{ [id: string]: TagInfo }> {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
     let currentTags = [UNRELEASED_TAG];
-    return commits.reduce((acc, commit) => {
+    return commits.reduce((acc: any, commit) => {
       if (commit.tags && commit.tags.length > 0) {
         currentTags = commit.tags;
       }
@@ -288,7 +312,7 @@ export default class Changelog {
     }, {});
   }
 
-  getCommitsByCategory(allCommits: any[]) {
+  getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
     return this.remote.getLabels().map((label) => {
       let heading = this.remote.getHeadingForLabel(label);
 
