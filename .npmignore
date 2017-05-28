@@ -1,2 +1,9 @@
 src
 **/__mocks__/**
+**/__snapshots__/**
+*.spec.js
+.editorconfig
+.travis.yml
+tsconfig.json
+tslint.json
+yarn.lock
