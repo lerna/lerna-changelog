@@ -199,14 +199,12 @@ export default class Changelog {
   async getCommitInfos(): Promise<CommitInfo[]> {
     // Step 1: Get list of commits between tag A and B (local)
     const commits = await this.getListOfCommits();
+
+    // Step 2: Find tagged commits (local)
     const allTags = await this.getListOfTags();
-
-    progressBar.init(commits.length);
-
-    const commitInfos = await pMap(commits, async (commit: Git.CommitListItem) => {
+    const commitInfos = commits.map((commit) => {
       const { sha, refName, summary: message, date } = commit;
 
-      // Step 2: Find tagged commits (local)
       let tagsInCommit;
       if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
@@ -214,27 +212,28 @@ export default class Changelog {
         tagsInCommit = allTags.filter(tag => refName.indexOf(tag) !== -1);
       }
 
-      progressBar.tick(sha);
-
-      let commitInfo: CommitInfo = {
+      return {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
         tags: tagsInCommit,
         date
-      };
+      } as CommitInfo;
+    });
 
-      // Step 3: Download PR data (remote)
-      const issueNumber = findPullRequestId(message);
+    // Step 3: Download PR data (remote)
+    progressBar.init(commitInfos.length);
+    await pMap(commitInfos, async (commitInfo: CommitInfo) => {
+      progressBar.tick(commitInfo.commitSHA);
+
+      const issueNumber = findPullRequestId(commitInfo.message);
       if (issueNumber !== null) {
         commitInfo.githubIssue = await this.remote.getIssueData(issueNumber);
       }
-
-      return commitInfo;
     }, { concurrency: 5 });
-
     progressBar.terminate();
+
     return commitInfos;
   }
 
