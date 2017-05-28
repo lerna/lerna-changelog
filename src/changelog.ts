@@ -2,19 +2,12 @@ const pMap = require("p-map");
 
 import progressBar        from "./progress-bar";
 import RemoteRepo         from "./remote-repo";
-import execSync           from "./exec-sync";
 import * as Configuration from "./configuration";
 import findPullRequestId  from "./find-pull-request-id";
+import * as Git from "./git";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
-
-interface CommitListItem {
-  sha: string;
-  refName: string;
-  summary: string;
-  date: string;
-}
 
 interface CommitInfo {
   number?: number;
@@ -147,47 +140,26 @@ export default class Changelog {
   }
 
   getListOfUniquePackages(sha: string): string[] {
-    return execSync(`git show -m --name-only --pretty='format:' --first-parent ${sha}`)
+    return Git.changedPaths(sha)
       .map((path: string) => path.indexOf("packages/") === 0 ? path.slice(9).split("/", 1)[0] : "")
       .filter(Boolean)
       .filter(onlyUnique);
   }
 
   async getListOfTags(): Promise<string[]> {
-    const tags = execSync("git tag");
-    if (tags) {
-      return tags.split("\n");
-    }
-    return [];
+    return Git.listTagNames();
   }
 
   async getLastTag() {
-    return execSync("git describe --abbrev=0 --tags");
+    return Git.lastTag();
   }
 
-  async getListOfCommits(): Promise<CommitListItem[]> {
+  async getListOfCommits(): Promise<Git.CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
     const tagFrom = this.tagFrom || (await this.getLastTag());
-    const tagTo = this.tagTo || "";
-    const tagsRange = tagFrom + ".." + tagTo;
-    const commits = execSync(
-      // Prints "<short-hash>;<ref-name>;<summary>;<date>"
-      // This format is used in `getCommitInfos` for easily analize the commit.
-      `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
-    );
-    if (commits) {
-      return commits.split("\n").map((commit: string) => {
-        const parts = commit.split(";");
-        const sha = parts[0];
-        const refName = parts[1];
-        const summary = parts[2];
-        const date = parts[3];
-        return { sha, refName, summary, date };
-      });
-    }
-    return [];
+    return Git.listCommits(tagFrom, this.tagTo);
   }
 
   async getCommitters(commits: CommitInfo[]): Promise<string[]> {
@@ -223,7 +195,7 @@ export default class Changelog {
 
     progressBar.init(commits.length);
 
-    const commitInfos = await pMap(commits, async (commit: CommitListItem) => {
+    const commitInfos = await pMap(commits, async (commit: Git.CommitListItem) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
