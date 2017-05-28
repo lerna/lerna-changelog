@@ -212,7 +212,7 @@ export default class Changelog {
 
       progressBar.tick(sha);
 
-      let commitInfo = {
+      let commitInfo: any = {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
@@ -225,9 +225,12 @@ export default class Changelog {
       const issueNumber = this.detectIssueNumber(message);
       if (issueNumber !== null) {
         const response = await this.remote.getIssueData(issueNumber);
-        response.commitSHA = sha;
-        response.mergeMessage = message;
-        commitInfo = {...commitInfo, ...response};
+        commitInfo = {
+          ...commitInfo,
+          ...response,
+          commitSHA: sha,
+          mergeMessage: message,
+        };
       }
 
       return commitInfo;

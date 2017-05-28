@@ -1,4 +1,4 @@
-import GithubAPI, {GitHubUserResponse} from "./GithubAPI";
+import GithubAPI, {GitHubIssueResponse, GitHubUserResponse} from "./GithubAPI";
 
 export default class RemoteRepo {
   repo: string;
@@ -28,7 +28,7 @@ export default class RemoteRepo {
     return "https://github.com/" + this.repo + "/pull/";
   }
 
-  async getIssueData(issue: string): Promise<any> {
+  async getIssueData(issue: string): Promise<GitHubIssueResponse> {
     return this.githubAPI.getIssueData(issue);
   }
 

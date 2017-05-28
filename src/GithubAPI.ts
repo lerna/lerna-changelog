@@ -8,6 +8,12 @@ export interface GitHubUserResponse {
   html_url: string;
 }
 
+export interface GitHubIssueResponse {
+  labels: {
+    name: string;
+  }[];
+}
+
 export default class GithubAPI {
   repo: string;
   cache: ApiDataCache;
@@ -27,7 +33,7 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH;
   }
 
-  async getIssueData(issue: string): Promise<any> {
+  async getIssueData(issue: string): Promise<GitHubIssueResponse> {
     return this._get(`repos/${this.repo}/issues`, issue);
   }
 
