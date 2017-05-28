@@ -203,8 +203,17 @@ export default class Changelog {
     const commits = await this.getListOfCommits();
 
     // Step 2: Find tagged commits (local)
+    const commitInfos = await this.toCommitInfos(commits);
+
+    // Step 3: Download PR data (remote)
+    await this.downloadIssueData(commitInfos);
+
+    return commitInfos;
+  }
+
+  async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
     const allTags = await this.getListOfTags();
-    const commitInfos = commits.map((commit) => {
+    return commits.map((commit) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
@@ -223,8 +232,9 @@ export default class Changelog {
         date
       } as CommitInfo;
     });
+  }
 
-    // Step 3: Download PR data (remote)
+  async downloadIssueData(commitInfos: CommitInfo[]) {
     progressBar.init(commitInfos.length);
     await pMap(commitInfos, async (commitInfo: CommitInfo) => {
       progressBar.setTitle(commitInfo.commitSHA);
@@ -237,8 +247,6 @@ export default class Changelog {
       progressBar.tick();
     }, { concurrency: 5 });
     progressBar.terminate();
-
-    return commitInfos;
   }
 
   async getCommitsByTag(commits: CommitInfo[]): Promise<{ [id: string]: TagInfo }> {
