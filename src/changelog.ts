@@ -190,12 +190,7 @@ export default class Changelog {
       const login = issue && issue.user.login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
-      const shouldKeepCommiter = login && (
-        !this.config.ignoreCommitters ||
-        !this.config.ignoreCommitters.some(
-          (c: string) => c === login || login.indexOf(c) > -1
-        )
-      );
+      const shouldKeepCommiter = login && !this.ignoreCommitter(login);
       if (login && shouldKeepCommiter && !committers[login]) {
         const user = await this.remote.getUserData(login);
         const userNameAndLink = `[${login}](${user.html_url})`;
@@ -208,6 +203,14 @@ export default class Changelog {
     }
 
     return Object.keys(committers).map((k) => committers[k]).sort();
+  }
+
+  ignoreCommitter(login: string): boolean {
+    if (!this.config.ignoreCommitters) {
+      return false;
+    }
+
+    return this.config.ignoreCommitters.some((c: string) => c === login || login.indexOf(c) > -1)
   }
 
   async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
