@@ -30,11 +30,17 @@ class ProgressBarController {
     });
   }
 
-  tick(name: string) {
+  setTitle(name: string) {
     if (this.bar) {
-      this.bar.tick({
+      this.bar.tick(0, {
         packagename: padEnd(name.slice(0, 50), 50)
       });
+    }
+  }
+
+  tick() {
+    if (this.bar) {
+      this.bar.tick(1);
     }
   }
 
