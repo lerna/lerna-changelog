@@ -1,4 +1,4 @@
-import ConfigurationError from "../src/ConfigurationError";
+import ConfigurationError from "./configuration-error";
 
 describe("ConfigurationError", function() {
   it("can be identified using `instanceof`", function() {

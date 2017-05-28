@@ -1,5 +1,5 @@
-import Changelog from "./Changelog";
-import ConfigurationError from "./ConfigurationError";
+import Changelog from "./changelog";
+import ConfigurationError from "./configuration-error";
 
 export {
   Changelog,

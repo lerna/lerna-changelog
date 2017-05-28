@@ -1,4 +1,4 @@
-const Changelog = require.requireActual("../Changelog").default;
+const Changelog = require.requireActual("../changelog").default;
 
 const defaultConfig = {
   rootPath: "../",

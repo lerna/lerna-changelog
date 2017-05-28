@@ -1,8 +1,8 @@
 const path = require("path");
 const fetch = require("node-fetch");
 
-import ApiDataCache from "./ApiDataCache";
-import ConfigurationError from "./ConfigurationError";
+import ApiDataCache from "./api-data-cache";
+import ConfigurationError from "./configuration-error";
 
 export interface GitHubUserResponse {
   name: string;

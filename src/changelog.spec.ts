@@ -1,18 +1,18 @@
-jest.mock("../src/progressBar");
-jest.mock("../src/ApiDataCache");
-jest.mock("../src/Changelog");
-jest.mock("../src/GithubAPI");
-jest.mock("../src/execSync");
+jest.mock("../src/progress-bar");
+jest.mock("../src/api-data-cache");
+jest.mock("../src/changelog");
+jest.mock("../src/github-api");
+jest.mock("../src/exec-sync");
 
 describe("contructor", () => {
-  const MockedChangelog = require("../src/Changelog").default;
+  const MockedChangelog = require("./changelog").default;
 
   beforeEach(() => {
-    require("../src/Changelog").__resetDefaults();
+    require("./changelog").__resetDefaults();
   });
 
   it("set config", () => {
-    const testConfig = require("../src/Changelog").__getConfig();
+    const testConfig = require("./changelog").__getConfig();
 
     const changelog = new MockedChangelog();
     expect(changelog.config).toEqual(testConfig);
@@ -32,10 +32,10 @@ describe("contructor", () => {
 
 describe("getCommitsInfo", () => {
   beforeEach(() => {
-    require("../src/execSync").__resetDefaults();
-    require("../src/ApiDataCache").__resetDefaults();
+    require("./exec-sync").__resetDefaults();
+    require("./api-data-cache").__resetDefaults();
 
-    require("../src/execSync").__mockGitLog(
+    require("./exec-sync").__mockGitLog(
       "a0000005;HEAD -> master, tag: v0.2.0, origin/master, " +
       "origin/HEAD;chore(release): releasing component;2017-01-01\n" +
       "a0000004;;Merge pull request #2 from my-feature;2017-01-01\n" +
@@ -43,7 +43,7 @@ describe("getCommitsInfo", () => {
       "a0000002;;refactor(module) Simplify implementation;2017-01-01\n" +
       "a0000001;tag: v0.1.0;chore(release): releasing component;2017-01-01"
     );
-    require("../src/execSync").__mockGitTag(
+    require("./exec-sync").__mockGitTag(
       "v0.2.0\n" +
       "v0.1.1\n" +
       "v0.1.0\n" +
@@ -67,14 +67,14 @@ describe("getCommitsInfo", () => {
         user: usersCache["test-user"],
       }
     };
-    require("../src/ApiDataCache").__setCache({
+    require("./api-data-cache").__setCache({
       users: usersCache,
       "repos/lerna/lerna-changelog/issues": issuesCache,
     });
   });
 
   it("parse commits with different tags", async () => {
-    const MockedChangelog = require("../src/Changelog").default;
+    const MockedChangelog = require("./changelog").default;
     const changelog = new MockedChangelog();
     const commitsInfo = await changelog.getCommitsInfo();
 
@@ -142,7 +142,7 @@ describe("getCommitsInfo", () => {
 
 describe("getCommitsByCategory", () => {
   it("group commits by category", () => {
-    const MockedChangelog = require("../src/Changelog").default;
+    const MockedChangelog = require("./changelog").default;
     const changelog = new MockedChangelog();
     const testCommits = [
       { commitSHA: "a0000005", labels: [{ name: "Status: In Progress" }] },
@@ -188,7 +188,7 @@ describe("getCommitsByCategory", () => {
 
 describe("getCommitters", () => {
   beforeEach(() => {
-    require("../src/ApiDataCache").__resetDefaults();
+    require("./api-data-cache").__resetDefaults();
 
     const usersCache = {
       "test-user": {
@@ -212,15 +212,15 @@ describe("getCommitters", () => {
         name: "User Bot"
       },
     };
-    require("../src/ApiDataCache").__setCache({
+    require("./api-data-cache").__setCache({
       users: usersCache,
       "repos/lerna/lerna-changelog/issues": {},
     });
-    require("../src/Changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
+    require("./changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
   });
 
   it("get list of valid commiters", async () => {
-    const MockedChangelog = require("../src/Changelog").default;
+    const MockedChangelog = require("./changelog").default;
     const changelog = new MockedChangelog();
 
     const testCommits = [

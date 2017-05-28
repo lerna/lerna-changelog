@@ -1,9 +1,9 @@
 const pMap = require("p-map");
 
-import progressBar        from "./progressBar";
-import RemoteRepo         from "./RemoteRepo";
-import execSync           from "./execSync";
-import * as Configuration from "./Configuration";
+import progressBar        from "./progress-bar";
+import RemoteRepo         from "./remote-repo";
+import execSync           from "./exec-sync";
+import * as Configuration from "./configuration";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;

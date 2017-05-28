@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const mkdirp = require("mkdirp");
 
-import ConfigurationError from "./ConfigurationError";
+import ConfigurationError from "./configuration-error";
 
 export interface Options {
   path?: string;

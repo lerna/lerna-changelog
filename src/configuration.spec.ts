@@ -2,8 +2,8 @@ const os = require("os");
 const fs = require("fs-extra");
 const path = require("path");
 
-import { fromGitRoot, fromPath } from "../src/Configuration";
-import ConfigurationError from "../src/ConfigurationError";
+import { fromGitRoot, fromPath } from "./configuration";
+import ConfigurationError from "./configuration-error";
 
 describe("Configuration", function() {
   describe("fromGitRoot", function() {

@@ -1,4 +1,4 @@
-import GithubAPI, {GitHubIssueResponse, GitHubUserResponse} from "./GithubAPI";
+import GithubAPI, {GitHubIssueResponse, GitHubUserResponse} from "./github-api";
 
 export interface Options {
   repo: string;
