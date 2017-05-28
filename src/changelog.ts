@@ -96,7 +96,8 @@ export default class Changelog {
         progressBar.setTitle(category.heading || "Other");
 
         // Step 7: Group commits in category by package (local)
-        const commitsByPackage: { [id: string]: CommitInfo[] } = category.commits.reduce((acc: { [id: string]: CommitInfo[] }, commit) => {
+        const commitsByPackage: { [id: string]: CommitInfo[] } = {};
+        for (const commit of category.commits) {
           // Array of unique packages.
           const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
 
@@ -104,11 +105,9 @@ export default class Changelog {
             ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
             : "* Other";
 
-          acc[heading] = acc[heading] || [];
-          acc[heading].push(commit);
-
-          return acc;
-        }, {});
+          commitsByPackage[heading] = commitsByPackage[heading] || [];
+          commitsByPackage[heading].push(commit);
+        }
 
         markdown += "\n";
         markdown += "\n";
