@@ -19,6 +19,7 @@ interface CommitInfo {
 }
 
 interface TagInfo {
+  name: string;
   date: string;
   commits: CommitInfo[];
 }
@@ -56,14 +57,12 @@ export default class Changelog {
     // Step 4: Group commits by tag (local)
     const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
-    for (const tag of Object.keys(commitsByTag)) {
-      const commitsForTag = commitsByTag[tag].commits;
-
+    for (const tag of commitsByTag) {
       // Step 5: Group commits in release by category (local)
-      const commitsByCategory = this.getCommitsByCategory(commitsForTag);
+      const commitsByCategory = this.getCommitsByCategory(tag.commits);
 
       // Step 6: Compile list of committers in release (local + remote)
-      const committers = await this.getCommitters(commitsForTag);
+      const committers = await this.getCommitters(tag.commits);
 
       // Skip this iteration if there are no commits available for the tag
       const hasCommitsForCurrentTag = commitsByCategory.some(
@@ -71,8 +70,8 @@ export default class Changelog {
       );
       if (!hasCommitsForCurrentTag) continue;
 
-      const releaseTitle = tag === UNRELEASED_TAG ? "Unreleased" : tag;
-      markdown += `## ${releaseTitle} (${commitsByTag[tag].date})`;
+      const releaseTitle = tag.name === UNRELEASED_TAG ? "Unreleased" : tag.name;
+      markdown += `## ${releaseTitle} (${tag.date})`;
 
       progressBar.init(commitsByCategory.length);
 
@@ -249,7 +248,7 @@ export default class Changelog {
     progressBar.terminate();
   }
 
-  async getCommitsByTag(commits: CommitInfo[]): Promise<{ [id: string]: TagInfo }> {
+  async getCommitsByTag(commits: CommitInfo[]): Promise<TagInfo[]> {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
@@ -269,14 +268,14 @@ export default class Changelog {
       for (const currentTag of currentTags) {
         if (!tags[currentTag]) {
           let date = currentTag === UNRELEASED_TAG ? this.getToday() : commit.date;
-          tags[currentTag] = { date, commits: [] };
+          tags[currentTag] = { name: currentTag, date, commits: [] };
         }
 
         tags[currentTag].commits.push(commit);
       }
     }
 
-    return tags;
+    return Object.keys(tags).map((tag) => tags[tag]);
   }
 
   getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
