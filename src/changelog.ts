@@ -4,6 +4,7 @@ import progressBar        from "./progress-bar";
 import RemoteRepo         from "./remote-repo";
 import execSync           from "./exec-sync";
 import * as Configuration from "./configuration";
+import findPullRequestId  from "./find-pull-request-id";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
@@ -229,7 +230,7 @@ export default class Changelog {
         date
       };
 
-      const issueNumber = this.detectIssueNumber(message);
+      const issueNumber = findPullRequestId(message);
       if (issueNumber !== null) {
         const response = await this.remote.getIssueData(issueNumber);
         commitInfo = {
@@ -245,21 +246,6 @@ export default class Changelog {
 
     progressBar.terminate();
     return commitInfos;
-  }
-
-  detectIssueNumber(message: string): string | null {
-    if (message.indexOf("Merge pull request ") === 0) {
-      const start = message.indexOf("#") + 1;
-      const end = message.slice(start).indexOf(" ");
-      return message.slice(start, start + end);
-    }
-
-    const mergeCommit = message.match(/\(#(\d+)\)$/);
-    if (mergeCommit) {
-      return mergeCommit[1];
-    }
-
-    return null;
   }
 
   async getCommitsByTag(commits: any[]) {
