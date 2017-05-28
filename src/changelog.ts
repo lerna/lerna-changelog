@@ -253,8 +253,10 @@ export default class Changelog {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
+    let tags: { [id: string]: TagInfo } = {};
+
     let currentTags = [UNRELEASED_TAG];
-    return commits.reduce((acc: any, commit) => {
+    for (const commit of commits) {
       if (commit.tags && commit.tags.length > 0) {
         currentTags = commit.tags;
       }
@@ -264,29 +266,17 @@ export default class Changelog {
       // This results in having one group of commits for each tag, even if
       // the same commits are "duplicated" across the different tags
       // referencing them.
-      const commitsForTags: any = {};
       for (const currentTag of currentTags) {
-        let existingCommitsForTag = [];
-        if ({}.hasOwnProperty.call(acc, currentTag)) {
-          existingCommitsForTag = acc[currentTag].commits;
+        if (!tags[currentTag]) {
+          let date = currentTag === UNRELEASED_TAG ? this.getToday() : commit.date;
+          tags[currentTag] = { date, commits: [] };
         }
 
-        let releaseDate = this.getToday();
-        if (currentTag !== UNRELEASED_TAG) {
-          releaseDate = acc[currentTag] ? acc[currentTag].date : commit.date;
-        }
-
-        commitsForTags[currentTag] = {
-          date: releaseDate,
-          commits: existingCommitsForTag.concat(commit)
-        };
+        tags[currentTag].commits.push(commit);
       }
+    }
 
-      return {
-        ...acc,
-        ...commitsForTags,
-      };
-    }, {});
+    return tags;
   }
 
   getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
