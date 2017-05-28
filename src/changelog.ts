@@ -276,8 +276,10 @@ export default class Changelog {
   }
 
   getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
-    return this.remote.getLabels().map((label) => {
-      let heading = this.remote.getHeadingForLabel(label);
+    const { labels } = this.config;
+
+    return Object.keys(labels).map((label) => {
+      let heading = labels[label];
 
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
