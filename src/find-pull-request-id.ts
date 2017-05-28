@@ -13,5 +13,10 @@ export default function findPullRequestId(message: string): string | null {
     return mergeCommit[1];
   }
 
+  const homuMatch = firstLine.match(/^Auto merge of #(\d+) - /);
+  if (homuMatch) {
+    return homuMatch[1];
+  }
+
   return null;
 }

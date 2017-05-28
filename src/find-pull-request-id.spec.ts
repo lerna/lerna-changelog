@@ -13,6 +13,12 @@ describe("findPullRequestId", function() {
     expect(result).toEqual("48");
   });
 
+  it("finds the id in a homu merge commit", function() {
+    const message = "Auto merge of #7056 - fixTypos:fix_typos, r=Turbo87\n\nfix_typos\n\nThis PR is part of a campaign to fix a lot of typos on github!\nYou can see the progress on https://github.com/fixTypos/fix_typos/\n\nhttps://github.com/client9/misspell";
+    const result = findPullRequestId(message);
+    expect(result).toEqual("7056");
+  });
+
   it("returns null if no id could be found", function() {
     const message = "This is not a merge commit 42";
     const result = findPullRequestId(message);
