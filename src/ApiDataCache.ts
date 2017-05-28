@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const mkdirp = require("mkdirp");
 
@@ -26,7 +26,7 @@ export default class ApiDataCache {
   get(type: string, key: string): any {
     if (!this.path) return;
     try {
-      return JSON.parse(fs.readFileSync(this.fn(type, key), "utf-8"));
+      return fs.readJsonSync(this.fn(type, key));
     } catch (e) {
       // Pass.
     }
@@ -43,7 +43,7 @@ export default class ApiDataCache {
 
   set(type: string, key: string, data: any) {
     if (!this.path) return;
-    return fs.writeFileSync(this.fn(type, key), JSON.stringify(data, null, 2));
+    return fs.outputJsonSync(this.fn(type, key), data, { spaces: 2 });
   }
 
   fn(type: string, key: string): string {
