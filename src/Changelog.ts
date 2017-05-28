@@ -270,7 +270,8 @@ export default class Changelog {
       // This results in having one group of commits for each tag, even if
       // the same commits are "duplicated" across the different tags
       // referencing them.
-      const commitsForTags = currentTags.reduce((acc2, currentTag) => {
+      const commitsForTags: any = {};
+      for (const currentTag of currentTags) {
         let existingCommitsForTag = [];
         if ({}.hasOwnProperty.call(acc, currentTag)) {
           existingCommitsForTag = acc[currentTag].commits;
@@ -281,15 +282,11 @@ export default class Changelog {
           releaseDate = acc[currentTag] ? acc[currentTag].date : commit.date;
         }
 
-        return {
-          ...acc2,
-          [currentTag]: {
-            date: releaseDate,
-            commits: existingCommitsForTag.concat(commit)
-          }
+        commitsForTags[currentTag] = {
+          date: releaseDate,
+          commits: existingCommitsForTag.concat(commit)
         };
-      }, {});
-
+      }
 
       return {
         ...acc,
