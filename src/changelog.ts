@@ -295,26 +295,17 @@ export default class Changelog {
     }, {});
   }
 
-  getCommitsByCategory(commits: any[]) {
-    return this.remote.getLabels().map(
-      (label) => ({
-        heading: this.remote.getHeadingForLabel(label),
-        // Keep only the commits that have a matching label with the one
-        // provided in the lerna.json config.
-        commits: commits.reduce(
-          (acc, commit) => {
-            if (
-              commit.labels.some(
-                (l: any) => l.name.toLowerCase() === label.toLowerCase()
-              )
-            )
-              return acc.concat(commit);
-            return acc;
-          },
-          []
-        )
-      })
-    );
+  getCommitsByCategory(allCommits: any[]) {
+    return this.remote.getLabels().map((label) => {
+      let heading = this.remote.getHeadingForLabel(label);
+
+      // Keep only the commits that have a matching label with the one
+      // provided in the lerna.json config.
+      let commits = allCommits
+        .filter((commit) => commit.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
+
+      return { heading, commits };
+    });
   }
 
   getToday() {
