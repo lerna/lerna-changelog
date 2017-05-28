@@ -1,11 +1,18 @@
 import GithubAPI, {GitHubIssueResponse, GitHubUserResponse} from "./GithubAPI";
 
+export interface Options {
+  repo: string;
+  labels: { [id: string]: string };
+  rootPath: string;
+  cacheDir?: string;
+}
+
 export default class RemoteRepo {
   repo: string;
   labels: { [id: string]: string; };
   githubAPI: GithubAPI;
 
-  constructor(config: any) {
+  constructor(config: Options) {
     const { repo, labels } = config;
     this.repo = repo;
     this.labels = labels;

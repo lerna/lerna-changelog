@@ -14,12 +14,18 @@ export interface GitHubIssueResponse {
   }[];
 }
 
+export interface Options {
+  repo: string;
+  rootPath: string;
+  cacheDir?: string;
+}
+
 export default class GithubAPI {
   repo: string;
   cache: ApiDataCache;
   auth: string;
 
-  constructor(config: any) {
+  constructor(config: Options) {
     const { repo } = config;
     this.repo = repo;
     this.cache = new ApiDataCache("github", config);

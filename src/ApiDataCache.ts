@@ -4,11 +4,16 @@ const mkdirp = require("mkdirp");
 
 import ConfigurationError from "./ConfigurationError";
 
+export interface Options {
+  rootPath: string;
+  cacheDir?: string;
+}
+
 export default class ApiDataCache {
   host: string;
   dir: string;
 
-  constructor(host: string, { rootPath, cacheDir }: { rootPath: string, cacheDir: string }) {
+  constructor(host: string, { rootPath, cacheDir }: Options) {
     this.host = host;
     const dir = this.dir = cacheDir && path.join(rootPath, cacheDir, host);
 
