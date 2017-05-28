@@ -31,7 +31,7 @@ describe("Changelog", () => {
     });
   });
 
-  describe("getCommitsInfo", () => {
+  describe("getCommitInfos", () => {
     beforeEach(() => {
       require("./exec-sync").__resetDefaults();
       require("./api-data-cache").__resetDefaults();
@@ -77,7 +77,7 @@ describe("Changelog", () => {
     it("parse commits with different tags", async () => {
       const MockedChangelog = require("./changelog").default;
       const changelog = new MockedChangelog();
-      const commitsInfo = await changelog.getCommitsInfo();
+      const commitsInfo = await changelog.getCommitInfos();
 
       expect(commitsInfo).toEqual([
         {

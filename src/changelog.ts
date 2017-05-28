@@ -38,7 +38,7 @@ export default class Changelog {
     let markdown = "\n";
 
     // Get all info about commits in a certain tags range
-    const commitsInfo = await this.getCommitsInfo();
+    const commitsInfo = await this.getCommitInfos();
     const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
     for (const tag of Object.keys(commitsByTag)) {
@@ -158,7 +158,7 @@ export default class Changelog {
     const tagsRange = tagFrom + ".." + tagTo;
     const commits = execSync(
       // Prints "<short-hash>;<ref-name>;<summary>;<date>"
-      // This format is used in `getCommitsInfo` for easily analize the commit.
+      // This format is used in `getCommitInfos` for easily analize the commit.
       `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
     );
     if (commits) {
@@ -201,13 +201,13 @@ export default class Changelog {
     return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
-  async getCommitsInfo() {
+  async getCommitInfos() {
     const commits = await this.getListOfCommits();
     const allTags = await this.getListOfTags();
 
     progressBar.init(commits.length);
 
-    const commitsInfo = await pMap(commits, async (commit: CommitListItem) => {
+    const commitInfos = await pMap(commits, async (commit: CommitListItem) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
@@ -244,7 +244,7 @@ export default class Changelog {
     }, { concurrency: 5 });
 
     progressBar.terminate();
-    return commitsInfo;
+    return commitInfos;
   }
 
   detectIssueNumber(message: string): string | null {
