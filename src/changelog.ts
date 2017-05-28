@@ -146,20 +146,11 @@ export default class Changelog {
     return markdown.substring(0, markdown.length - 3);
   }
 
-  getListOfUniquePackages(sha: string) {
-    return Object.keys(
-      // turn into an array
-      execSync(
-        `git show -m --name-only --pretty='format:' --first-parent ${sha}`
-      )
-      .split("\n")
-      .reduce((acc: any, files: string) => {
-        if (files.indexOf("packages/") === 0) {
-          acc[files.slice(9).split("/", 1)[0]] = true;
-        }
-        return acc;
-      }, {})
-    );
+  getListOfUniquePackages(sha: string): string[] {
+    return execSync(`git show -m --name-only --pretty='format:' --first-parent ${sha}`)
+      .map((path: string) => path.indexOf("packages/") === 0 ? path.slice(9).split("/", 1)[0] : "")
+      .filter(Boolean)
+      .filter(onlyUnique);
   }
 
   async getListOfTags(): Promise<string[]> {
@@ -329,4 +320,8 @@ export default class Changelog {
     const date = new Date().toISOString();
     return date.slice(0, date.indexOf("T"));
   }
+}
+
+function onlyUnique(value: any, index: number, self: any[]): boolean {
+  return self.indexOf(value) === index;
 }
