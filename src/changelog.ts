@@ -8,6 +8,13 @@ import * as Configuration from "./configuration";
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
 
+interface CommitListItem {
+  sha: string;
+  refName: string;
+  summary: string;
+  date: string;
+}
+
 export default class Changelog {
   config: any;
   remote: RemoteRepo;
@@ -142,7 +149,7 @@ export default class Changelog {
     return execSync("git describe --abbrev=0 --tags");
   }
 
-  async getListOfCommits() {
+  async getListOfCommits(): Promise<CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
@@ -200,7 +207,7 @@ export default class Changelog {
 
     progressBar.init(commits.length);
 
-    const commitsInfo = await pMap(commits, async (commit: any) => {
+    const commitsInfo = await pMap(commits, async (commit: CommitListItem) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
