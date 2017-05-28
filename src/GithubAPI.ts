@@ -1,3 +1,4 @@
+const path = require("path");
 const fetch = require("node-fetch");
 
 import ApiDataCache from "./ApiDataCache";
@@ -28,7 +29,9 @@ export default class GithubAPI {
   constructor(config: Options) {
     const { repo } = config;
     this.repo = repo;
-    this.cache = new ApiDataCache("github", config);
+    this.cache = new ApiDataCache({
+      path: config.cacheDir && path.join(config.rootPath, config.cacheDir, 'github')
+    });
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
