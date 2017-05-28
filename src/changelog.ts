@@ -5,22 +5,17 @@ import RemoteRepo         from "./remote-repo";
 import * as Configuration from "./configuration";
 import findPullRequestId  from "./find-pull-request-id";
 import * as Git from "./git";
+import {GitHubIssueResponse} from "./github-api";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
 
 interface CommitInfo {
-  number?: number;
-  title?: string;
-  pull_request?: {
-    html_url: string;
-  },
   commitSHA: string;
   message: string;
-  labels: any[];
   tags?: string[];
   date: string;
-  user?: any;
+  githubIssue?: GitHubIssueResponse;
 }
 
 interface TagInfo {
@@ -118,21 +113,24 @@ export default class Changelog {
           }
 
           for (const commit of commits) {
-            markdown += onlyOtherHeading ? "\n* " : "\n  * ";
+            const issue = commit.githubIssue;
+            if (issue) {
+              markdown += onlyOtherHeading ? "\n* " : "\n  * ";
 
-            if (commit.number && commit.pull_request && commit.pull_request.html_url) {
-              const prUrl = commit.pull_request.html_url;
-              markdown += `[#${commit.number}](${prUrl}) `;
+              if (issue.number && issue.pull_request && issue.pull_request.html_url) {
+                const prUrl = issue.pull_request.html_url;
+                markdown += `[#${issue.number}](${prUrl}) `;
+              }
+
+              if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
+                issue.title = issue.title.replace(
+                  COMMIT_FIX_REGEX,
+                  `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
+                );
+              }
+
+              markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
             }
-
-            if (commit.title && commit.title.match(COMMIT_FIX_REGEX)) {
-              commit.title = commit.title.replace(
-                COMMIT_FIX_REGEX,
-                `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
-              );
-            }
-
-            markdown += `${commit.title}. ([@${commit.user.login}](${commit.user.html_url}))`;
           }
         }
       }
@@ -174,7 +172,8 @@ export default class Changelog {
     const committers: { [id: string]: string } = {};
 
     for (const commit of commits) {
-      const login = (commit.user || {}).login;
+      const issue = commit.githubIssue;
+      const login = issue && issue.user.login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && (
@@ -222,7 +221,6 @@ export default class Changelog {
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
-        labels: [],
         tags: tagsInCommit,
         date
       };
@@ -230,13 +228,7 @@ export default class Changelog {
       // Step 3: Download PR data (remote)
       const issueNumber = findPullRequestId(message);
       if (issueNumber !== null) {
-        const response = await this.remote.getIssueData(issueNumber);
-        commitInfo = {
-          ...commitInfo,
-          ...response,
-          commitSHA: sha,
-          mergeMessage: message,
-        };
+        commitInfo.githubIssue = await this.remote.getIssueData(issueNumber);
       }
 
       return commitInfo;
@@ -295,7 +287,7 @@ export default class Changelog {
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
       let commits = allCommits
-        .filter((commit) => commit.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
+        .filter((commit) => commit.githubIssue && commit.githubIssue.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
 
       return { heading, commits };
     });

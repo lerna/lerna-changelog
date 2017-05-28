@@ -83,57 +83,56 @@ describe("Changelog", () => {
         {
           commitSHA: "a0000005",
           date: "2017-01-01",
-          labels: [],
           message: "chore(release): releasing component",
           tags: ["v0.2.0"],
         },
         {
           commitSHA: "a0000004",
           date: "2017-01-01",
-          labels: [
-            { name: "Type: New Feature" },
-            { name: "Status: In Progress" },
-          ],
-          mergeMessage: "Merge pull request #2 from my-feature",
           message: "Merge pull request #2 from my-feature",
-          number: 2,
           tags: undefined,
-          title: "This is the commit title for the issue (#2)",
-          user: {
-            html_url: "https://github.com/test-user",
-            login: "test-user",
-            name: "Test User",
+          githubIssue: {
+            labels: [
+              { name: "Type: New Feature" },
+              { name: "Status: In Progress" },
+            ],
+            number: 2,
+            title: "This is the commit title for the issue (#2)",
+            user: {
+              html_url: "https://github.com/test-user",
+              login: "test-user",
+              name: "Test User",
+            },
           },
         },
         {
           commitSHA: "a0000003",
           date: "2017-01-01",
-          labels: [
-            { name: "Type: New Feature" },
-            { name: "Status: In Progress" },
-          ],
-          mergeMessage: "feat(module) Add new module (#2)",
           message: "feat(module) Add new module (#2)",
-          number: 2,
           tags: undefined,
-          title: "This is the commit title for the issue (#2)",
-          user: {
-            html_url: "https://github.com/test-user",
-            login: "test-user",
-            name: "Test User",
+          githubIssue: {
+            labels: [
+              { name: "Type: New Feature" },
+              { name: "Status: In Progress" },
+            ],
+            number: 2,
+            title: "This is the commit title for the issue (#2)",
+            user: {
+              html_url: "https://github.com/test-user",
+              login: "test-user",
+              name: "Test User",
+            },
           },
         },
         {
           commitSHA: "a0000002",
           date: "2017-01-01",
-          labels: [],
           message: "refactor(module) Simplify implementation",
           tags: undefined,
         },
         {
           commitSHA: "a0000001",
           date: "2017-01-01",
-          labels: [],
           message: "chore(release): releasing component",
           tags: ["v0.1.0"],
         },
@@ -146,17 +145,19 @@ describe("Changelog", () => {
       const MockedChangelog = require("./changelog").default;
       const changelog = new MockedChangelog();
       const testCommits = [
-        { commitSHA: "a0000005", labels: [{ name: "Status: In Progress" }] },
-        { commitSHA: "a0000004", labels: [{ name: "Type: Bug" }] },
+        { commitSHA: "a0000005", githubIssue: { labels: [{ name: "Status: In Progress" }] }},
+        { commitSHA: "a0000004", githubIssue: { labels: [{ name: "Type: Bug" }] }},
         {
           commitSHA: "a0000003",
-          labels: [
-            { name: "Type: New Feature" },
-            { name: "Status: In Progress" },
-          ]
+          githubIssue: {
+            labels: [
+              { name: "Type: New Feature" },
+              { name: "Status: In Progress" },
+            ]
+          }
         },
-        { commitSHA: "a0000002", labels: [] },
-        { commitSHA: "a0000001", labels: [] }
+        { commitSHA: "a0000002", githubIssue: { labels: [] }},
+        { commitSHA: "a0000001", githubIssue: { labels: [] }}
       ];
       const commitsByCategory = changelog.getCommitsByCategory(testCommits);
 
@@ -165,10 +166,12 @@ describe("Changelog", () => {
           commits: [
             {
               commitSHA: "a0000003",
-              labels: [
-                { name: "Type: New Feature" },
-                { name: "Status: In Progress" }
-              ]
+              githubIssue: {
+                labels: [
+                  { name: "Type: New Feature" },
+                  { name: "Status: In Progress" }
+                ]
+              }
             }
           ],
           heading: ":rocket: New Feature"
@@ -176,7 +179,12 @@ describe("Changelog", () => {
         { commits: [], heading: ":boom: Breaking Change" },
         {
           commits: [
-            { commitSHA: "a0000004", labels: [{ name: "Type: Bug" }] }
+            {
+              commitSHA: "a0000004",
+              githubIssue: {
+                labels: [{name: "Type: Bug"}]
+              }
+            }
           ],
           heading: ":bug: Bug Fix"
         },
@@ -225,9 +233,9 @@ describe("Changelog", () => {
       const changelog = new MockedChangelog();
 
       const testCommits = [
-        { commitSHA: "a0000004", user: { login: "test-user-1" } },
-        { commitSHA: "a0000003", user: { login: "test-user-2" } },
-        { commitSHA: "a0000002", user: { login: "user-bot" } },
+        { commitSHA: "a0000004", githubIssue: { user: { login: "test-user-1" } } },
+        { commitSHA: "a0000003", githubIssue: { user: { login: "test-user-2" } } },
+        { commitSHA: "a0000002", githubIssue: { user: { login: "user-bot" } } },
         { commitSHA: "a0000001" },
       ];
       const committers = await changelog.getCommitters(testCommits);
