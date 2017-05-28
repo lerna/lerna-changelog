@@ -3,6 +3,11 @@ const fetch = require("node-fetch");
 import ApiDataCache from "./ApiDataCache";
 import ConfigurationError from "./ConfigurationError";
 
+export interface GitHubUserResponse {
+  name: string;
+  html_url: string;
+}
+
 export default class GithubAPI {
   repo: string;
   cache: ApiDataCache;
@@ -26,7 +31,7 @@ export default class GithubAPI {
     return this._get(`repos/${this.repo}/issues`, issue);
   }
 
-  async getUserData(login: string): Promise<any> {
+  async getUserData(login: string): Promise<GitHubUserResponse> {
     return this._get("users", login);
   }
 
