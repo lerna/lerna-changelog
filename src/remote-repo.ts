@@ -31,10 +31,6 @@ export default class RemoteRepo {
     return "https://github.com/" + this.repo + "/issues/";
   }
 
-  getBasePullRequestUrl(): string {
-    return "https://github.com/" + this.repo + "/pull/";
-  }
-
   async getIssueData(issue: string): Promise<GitHubIssueResponse> {
     return this.githubAPI.getIssueData(issue);
   }

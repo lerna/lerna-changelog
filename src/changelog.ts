@@ -96,7 +96,7 @@ export default class Changelog {
             markdown += onlyOtherHeading ? "\n* " : "\n  * ";
 
             if (commit.number) {
-              const prUrl = this.remote.getBasePullRequestUrl() + commit.number;
+              const prUrl = commit.pull_request.html_url;
               markdown += `[#${commit.number}](${prUrl}) `;
             }
 
