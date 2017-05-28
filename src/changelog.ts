@@ -49,6 +49,19 @@ export default class Changelog {
     return Configuration.fromGitRoot(process.cwd());
   }
 
+  async getCommitInfos(): Promise<CommitInfo[]> {
+    // Step 1: Get list of commits between tag A and B (local)
+    const commits = await this.getListOfCommits();
+
+    // Step 2: Find tagged commits (local)
+    const commitInfos = await this.toCommitInfos(commits);
+
+    // Step 3: Download PR data (remote)
+    await this.downloadIssueData(commitInfos);
+
+    return commitInfos;
+  }
+
   async createMarkdown() {
     let markdown = "\n";
 
@@ -196,19 +209,6 @@ export default class Changelog {
     }
 
     return Object.keys(committers).map((k) => committers[k]).sort();
-  }
-
-  async getCommitInfos(): Promise<CommitInfo[]> {
-    // Step 1: Get list of commits between tag A and B (local)
-    const commits = await this.getListOfCommits();
-
-    // Step 2: Find tagged commits (local)
-    const commitInfos = await this.toCommitInfos(commits);
-
-    // Step 3: Download PR data (remote)
-    await this.downloadIssueData(commitInfos);
-
-    return commitInfos;
   }
 
   async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
