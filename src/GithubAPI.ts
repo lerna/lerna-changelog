@@ -31,12 +31,7 @@ export default class GithubAPI {
   }
 
   async _get(type: string, key: string): Promise<any> {
-    let data = this.cache.get(type, key);
-    if (!data) {
-      data = await this._fetch(type, key);
-      this.cache.set(type, key, data);
-    }
-    return data;
+    return this.cache.getOrRequest(type, key, () => this._fetch(type, key));
   }
 
   async _fetch(type: string, key: string): Promise<any> {

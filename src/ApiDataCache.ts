@@ -30,6 +30,15 @@ export default class ApiDataCache {
     }
   }
 
+  async getOrRequest<T>(type: string, key: string, fn: () => Promise<T>): Promise<T> {
+    let data = this.get(type, key);
+    if (!data) {
+      data = await fn();
+      this.set(type, key, data);
+    }
+    return data;
+  }
+
   set(type: string, key: string, data: any) {
     if (!this.dir) return;
     return fs.writeFileSync(this.fn(type, key), JSON.stringify(data, null, 2));
