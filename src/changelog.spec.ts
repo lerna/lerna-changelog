@@ -79,80 +79,7 @@ describe("Changelog", () => {
       const changelog = new MockedChangelog();
       const commitsInfo = await changelog.getCommitInfos();
 
-      expect(commitsInfo).toEqual([
-        {
-          commitSHA: "a0000005",
-          date: "2017-01-01",
-          message: "chore(release): releasing component",
-          tags: ["v0.2.0"],
-          issueNumber: null,
-          packages: [],
-        },
-        {
-          commitSHA: "a0000004",
-          date: "2017-01-01",
-          message: "Merge pull request #2 from my-feature",
-          tags: undefined,
-          issueNumber: "2",
-          packages: [],
-          githubIssue: {
-            labels: [
-              { name: "Type: New Feature" },
-              { name: "Status: In Progress" },
-            ],
-            number: 2,
-            title: "This is the commit title for the issue (#2)",
-            user: {
-              html_url: "https://github.com/test-user",
-              login: "test-user",
-              name: "Test User",
-            },
-          },
-          categories: [
-            ":rocket: New Feature",
-          ],
-        },
-        {
-          commitSHA: "a0000003",
-          date: "2017-01-01",
-          message: "feat(module) Add new module (#2)",
-          tags: undefined,
-          issueNumber: "2",
-          packages: [],
-          githubIssue: {
-            labels: [
-              { name: "Type: New Feature" },
-              { name: "Status: In Progress" },
-            ],
-            number: 2,
-            title: "This is the commit title for the issue (#2)",
-            user: {
-              html_url: "https://github.com/test-user",
-              login: "test-user",
-              name: "Test User",
-            },
-          },
-          categories: [
-            ":rocket: New Feature",
-          ],
-        },
-        {
-          commitSHA: "a0000002",
-          date: "2017-01-01",
-          message: "refactor(module) Simplify implementation",
-          tags: undefined,
-          issueNumber: null,
-          packages: [],
-        },
-        {
-          commitSHA: "a0000001",
-          date: "2017-01-01",
-          message: "chore(release): releasing component",
-          tags: ["v0.1.0"],
-          issueNumber: null,
-          packages: [],
-        },
-      ]);
+      expect(commitsInfo).toMatchSnapshot();
     });
   });
 
@@ -169,25 +96,7 @@ describe("Changelog", () => {
       ];
       const commitsByCategory = changelog.groupByCategory(testCommits);
 
-      expect(commitsByCategory).toEqual([
-        {
-          name: ":rocket: New Feature",
-          commits: [
-            { commitSHA: "a0000003", categories: [":rocket: New Feature"] },
-          ],
-        },
-        { name: ":boom: Breaking Change", commits: [] },
-        {
-          name: ":bug: Bug Fix",
-          commits: [
-            { commitSHA: "a0000004", categories: [":bug: Bug Fix"] },
-            { commitSHA: "a0000001", categories: [":bug: Bug Fix"] },
-          ],
-        },
-        { name: ":nail_care: Enhancement", commits: [] },
-        { name: ":memo: Documentation", commits: [] },
-        { name: ":house: Maintenance", commits: [] }
-      ]);
+      expect(commitsByCategory).toMatchSnapshot();
     });
   });
 
