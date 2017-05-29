@@ -1,4 +1,3 @@
-import progressBar from "./progress-bar";
 import {GitHubUserResponse} from "./github-api";
 import {CommitInfo, Release} from "./interfaces";
 
@@ -41,11 +40,7 @@ export default class MarkdownRenderer {
 
     let markdown = `## ${releaseTitle} (${release.date})`;
 
-    progressBar.init(categories.length);
-
     for (const category of categoriesWithCommits) {
-      progressBar.setTitle(category.name || "Other");
-
       markdown += `\n\n#### ${category.name}\n`;
 
       if (this.hasPackages(category.commits)) {
@@ -53,11 +48,7 @@ export default class MarkdownRenderer {
       } else {
         markdown += this.renderContributionList(category.commits);
       }
-
-      progressBar.tick();
     }
-
-    progressBar.terminate();
 
     if (release.contributors) {
       markdown += `\n\n${this.renderContributorList(release.contributors)}`;
