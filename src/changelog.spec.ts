@@ -145,10 +145,15 @@ describe("Changelog", () => {
       ];
       const committers = await changelog.getCommitters(testCommits);
 
-      expect(committers).toEqual([
-        "Test User 1 ([test-user-1](https://github.com/test-user-1))",
-        "Test User 2 ([test-user-2](https://github.com/test-user-2))"
-      ]);
+      expect(committers).toEqual([{
+        login: "test-user-1",
+        html_url: "https://github.com/test-user-1",
+        name: "Test User 1"
+      }, {
+        login: "test-user-2",
+        html_url: "https://github.com/test-user-2",
+        name: "Test User 2"
+      }]);
     });
   });
 });

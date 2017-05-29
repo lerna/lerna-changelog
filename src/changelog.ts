@@ -5,7 +5,7 @@ import RemoteRepo         from "./remote-repo";
 import * as Configuration from "./configuration";
 import findPullRequestId  from "./find-pull-request-id";
 import * as Git from "./git";
-import {GitHubIssueResponse} from "./github-api";
+import {GitHubIssueResponse, GitHubUserResponse} from "./github-api";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
@@ -25,6 +25,7 @@ interface Release {
   name: string;
   date: string;
   commits: CommitInfo[];
+  contributors?: GitHubUserResponse[];
 }
 
 interface CategoryInfo {
@@ -75,7 +76,12 @@ export default class Changelog {
     const commits = await this.getCommitInfos();
 
     // Step 6: Group commits by release (local)
-    return this.groupByRelease(commits);
+    let releases = this.groupByRelease(commits);
+
+    // Step 7: Compile list of committers in release (local + remote)
+    await this.fillInContributors(releases);
+
+    return releases;
   }
 
   async createMarkdown() {
@@ -88,15 +94,12 @@ export default class Changelog {
     let markdown = "\n";
 
     for (const release of releases) {
-      // Step 7: Group commits in release by category (local)
+      // Step 8: Group commits in release by category (local)
       const categories = this.groupByCategory(release.commits);
       const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
       // Skip this iteration if there are no commits available for the release
       if (categoriesWithCommits.length === 0) continue;
-
-      // Step 8: Compile list of committers in release (local + remote)
-      const committers = await this.getCommitters(release.commits);
 
       const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
       markdown += `## ${releaseTitle} (${release.date})`;
@@ -162,8 +165,16 @@ export default class Changelog {
 
       progressBar.terminate();
 
-      markdown += `\n\n#### Committers: ${committers.length}\n`;
-      markdown += committers.map((commiter) => `- ${commiter}`).join("\n");
+      let contributors: GitHubUserResponse[] = release.contributors || [];
+      markdown += `\n\n#### Committers: ${contributors.length}\n`;
+      markdown += contributors.map((contributor) => {
+        const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
+        if (contributor.name) {
+          return `- ${contributor.name} (${userNameAndLink})`;
+        } else {
+          return `- ${userNameAndLink}`;
+        }
+      }).sort().join("\n");
       markdown += "\n\n\n";
     }
 
@@ -193,8 +204,8 @@ export default class Changelog {
     return Git.listCommits(tagFrom, this.tagTo);
   }
 
-  async getCommitters(commits: CommitInfo[]): Promise<string[]> {
-    const committers: { [id: string]: string } = {};
+  async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
+    const committers: { [id: string]: GitHubUserResponse } = {};
 
     for (const commit of commits) {
       const issue = commit.githubIssue;
@@ -203,17 +214,11 @@ export default class Changelog {
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && !this.ignoreCommitter(login);
       if (login && shouldKeepCommiter && !committers[login]) {
-        const user = await this.remote.getUserData(login);
-        const userNameAndLink = `[${login}](${user.html_url})`;
-        if (user.name) {
-          committers[login] = `${user.name} (${userNameAndLink})`;
-        } else {
-          committers[login] = userNameAndLink;
-        }
+        committers[login] = await this.remote.getUserData(login);
       }
     }
 
-    return Object.keys(committers).map((k) => committers[k]).sort();
+    return Object.keys(committers).map((k) => committers[k]);
   }
 
   ignoreCommitter(login: string): boolean {
@@ -329,6 +334,12 @@ export default class Changelog {
   fillInPackages(commits: CommitInfo[]) {
     for (const commit of commits) {
       commit.packages = this.getListOfUniquePackages(commit.commitSHA);
+    }
+  }
+
+  async fillInContributors(releases: Release[]) {
+    for (const release of releases) {
+      release.contributors = await this.getCommitters(release.commits);
     }
   }
 }
