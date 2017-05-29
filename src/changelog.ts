@@ -5,28 +5,11 @@ import RemoteRepo         from "./remote-repo";
 import * as Configuration from "./configuration";
 import findPullRequestId  from "./find-pull-request-id";
 import * as Git from "./git";
-import {GitHubIssueResponse, GitHubUserResponse} from "./github-api";
+import {GitHubUserResponse} from "./github-api";
+import {CommitInfo, Release} from "./interfaces";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
-
-interface CommitInfo {
-  commitSHA: string;
-  message: string;
-  tags?: string[];
-  date: string;
-  issueNumber: string | null;
-  githubIssue?: GitHubIssueResponse;
-  categories?: string[];
-  packages?: string[];
-}
-
-interface Release {
-  name: string;
-  date: string;
-  commits: CommitInfo[];
-  contributors?: GitHubUserResponse[];
-}
 
 interface CategoryInfo {
   name: string | undefined;
