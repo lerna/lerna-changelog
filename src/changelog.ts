@@ -73,24 +73,21 @@ export default class Changelog {
 
     for (const release of releases) {
       // Step 5: Group commits in release by category (local)
-      const commitsByCategory = this.getCommitsByCategory(release.commits);
+      const categories = this.groupByCategory(release.commits);
 
       // Step 6: Compile list of committers in release (local + remote)
       const committers = await this.getCommitters(release.commits);
 
       // Skip this iteration if there are no commits available for the release
-      const hasCommitsForCurrentTag = commitsByCategory.some(
-        (category) => category.commits.length > 0
-      );
+      const hasCommitsForCurrentTag = categories.some((category) => category.commits.length > 0);
       if (!hasCommitsForCurrentTag) continue;
 
       const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
       markdown += `## ${releaseTitle} (${release.date})`;
 
-      progressBar.init(commitsByCategory.length);
+      progressBar.init(categories.length);
 
-      const categoriesWithCommits = commitsByCategory
-        .filter((category) => category.commits.length > 0);
+      const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
       for (const category of categoriesWithCommits) {
         progressBar.setTitle(category.heading || "Other");
@@ -283,7 +280,7 @@ export default class Changelog {
     return Object.keys(releaseMap).map((tag) => releaseMap[tag]);
   }
 
-  getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
+  groupByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
     const { labels } = this.config;
 
     return Object.keys(labels).map((label) => {

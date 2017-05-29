@@ -145,7 +145,7 @@ describe("Changelog", () => {
     });
   });
 
-  describe("getCommitsByCategory", () => {
+  describe("groupByCategory", () => {
     it("group commits by category", () => {
       const MockedChangelog = require("./changelog").default;
       const changelog = new MockedChangelog();
@@ -164,7 +164,7 @@ describe("Changelog", () => {
         { commitSHA: "a0000002", githubIssue: { labels: [] }},
         { commitSHA: "a0000001", githubIssue: { labels: [] }}
       ];
-      const commitsByCategory = changelog.getCommitsByCategory(testCommits);
+      const commitsByCategory = changelog.groupByCategory(testCommits);
 
       expect(commitsByCategory).toEqual([
         {
