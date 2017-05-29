@@ -23,45 +23,47 @@ export default class MarkdownRenderer {
   }
 
   renderMarkdown(releases: Release[]) {
-    let markdown = "\n";
+    return `\n${releases
+      .map((release) => this.renderRelease(release))
+      .filter(Boolean)
+      .join("\n\n\n")}`;
+  }
 
-    for (const release of releases) {
-      // Step 8: Group commits in release by category (local)
-      const categories = this.groupByCategory(release.commits);
-      const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
+  renderRelease(release: Release): string | undefined {
+    // Group commits in release by category
+    const categories = this.groupByCategory(release.commits);
+    const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
-      // Skip this iteration if there are no commits available for the release
-      if (categoriesWithCommits.length === 0) continue;
+    // Skip this iteration if there are no commits available for the release
+    if (categoriesWithCommits.length === 0) return "";
 
-      const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
-      markdown += `## ${releaseTitle} (${release.date})`;
+    const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
 
-      progressBar.init(categories.length);
+    let markdown = `## ${releaseTitle} (${release.date})`;
 
-      for (const category of categoriesWithCommits) {
-        progressBar.setTitle(category.name || "Other");
+    progressBar.init(categories.length);
 
-        markdown += `\n\n#### ${category.name}\n`;
+    for (const category of categoriesWithCommits) {
+      progressBar.setTitle(category.name || "Other");
 
-        if (this.hasPackages(category.commits)) {
-          markdown += this.renderContributionsByPackage(category.commits);
-        } else {
-          markdown += this.renderContributionList(category.commits);
-        }
+      markdown += `\n\n#### ${category.name}\n`;
 
-        progressBar.tick();
+      if (this.hasPackages(category.commits)) {
+        markdown += this.renderContributionsByPackage(category.commits);
+      } else {
+        markdown += this.renderContributionList(category.commits);
       }
 
-      progressBar.terminate();
-
-      if (release.contributors) {
-        markdown += `\n\n${this.renderContributorList(release.contributors)}`;
-      }
-
-      markdown += "\n\n\n";
+      progressBar.tick();
     }
 
-    return markdown.substring(0, markdown.length - 3);
+    progressBar.terminate();
+
+    if (release.contributors) {
+      markdown += `\n\n${this.renderContributorList(release.contributors)}`;
+    }
+
+    return markdown;
   }
 
   hasPackages(commits: CommitInfo[]) {
