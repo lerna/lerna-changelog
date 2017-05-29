@@ -50,8 +50,7 @@ Array [
 `;
 
 exports[`MarkdownRenderer renderContributionList renders a list of contributions 1`] = `
-"
-* My cool PR. ([@hzoo](http://hzoo.com))
+"* My cool PR. ([@hzoo](http://hzoo.com))
 * [#42](http://github.com/42) My cool PR. ([@hzoo](http://hzoo.com))"
 `;
 

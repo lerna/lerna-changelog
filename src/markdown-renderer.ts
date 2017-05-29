@@ -68,7 +68,7 @@ export default class MarkdownRenderer {
           const commits = commitsByPackage[packageName];
 
           if (!onlyOtherPackage) {
-            markdown += `\n* ${packageName}`;
+            markdown += `\n* ${packageName}\n`;
           }
 
           markdown += this.renderContributionList(commits, contributionPrefix);
@@ -90,14 +90,11 @@ export default class MarkdownRenderer {
   }
 
   renderContributionList(commits: CommitInfo[], prefix: string = ""): string {
-    let markdown = "";
-    for (const commit of commits) {
-      const rendered = this.renderContribution(commit);
-      if (rendered) {
-        markdown += `\n${prefix}* ${rendered}`;
-      }
-    }
-    return markdown;
+    return commits
+      .map((commit) => this.renderContribution(commit))
+      .filter(Boolean)
+      .map((rendered) => `${prefix}* ${rendered}`)
+      .join("\n");
   }
 
   renderContribution(commit: CommitInfo): string | undefined {
