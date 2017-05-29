@@ -27,7 +27,7 @@ interface Release {
 }
 
 interface CategoryInfo {
-  heading: string | undefined;
+  name: string | undefined;
   commits: CommitInfo[];
 }
 
@@ -92,7 +92,7 @@ export default class Changelog {
       progressBar.init(categories.length);
 
       for (const category of categoriesWithCommits) {
-        progressBar.setTitle(category.heading || "Other");
+        progressBar.setTitle(category.name || "Other");
 
         // Step 8: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = {};
@@ -110,7 +110,7 @@ export default class Changelog {
 
         markdown += "\n";
         markdown += "\n";
-        markdown += `#### ${category.heading}`;
+        markdown += `#### ${category.name}`;
 
         const headings = Object.keys(commitsByPackage);
         const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
@@ -286,14 +286,14 @@ export default class Changelog {
     const { labels } = this.config;
 
     return Object.keys(labels).map((label) => {
-      let heading = labels[label];
+      let name = labels[label];
 
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
       let commits = allCommits
-        .filter((commit) => commit.categories && commit.categories.indexOf(heading) !== -1);
+        .filter((commit) => commit.categories && commit.categories.indexOf(name) !== -1);
 
-      return { heading, commits };
+      return { name, commits };
     });
   }
 

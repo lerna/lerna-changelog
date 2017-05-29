@@ -166,22 +166,22 @@ describe("Changelog", () => {
 
       expect(commitsByCategory).toEqual([
         {
-          heading: ":rocket: New Feature",
+          name: ":rocket: New Feature",
           commits: [
             { commitSHA: "a0000003", categories: [":rocket: New Feature"] },
           ],
         },
-        { heading: ":boom: Breaking Change", commits: [] },
+        { name: ":boom: Breaking Change", commits: [] },
         {
-          heading: ":bug: Bug Fix",
+          name: ":bug: Bug Fix",
           commits: [
             { commitSHA: "a0000004", categories: [":bug: Bug Fix"] },
             { commitSHA: "a0000001", categories: [":bug: Bug Fix"] },
           ],
         },
-        { heading: ":nail_care: Enhancement", commits: [] },
-        { heading: ":memo: Documentation", commits: [] },
-        { heading: ":house: Maintenance", commits: [] }
+        { name: ":nail_care: Enhancement", commits: [] },
+        { name: ":memo: Documentation", commits: [] },
+        { name: ":house: Maintenance", commits: [] }
       ]);
     });
   });
