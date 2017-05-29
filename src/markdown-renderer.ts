@@ -43,10 +43,10 @@ export default class MarkdownRenderer {
 
         markdown += `\n\n#### ${category.name}\n`;
 
-        if (!this.hasPackages(category.commits)) {
-          markdown += this.renderContributionList(category.commits);
-        } else {
+        if (this.hasPackages(category.commits)) {
           markdown += this.renderContributionsByPackage(category.commits);
+        } else {
+          markdown += this.renderContributionList(category.commits);
         }
 
         progressBar.tick();
