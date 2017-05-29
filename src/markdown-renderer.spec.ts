@@ -77,6 +77,36 @@ describe("MarkdownRenderer", () => {
     });
   });
 
+  describe("renderContributor", () => {
+    let renderer: MarkdownRenderer;
+    beforeEach(function() {
+      renderer = new MarkdownRenderer({
+        baseIssueUrl: 'http://foo.bar/',
+        categories: [],
+      });
+    });
+
+    it(`renders GitHub user without name`, () => {
+      const result = renderer.renderContributor({
+        login: 'foo',
+        name: '',
+        html_url: 'http://github.com/foo',
+      });
+
+      expect(result).toEqual("[foo](http://github.com/foo)");
+    });
+
+    it(`renders GitHub user with name`, () => {
+      const result = renderer.renderContributor({
+        login: 'foo',
+        name: 'Foo Bar',
+        html_url: 'http://github.com/foo',
+      });
+
+      expect(result).toEqual("Foo Bar ([foo](http://github.com/foo))");
+    });
+  });
+
   describe("groupByCategory", () => {
     it("group commits by category", () => {
       const renderer = new MarkdownRenderer({

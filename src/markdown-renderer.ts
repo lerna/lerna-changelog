@@ -86,14 +86,7 @@ export default class MarkdownRenderer {
 
       let contributors: GitHubUserResponse[] = release.contributors || [];
       markdown += `\n\n#### Committers: ${contributors.length}\n`;
-      markdown += contributors.map((contributor) => {
-        const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
-        if (contributor.name) {
-          return `- ${contributor.name} (${userNameAndLink})`;
-        } else {
-          return `- ${userNameAndLink}`;
-        }
-      }).sort().join("\n");
+      markdown += contributors.map((contributor) => `- ${this.renderContributor(contributor)}`).sort().join("\n");
       markdown += "\n\n\n";
     }
 
@@ -120,6 +113,15 @@ export default class MarkdownRenderer {
       markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
 
       return markdown;
+    }
+  }
+
+  renderContributor(contributor: GitHubUserResponse): string {
+    const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
+    if (contributor.name) {
+      return `${contributor.name} (${userNameAndLink})`;
+    } else {
+      return userNameAndLink;
     }
   }
 
