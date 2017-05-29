@@ -2,7 +2,7 @@ jest.mock("../src/progress-bar");
 jest.mock("../src/api-data-cache");
 jest.mock("../src/changelog");
 jest.mock("../src/github-api");
-jest.mock("../src/exec-sync");
+jest.mock("./git");
 
 describe("Changelog", () => {
   describe("contructor", () => {
@@ -33,23 +33,25 @@ describe("Changelog", () => {
 
   describe("getCommitInfos", () => {
     beforeEach(() => {
-      require("./exec-sync").__resetDefaults();
       require("./api-data-cache").__resetDefaults();
 
-      require("./exec-sync").__mockGitLog(
-        "a0000005;HEAD -> master, tag: v0.2.0, origin/master, " +
-        "origin/HEAD;chore(release): releasing component;2017-01-01\n" +
-        "a0000004;;Merge pull request #2 from my-feature;2017-01-01\n" +
-        "a0000003;;feat(module) Add new module (#2);2017-01-01\n" +
-        "a0000002;;refactor(module) Simplify implementation;2017-01-01\n" +
-        "a0000001;tag: v0.1.0;chore(release): releasing component;2017-01-01"
-      );
-      require("./exec-sync").__mockGitTag(
-        "v0.2.0\n" +
-        "v0.1.1\n" +
-        "v0.1.0\n" +
-        "v0.0.1"
-      );
+      require("./git").listCommits.mockImplementation(() => [
+        { sha: "a0000005", refName:"HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD", summary: "chore(release): releasing component", date: "2017-01-01" },
+        { sha: "a0000004", refName:"", summary: "Merge pull request #2 from my-feature", date: "2017-01-01" },
+        { sha: "a0000003", refName:"", summary: "feat(module) Add new module (#2)", date: "2017-01-01" },
+        { sha: "a0000002", refName:"", summary: "refactor(module) Simplify implementation", date: "2017-01-01" },
+        { sha: "a0000001", refName:"tag: v0.1.0", summary: "chore(release): releasing component", date: "2017-01-01" },
+      ]);
+
+      require("./git").listTagNames.mockImplementation(() => [
+        "v0.2.0",
+        "v0.1.1",
+        "v0.1.0",
+        "v0.0.1",
+      ]);
+
+      require("./git").changedPaths.mockImplementation(() => []);
+
       const usersCache = {
         "test-user": {
           login: "test-user",
@@ -72,6 +74,10 @@ describe("Changelog", () => {
         users: usersCache,
         "repos/lerna/lerna-changelog/issues": issuesCache,
       });
+    });
+
+    afterEach(() => {
+      jest.resetAllMocks();
     });
 
     it("parse commits with different tags", async () => {
