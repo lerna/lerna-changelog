@@ -61,6 +61,7 @@ export default class MarkdownRenderer {
 
         const packageNames = Object.keys(commitsByPackage);
         const onlyOtherPackage = packageNames.length === 1 && packageNames[0] === "Other";
+        const contributionPrefix = onlyOtherPackage ? "" : "  ";
 
         // Step 10: Print commits
         for (const packageName of packageNames) {
@@ -73,8 +74,7 @@ export default class MarkdownRenderer {
           for (const commit of commits) {
             const rendered = this.renderContribution(commit);
             if (rendered) {
-              const prefix = onlyOtherPackage ? "" : "  ";
-              markdown += `\n${prefix}* ${rendered}`;
+              markdown += `\n${contributionPrefix}* ${rendered}`;
             }
           }
         }
