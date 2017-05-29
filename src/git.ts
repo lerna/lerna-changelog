@@ -4,10 +4,16 @@ export function changedPaths(sha: string): string[] {
   return execSync(`git show -m --name-only --pretty='format:' --first-parent ${sha}`).split("\n");
 }
 
+/**
+ * All existing tags in the repository
+ */
 export function listTagNames(): string[] {
   return execSync("git tag").split("\n").filter(Boolean);
 }
 
+/**
+ * The latest reachable tag starting from HEAD
+ */
 export function lastTag(): string {
   return execSync("git describe --abbrev=0 --tags");
 }
