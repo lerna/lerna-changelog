@@ -41,13 +41,13 @@ export default class MarkdownRenderer {
       for (const category of categoriesWithCommits) {
         progressBar.setTitle(category.name || "Other");
 
-        markdown += `\n\n#### ${category.name}`;
+        markdown += `\n\n#### ${category.name}\n`;
 
         const hasPackages = category.commits
           .some((commit) => commit.packages !== undefined && commit.packages.length > 0);
 
         if (!hasPackages) {
-          markdown += `\n${this.renderContributionList(category.commits)}`;
+          markdown += this.renderContributionList(category.commits);
           continue;
         }
 
@@ -68,11 +68,10 @@ export default class MarkdownRenderer {
         const packageNames = Object.keys(commitsByPackage);
 
         // Step 10: Print commits
-        for (const packageName of packageNames) {
+        markdown += packageNames.map((packageName) => {
           const commits = commitsByPackage[packageName];
-
-          markdown += `\n* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
-        }
+          return `* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
+        }).join("\n");
 
         progressBar.tick();
       }
