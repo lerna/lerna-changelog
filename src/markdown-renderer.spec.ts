@@ -1,6 +1,50 @@
 import MarkdownRenderer from "./markdown-renderer";
 import {CommitInfo} from "./interfaces";
 
+const BASIC_COMMIT = {
+  githubIssue: {
+    title: 'My cool PR',
+    user: {
+      login: 'hzoo',
+      html_url: 'http://hzoo.com',
+    },
+  },
+} as CommitInfo;
+
+const COMMIT_WITH_NUMBER = {
+  githubIssue: {
+    title: 'My cool PR',
+    user: {
+      login: 'hzoo',
+      html_url: 'http://hzoo.com',
+    },
+    number: 42,
+    pull_request: {
+      html_url: 'http://github.com/42',
+    },
+  },
+} as CommitInfo;
+
+const COMMIT_WITH_GH_ISSUE_REF = {
+  githubIssue: {
+    title: 'My cool PR (resolved #123)',
+    user: {
+      login: 'hzoo',
+      html_url: 'http://hzoo.com',
+    },
+  },
+} as CommitInfo;
+
+const COMMIT_WITH_PHAB_ISSUE_REF = {
+  githubIssue: {
+    title: 'My cool PR (resolved T42)',
+    user: {
+      login: 'hzoo',
+      html_url: 'http://hzoo.com',
+    },
+  },
+} as CommitInfo;
+
 describe("MarkdownRenderer", () => {
   describe("renderContribution", () => {
     let renderer: MarkdownRenderer;
@@ -17,62 +61,22 @@ describe("MarkdownRenderer", () => {
     });
 
     it(`renders basic GitHub PRs`, () => {
-      const result = renderer.renderContribution({
-        githubIssue: {
-          title: 'My cool PR',
-          user: {
-            login: 'hzoo',
-            html_url: 'http://hzoo.com',
-          },
-        },
-      } as CommitInfo);
-
+      const result = renderer.renderContribution(BASIC_COMMIT);
       expect(result).toEqual("My cool PR. ([@hzoo](http://hzoo.com))");
     });
 
     it(`renders GitHub PRs with numbers`, () => {
-      const result = renderer.renderContribution({
-        githubIssue: {
-          title: 'My cool PR',
-          user: {
-            login: 'hzoo',
-            html_url: 'http://hzoo.com',
-          },
-          number: 42,
-          pull_request: {
-            html_url: 'http://github.com/42',
-          },
-        },
-      } as CommitInfo);
-
+      const result = renderer.renderContribution(COMMIT_WITH_NUMBER);
       expect(result).toEqual("[#42](http://github.com/42) My cool PR. ([@hzoo](http://hzoo.com))");
     });
 
     it(`normalizes GitHub issue references`, () => {
-      const result = renderer.renderContribution({
-        githubIssue: {
-          title: 'My cool PR (resolved #123)',
-          user: {
-            login: 'hzoo',
-            html_url: 'http://hzoo.com',
-          },
-        },
-      } as CommitInfo);
-
+      const result = renderer.renderContribution(COMMIT_WITH_GH_ISSUE_REF);
       expect(result).toEqual("My cool PR (Closes [#123](http://foo.bar/123)). ([@hzoo](http://hzoo.com))");
     });
 
     it(`normalizes Phabricator issue references`, () => {
-      const result = renderer.renderContribution({
-        githubIssue: {
-          title: 'My cool PR (resolved T42)',
-          user: {
-            login: 'hzoo',
-            html_url: 'http://hzoo.com',
-          },
-        },
-      } as CommitInfo);
-
+      const result = renderer.renderContribution(COMMIT_WITH_PHAB_ISSUE_REF);
       expect(result).toEqual("My cool PR (Closes [#42](http://foo.bar/42)). ([@hzoo](http://hzoo.com))");
     });
   });
