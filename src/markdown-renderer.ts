@@ -43,6 +43,14 @@ export default class MarkdownRenderer {
 
         markdown += `\n\n#### ${category.name}`;
 
+        const hasPackages = category.commits
+          .some((commit) => commit.packages !== undefined && commit.packages.length > 0);
+
+        if (!hasPackages) {
+          markdown += `\n${this.renderContributionList(category.commits)}`;
+          continue;
+        }
+
         // Step 9: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = {};
         for (const commit of category.commits) {
@@ -58,18 +66,12 @@ export default class MarkdownRenderer {
         }
 
         const packageNames = Object.keys(commitsByPackage);
-        const onlyOtherPackage = packageNames.length === 1 && packageNames[0] === "Other";
-        const contributionPrefix = onlyOtherPackage ? "" : "  ";
 
         // Step 10: Print commits
         for (const packageName of packageNames) {
           const commits = commitsByPackage[packageName];
 
-          if (!onlyOtherPackage) {
-            markdown += `\n* ${packageName}\n`;
-          }
-
-          markdown += this.renderContributionList(commits, contributionPrefix);
+          markdown += `\n* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
         }
 
         progressBar.tick();
