@@ -48,8 +48,8 @@ export default class MarkdownRenderer {
           const changedPackages = commit.packages || [];
 
           const packageName = changedPackages.length > 0
-            ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
-            : "* Other";
+            ? changedPackages.map((pkg) => `\`${pkg}\``).join(", ")
+            : "Other";
 
           commitsByPackage[packageName] = commitsByPackage[packageName] || [];
           commitsByPackage[packageName].push(commit);
@@ -60,14 +60,14 @@ export default class MarkdownRenderer {
         markdown += `#### ${category.name}`;
 
         const packageNames = Object.keys(commitsByPackage);
-        const onlyOtherPackage = packageNames.length === 1 && packageNames[0] === "* Other";
+        const onlyOtherPackage = packageNames.length === 1 && packageNames[0] === "Other";
 
         // Step 10: Print commits
         for (const packageName of packageNames) {
           const commits = commitsByPackage[packageName];
 
           if (!onlyOtherPackage) {
-            markdown += `\n${packageName}`;
+            markdown += `\n* ${packageName}`;
           }
 
           for (const commit of commits) {
