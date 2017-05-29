@@ -106,6 +106,9 @@ describe("Changelog", () => {
               name: "Test User",
             },
           },
+          categories: [
+            ":rocket: New Feature",
+          ],
         },
         {
           commitSHA: "a0000003",
@@ -126,6 +129,9 @@ describe("Changelog", () => {
               name: "Test User",
             },
           },
+          categories: [
+            ":rocket: New Feature",
+          ],
         },
         {
           commitSHA: "a0000002",
@@ -150,52 +156,32 @@ describe("Changelog", () => {
       const MockedChangelog = require("./changelog").default;
       const changelog = new MockedChangelog();
       const testCommits = [
-        { commitSHA: "a0000005", githubIssue: { labels: [{ name: "Status: In Progress" }] }},
-        { commitSHA: "a0000004", githubIssue: { labels: [{ name: "Type: Bug" }] }},
-        {
-          commitSHA: "a0000003",
-          githubIssue: {
-            labels: [
-              { name: "Type: New Feature" },
-              { name: "Status: In Progress" },
-            ]
-          }
-        },
-        { commitSHA: "a0000002", githubIssue: { labels: [] }},
-        { commitSHA: "a0000001", githubIssue: { labels: [] }}
+        { commitSHA: "a0000005", categories: [] },
+        { commitSHA: "a0000004", categories: [":bug: Bug Fix"] },
+        { commitSHA: "a0000003", categories: [":rocket: New Feature"] },
+        { commitSHA: "a0000002", categories: [] },
+        { commitSHA: "a0000001", categories: [":bug: Bug Fix"] },
       ];
       const commitsByCategory = changelog.groupByCategory(testCommits);
 
       expect(commitsByCategory).toEqual([
         {
+          heading: ":rocket: New Feature",
           commits: [
-            {
-              commitSHA: "a0000003",
-              githubIssue: {
-                labels: [
-                  { name: "Type: New Feature" },
-                  { name: "Status: In Progress" }
-                ]
-              }
-            }
+            { commitSHA: "a0000003", categories: [":rocket: New Feature"] },
           ],
-          heading: ":rocket: New Feature"
         },
-        { commits: [], heading: ":boom: Breaking Change" },
+        { heading: ":boom: Breaking Change", commits: [] },
         {
+          heading: ":bug: Bug Fix",
           commits: [
-            {
-              commitSHA: "a0000004",
-              githubIssue: {
-                labels: [{name: "Type: Bug"}]
-              }
-            }
+            { commitSHA: "a0000004", categories: [":bug: Bug Fix"] },
+            { commitSHA: "a0000001", categories: [":bug: Bug Fix"] },
           ],
-          heading: ":bug: Bug Fix"
         },
-        { commits: [], heading: ":nail_care: Enhancement" },
-        { commits: [], heading: ":memo: Documentation" },
-        { commits: [], heading: ":house: Maintenance" }
+        { heading: ":nail_care: Enhancement", commits: [] },
+        { heading: ":memo: Documentation", commits: [] },
+        { heading: ":house: Maintenance", commits: [] }
       ]);
     });
   });

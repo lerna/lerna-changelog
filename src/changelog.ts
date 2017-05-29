@@ -17,6 +17,7 @@ interface CommitInfo {
   date: string;
   issueNumber: string | null;
   githubIssue?: GitHubIssueResponse;
+  categories?: string[];
 }
 
 interface Release {
@@ -59,6 +60,9 @@ export default class Changelog {
     // Step 3: Download PR data (remote)
     await this.downloadIssueData(commitInfos);
 
+    // Step 4: Fill in categories from remote labels (local)
+    this.fillInCategories(commitInfos);
+
     return commitInfos;
   }
 
@@ -68,18 +72,18 @@ export default class Changelog {
     // Get all info about commits in a certain tags range
     const commitsInfo = await this.getCommitInfos();
 
-    // Step 4: Group commits by release (local)
+    // Step 5: Group commits by release (local)
     const releases = await this.groupByRelease(commitsInfo);
 
     for (const release of releases) {
-      // Step 5: Group commits in release by category (local)
+      // Step 6: Group commits in release by category (local)
       const categories = this.groupByCategory(release.commits);
       const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
       // Skip this iteration if there are no commits available for the release
       if (categoriesWithCommits.length === 0) continue;
 
-      // Step 6: Compile list of committers in release (local + remote)
+      // Step 7: Compile list of committers in release (local + remote)
       const committers = await this.getCommitters(release.commits);
 
       const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
@@ -90,7 +94,7 @@ export default class Changelog {
       for (const category of categoriesWithCommits) {
         progressBar.setTitle(category.heading || "Other");
 
-        // Step 7: Group commits in category by package (local)
+        // Step 8: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = {};
         for (const commit of category.commits) {
           // Array of unique packages.
@@ -111,7 +115,7 @@ export default class Changelog {
         const headings = Object.keys(commitsByPackage);
         const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
 
-        // Step 8: Print commits
+        // Step 9: Print commits
         for (const heading of headings) {
           const commits = commitsByPackage[heading];
 
@@ -229,7 +233,7 @@ export default class Changelog {
         // will be kept in the changelog.
         tags: tagsInCommit,
         issueNumber,
-        date
+        date,
       } as CommitInfo;
     });
   }
@@ -287,7 +291,7 @@ export default class Changelog {
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
       let commits = allCommits
-        .filter((commit) => commit.githubIssue && commit.githubIssue.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
+        .filter((commit) => commit.categories && commit.categories.indexOf(heading) !== -1);
 
       return { heading, commits };
     });
@@ -296,6 +300,18 @@ export default class Changelog {
   getToday() {
     const date = new Date().toISOString();
     return date.slice(0, date.indexOf("T"));
+  }
+
+  fillInCategories(commits: CommitInfo[]) {
+    for (const commit of commits) {
+      if (!commit.githubIssue) continue;
+
+      const labels = commit.githubIssue.labels.map((label) => label.name.toLowerCase());
+
+      commit.categories = Object.keys(this.config.labels)
+        .filter((label) => labels.indexOf(label.toLowerCase()) !== -1)
+        .map((label) => this.config.labels[label]);
+    }
   }
 }
 
