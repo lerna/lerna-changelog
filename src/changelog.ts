@@ -75,7 +75,7 @@ export default class Changelog {
     const commits = await this.getCommitInfos();
 
     // Step 6: Group commits by release (local)
-    return await this.groupByRelease(commits);
+    return this.groupByRelease(commits);
   }
 
   async createMarkdown() {
@@ -260,7 +260,7 @@ export default class Changelog {
     progressBar.terminate();
   }
 
-  async groupByRelease(commits: CommitInfo[]): Promise<Release[]> {
+  groupByRelease(commits: CommitInfo[]): Release[] {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
