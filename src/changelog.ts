@@ -70,14 +70,18 @@ export default class Changelog {
     return commitInfos;
   }
 
+  async listReleases(): Promise<Release[]> {
+    // Get all info about commits in a certain tags range
+    const commits = await this.getCommitInfos();
+
+    // Step 6: Group commits by release (local)
+    return await this.groupByRelease(commits);
+  }
+
   async createMarkdown() {
     let markdown = "\n";
 
-    // Get all info about commits in a certain tags range
-    const commitsInfo = await this.getCommitInfos();
-
-    // Step 6: Group commits by release (local)
-    const releases = await this.groupByRelease(commitsInfo);
+    const releases = await this.listReleases();
 
     for (const release of releases) {
       // Step 7: Group commits in release by category (local)
