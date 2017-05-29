@@ -49,7 +49,7 @@ export default class Changelog {
     this.fillInCategories(commitInfos);
 
     // Step 5: Fill in packages (local)
-    this.fillInPackages(commitInfos);
+    await this.fillInPackages(commitInfos);
 
     return commitInfos;
   }
@@ -73,8 +73,8 @@ export default class Changelog {
     return this.renderer.renderMarkdown(releases);
   }
 
-  getListOfUniquePackages(sha: string): string[] {
-    return Git.changedPaths(sha)
+  async getListOfUniquePackages(sha: string): Promise<string[]> {
+    return (await Git.changedPaths(sha))
       .map((path: string) => path.indexOf("packages/") === 0 ? path.slice(9).split("/", 1)[0] : "")
       .filter(Boolean)
       .filter(onlyUnique);
@@ -200,13 +200,17 @@ export default class Changelog {
     }
   }
 
-  fillInPackages(commits: CommitInfo[]) {
+  async fillInPackages(commits: CommitInfo[]) {
     progressBar.init(commits.length);
-    for (const commit of commits) {
+
+    await pMap(commits, async (commit: CommitInfo) => {
       progressBar.setTitle(commit.commitSHA);
-      commit.packages = this.getListOfUniquePackages(commit.commitSHA);
+
+      commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
+
       progressBar.tick();
-    }
+    }, { concurrency: 5 });
+
     progressBar.terminate();
   }
 

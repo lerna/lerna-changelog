@@ -1,7 +1,10 @@
+const execa = require("execa");
+
 import execSync from "./exec-sync";
 
-export function changedPaths(sha: string): string[] {
-  return execSync(`git show -m --name-only --pretty='format:' --first-parent ${sha}`).split("\n");
+export async function changedPaths(sha: string): Promise<string[]> {
+  const result = await execa("git", ["show", "-m", "--name-only" ,"--pretty=format:", "--first-parent", sha]);
+  return result.stdout.split("\n");
 }
 
 /**
