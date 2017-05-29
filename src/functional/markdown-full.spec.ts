@@ -51,6 +51,26 @@ const listOfPackagesForEachCommit = {
   a0000015: "packages/untitled/script.md",
 };
 
+const listOfFileForEachCommit = {
+  a0000001: "random/foo.js",
+  a0000002: "random/package.json",
+  a0000003: "a-new-hope/rebels.js",
+  a0000004: "a-new-hope/package.json",
+  a0000005: "empire-strikes-back/death-star.js",
+  a0000006: "empire-strikes-back/death-star.js",
+  a0000007: "empire-strikes-back/hoth.js",
+  a0000008: "empire-strikes-back/hoth.js",
+  a0000009: "empire-strikes-back/package.json",
+  a0000010: "return-of-the-jedi/jabba-the-hutt.js",
+  a0000011: "return-of-the-jedi/vader-luke.js",
+  a0000012: "return-of-the-jedi/leia.js",
+  a0000013: "return-of-the-jedi/package.json",
+  a0000014:
+    "the-force-awakens/mission.js\n" +
+    "rogue-one/mission.js",
+  a0000015: "untitled/script.md",
+};
+
 const usersCache = {
   luke: {
     login: "luke",
@@ -233,6 +253,28 @@ describe.only("createMarkdown", () => {
 
       const markdown = await changelog.createMarkdown({
         "tag-from": "v0.1.0",
+        "tag-to": undefined,
+      });
+
+      expect(markdown).toMatchSnapshot();
+    });
+  });
+
+  describe("single project", () => {
+    it("outputs correct changelog", async () => {
+      require("../exec-sync").__mockGitShow(listOfFileForEachCommit);
+      require("../exec-sync").__mockGitDescribe("v8.0.0");
+      require("../exec-sync").__mockGitLog(listOfCommits);
+      require("../exec-sync").__mockGitTag(listOfTags);
+      require("../api-data-cache").__setCache({
+        users: usersCache,
+        "repos/lerna/lerna-changelog/issues": issuesCache,
+      });
+      const MockedChangelog = require("../changelog").default;
+      const changelog = new MockedChangelog();
+
+      const markdown = await changelog.createMarkdown({
+        "tag-from": "v4.0.0",
         "tag-to": undefined,
       });
 
