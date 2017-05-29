@@ -80,10 +80,6 @@ export default class Changelog {
       .filter(onlyUnique);
   }
 
-  async getListOfTags(): Promise<string[]> {
-    return Git.listTagNames();
-  }
-
   async getListOfCommits(): Promise<Git.CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
@@ -118,7 +114,7 @@ export default class Changelog {
   }
 
   async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
-    const allTags = await this.getListOfTags();
+    const allTags = await Git.listTagNames();
     return commits.map((commit) => {
       const { sha, refName, summary: message, date } = commit;
 
