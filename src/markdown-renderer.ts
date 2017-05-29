@@ -71,12 +71,7 @@ export default class MarkdownRenderer {
             markdown += `\n* ${packageName}`;
           }
 
-          for (const commit of commits) {
-            const rendered = this.renderContribution(commit);
-            if (rendered) {
-              markdown += `\n${contributionPrefix}* ${rendered}`;
-            }
-          }
+          markdown += this.renderContributionList(commits, contributionPrefix);
         }
 
         progressBar.tick();
@@ -92,6 +87,17 @@ export default class MarkdownRenderer {
     }
 
     return markdown.substring(0, markdown.length - 3);
+  }
+
+  renderContributionList(commits: CommitInfo[], prefix: string = ""): string {
+    let markdown = "";
+    for (const commit of commits) {
+      const rendered = this.renderContribution(commit);
+      if (rendered) {
+        markdown += `\n${prefix}* ${rendered}`;
+      }
+    }
+    return markdown;
   }
 
   renderContribution(commit: CommitInfo): string | undefined {

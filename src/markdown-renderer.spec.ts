@@ -46,6 +46,22 @@ const COMMIT_WITH_PHAB_ISSUE_REF = {
 } as CommitInfo;
 
 describe("MarkdownRenderer", () => {
+  describe("renderContributionList", () => {
+    let renderer: MarkdownRenderer;
+    beforeEach(function() {
+      renderer = new MarkdownRenderer({
+        baseIssueUrl: 'http://foo.bar/',
+        categories: [],
+      });
+    });
+
+    it(`renders a list of contributions`, () => {
+      const emptyCommit = {} as CommitInfo;
+      const result = renderer.renderContributionList([BASIC_COMMIT, emptyCommit, COMMIT_WITH_NUMBER]);
+      expect(result).toMatchSnapshot();
+    });
+  });
+
   describe("renderContribution", () => {
     let renderer: MarkdownRenderer;
     beforeEach(function() {

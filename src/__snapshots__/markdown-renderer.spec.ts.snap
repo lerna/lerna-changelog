@@ -49,6 +49,12 @@ Array [
 ]
 `;
 
+exports[`MarkdownRenderer renderContributionList renders a list of contributions 1`] = `
+"
+* My cool PR. ([@hzoo](http://hzoo.com))
+* [#42](http://github.com/42) My cool PR. ([@hzoo](http://hzoo.com))"
+`;
+
 exports[`MarkdownRenderer renderContributorList renders a list of GitHub users 1`] = `
 "#### Committers: 2
 - Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
