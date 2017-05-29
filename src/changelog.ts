@@ -19,7 +19,7 @@ interface CommitInfo {
   githubIssue?: GitHubIssueResponse;
 }
 
-interface TagInfo {
+interface Release {
   name: string;
   date: string;
   commits: CommitInfo[];
@@ -68,24 +68,24 @@ export default class Changelog {
     // Get all info about commits in a certain tags range
     const commitsInfo = await this.getCommitInfos();
 
-    // Step 4: Group commits by tag (local)
-    const commitsByTag = await this.getCommitsByTag(commitsInfo);
+    // Step 4: Group commits by release (local)
+    const releases = await this.groupByRelease(commitsInfo);
 
-    for (const tag of commitsByTag) {
+    for (const release of releases) {
       // Step 5: Group commits in release by category (local)
-      const commitsByCategory = this.getCommitsByCategory(tag.commits);
+      const commitsByCategory = this.getCommitsByCategory(release.commits);
 
       // Step 6: Compile list of committers in release (local + remote)
-      const committers = await this.getCommitters(tag.commits);
+      const committers = await this.getCommitters(release.commits);
 
-      // Skip this iteration if there are no commits available for the tag
+      // Skip this iteration if there are no commits available for the release
       const hasCommitsForCurrentTag = commitsByCategory.some(
         (category) => category.commits.length > 0
       );
       if (!hasCommitsForCurrentTag) continue;
 
-      const releaseTitle = tag.name === UNRELEASED_TAG ? "Unreleased" : tag.name;
-      markdown += `## ${releaseTitle} (${tag.date})`;
+      const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
+      markdown += `## ${releaseTitle} (${release.date})`;
 
       progressBar.init(commitsByCategory.length);
 
@@ -253,11 +253,11 @@ export default class Changelog {
     progressBar.terminate();
   }
 
-  async getCommitsByTag(commits: CommitInfo[]): Promise<TagInfo[]> {
+  async groupByRelease(commits: CommitInfo[]): Promise<Release[]> {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
-    let tags: { [id: string]: TagInfo } = {};
+    let releaseMap: { [id: string]: Release } = {};
 
     let currentTags = [UNRELEASED_TAG];
     for (const commit of commits) {
@@ -271,16 +271,16 @@ export default class Changelog {
       // the same commits are "duplicated" across the different tags
       // referencing them.
       for (const currentTag of currentTags) {
-        if (!tags[currentTag]) {
+        if (!releaseMap[currentTag]) {
           let date = currentTag === UNRELEASED_TAG ? this.getToday() : commit.date;
-          tags[currentTag] = { name: currentTag, date, commits: [] };
+          releaseMap[currentTag] = { name: currentTag, date, commits: [] };
         }
 
-        tags[currentTag].commits.push(commit);
+        releaseMap[currentTag].commits.push(commit);
       }
     }
 
-    return Object.keys(tags).map((tag) => tags[tag]);
+    return Object.keys(releaseMap).map((tag) => releaseMap[tag]);
   }
 
   getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
