@@ -57,9 +57,7 @@ export default class MarkdownRenderer {
           // Array of unique packages.
           const changedPackages = commit.packages || [];
 
-          const packageName = changedPackages.length > 0
-            ? changedPackages.map((pkg) => `\`${pkg}\``).join(", ")
-            : "Other";
+          const packageName = this.renderPackageNames(changedPackages);
 
           commitsByPackage[packageName] = commitsByPackage[packageName] || [];
           commitsByPackage[packageName].push(commit);
@@ -86,6 +84,12 @@ export default class MarkdownRenderer {
     }
 
     return markdown.substring(0, markdown.length - 3);
+  }
+
+  renderPackageNames(packageNames: string[]) {
+    return packageNames.length > 0
+      ? packageNames.map((pkg) => `\`${pkg}\``).join(", ")
+      : "Other";
   }
 
   renderContributionList(commits: CommitInfo[], prefix: string = ""): string {

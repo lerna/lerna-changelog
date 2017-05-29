@@ -46,6 +46,31 @@ const COMMIT_WITH_PHAB_ISSUE_REF = {
 } as CommitInfo;
 
 describe("MarkdownRenderer", () => {
+  describe("renderPackageNames", () => {
+    let renderer: MarkdownRenderer;
+    beforeEach(function() {
+      renderer = new MarkdownRenderer({
+        baseIssueUrl: 'http://foo.bar/',
+        categories: [],
+      });
+    });
+
+    it(`renders an empty list of package names as "Other"`, () => {
+      const result = renderer.renderPackageNames([]);
+      expect(result).toEqual("Other");
+    });
+
+    it(`renders a single package name`, () => {
+      const result = renderer.renderPackageNames(["package1"]);
+      expect(result).toEqual("`package1`");
+    });
+
+    it(`renders a list of package names`, () => {
+      const result = renderer.renderPackageNames(["package1", "package2", "package3"]);
+      expect(result).toEqual("`package1`, `package2`, `package3`");
+    });
+  });
+
   describe("renderContributionList", () => {
     let renderer: MarkdownRenderer;
     beforeEach(function() {
