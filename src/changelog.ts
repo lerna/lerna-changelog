@@ -87,10 +87,10 @@ export default class Changelog {
   async createMarkdown() {
     const releases = await this.listReleases();
 
-    return await this.renderMarkdown(releases);
+    return this.renderMarkdown(releases);
   }
 
-  async renderMarkdown(releases: Release[]) {
+  renderMarkdown(releases: Release[]) {
     let markdown = "\n";
 
     for (const release of releases) {
