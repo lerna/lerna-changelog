@@ -47,33 +47,33 @@ export default class MarkdownRenderer {
           // Array of unique packages.
           const changedPackages = commit.packages || [];
 
-          const heading = changedPackages.length > 0
+          const packageName = changedPackages.length > 0
             ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
             : "* Other";
 
-          commitsByPackage[heading] = commitsByPackage[heading] || [];
-          commitsByPackage[heading].push(commit);
+          commitsByPackage[packageName] = commitsByPackage[packageName] || [];
+          commitsByPackage[packageName].push(commit);
         }
 
         markdown += "\n";
         markdown += "\n";
         markdown += `#### ${category.name}`;
 
-        const headings = Object.keys(commitsByPackage);
-        const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
+        const packageNames = Object.keys(commitsByPackage);
+        const onlyOtherPackage = packageNames.length === 1 && packageNames[0] === "* Other";
 
         // Step 10: Print commits
-        for (const heading of headings) {
-          const commits = commitsByPackage[heading];
+        for (const packageName of packageNames) {
+          const commits = commitsByPackage[packageName];
 
-          if (!onlyOtherHeading) {
-            markdown += `\n${heading}`;
+          if (!onlyOtherPackage) {
+            markdown += `\n${packageName}`;
           }
 
           for (const commit of commits) {
             const rendered = this.renderContribution(commit);
             if (rendered) {
-              const prefix = onlyOtherHeading ? "" : "  ";
+              const prefix = onlyOtherPackage ? "" : "  ";
               markdown += `\n${prefix}* ${rendered}`;
             }
           }
