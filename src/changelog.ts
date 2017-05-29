@@ -84,15 +84,11 @@ export default class Changelog {
     return Git.listTagNames();
   }
 
-  async getLastTag() {
-    return Git.lastTag();
-  }
-
   async getListOfCommits(): Promise<Git.CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.tagFrom || (await this.getLastTag());
+    const tagFrom = this.tagFrom || (await Git.lastTag());
     return Git.listCommits(tagFrom, this.tagTo);
   }
 
