@@ -48,28 +48,9 @@ export default class MarkdownRenderer {
 
         if (!hasPackages) {
           markdown += this.renderContributionList(category.commits);
-          continue;
+        } else {
+          markdown += this.renderContributionsByPackage(category.commits);
         }
-
-        // Step 9: Group commits in category by package (local)
-        const commitsByPackage: { [id: string]: CommitInfo[] } = {};
-        for (const commit of category.commits) {
-          // Array of unique packages.
-          const changedPackages = commit.packages || [];
-
-          const packageName = this.renderPackageNames(changedPackages);
-
-          commitsByPackage[packageName] = commitsByPackage[packageName] || [];
-          commitsByPackage[packageName].push(commit);
-        }
-
-        const packageNames = Object.keys(commitsByPackage);
-
-        // Step 10: Print commits
-        markdown += packageNames.map((packageName) => {
-          const commits = commitsByPackage[packageName];
-          return `* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
-        }).join("\n");
 
         progressBar.tick();
       }
@@ -84,6 +65,27 @@ export default class MarkdownRenderer {
     }
 
     return markdown.substring(0, markdown.length - 3);
+  }
+
+  renderContributionsByPackage(commits: CommitInfo[]) {
+    // Group commits in category by package
+    const commitsByPackage: { [id: string]: CommitInfo[] } = {};
+    for (const commit of commits) {
+      // Array of unique packages.
+      const changedPackages = commit.packages || [];
+
+      const packageName = this.renderPackageNames(changedPackages);
+
+      commitsByPackage[packageName] = commitsByPackage[packageName] || [];
+      commitsByPackage[packageName].push(commit);
+    }
+
+    const packageNames = Object.keys(commitsByPackage);
+
+    return packageNames.map((packageName) => {
+      const commits = commitsByPackage[packageName];
+      return `* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
+    }).join("\n");
   }
 
   renderPackageNames(packageNames: string[]) {
