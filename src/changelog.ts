@@ -79,9 +79,13 @@ export default class Changelog {
   }
 
   async createMarkdown() {
-    let markdown = "\n";
-
     const releases = await this.listReleases();
+
+    return await this.renderMarkdown(releases);
+  }
+
+  async renderMarkdown(releases: Release[]) {
+    let markdown = "\n";
 
     for (const release of releases) {
       // Step 7: Group commits in release by category (local)
