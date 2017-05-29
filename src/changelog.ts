@@ -74,20 +74,18 @@ export default class Changelog {
     for (const release of releases) {
       // Step 5: Group commits in release by category (local)
       const categories = this.groupByCategory(release.commits);
+      const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
+
+      // Skip this iteration if there are no commits available for the release
+      if (categoriesWithCommits.length === 0) continue;
 
       // Step 6: Compile list of committers in release (local + remote)
       const committers = await this.getCommitters(release.commits);
-
-      // Skip this iteration if there are no commits available for the release
-      const hasCommitsForCurrentTag = categories.some((category) => category.commits.length > 0);
-      if (!hasCommitsForCurrentTag) continue;
 
       const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
       markdown += `## ${releaseTitle} (${release.date})`;
 
       progressBar.init(categories.length);
-
-      const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
       for (const category of categoriesWithCommits) {
         progressBar.setTitle(category.heading || "Other");
