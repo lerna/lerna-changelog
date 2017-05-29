@@ -18,6 +18,7 @@ interface CommitInfo {
   issueNumber: string | null;
   githubIssue?: GitHubIssueResponse;
   categories?: string[];
+  packages?: string[];
 }
 
 interface Release {
@@ -63,6 +64,9 @@ export default class Changelog {
     // Step 4: Fill in categories from remote labels (local)
     this.fillInCategories(commitInfos);
 
+    // Step 5: Fill in packages (local)
+    this.fillInPackages(commitInfos);
+
     return commitInfos;
   }
 
@@ -72,18 +76,18 @@ export default class Changelog {
     // Get all info about commits in a certain tags range
     const commitsInfo = await this.getCommitInfos();
 
-    // Step 5: Group commits by release (local)
+    // Step 6: Group commits by release (local)
     const releases = await this.groupByRelease(commitsInfo);
 
     for (const release of releases) {
-      // Step 6: Group commits in release by category (local)
+      // Step 7: Group commits in release by category (local)
       const categories = this.groupByCategory(release.commits);
       const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
       // Skip this iteration if there are no commits available for the release
       if (categoriesWithCommits.length === 0) continue;
 
-      // Step 7: Compile list of committers in release (local + remote)
+      // Step 8: Compile list of committers in release (local + remote)
       const committers = await this.getCommitters(release.commits);
 
       const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
@@ -94,11 +98,11 @@ export default class Changelog {
       for (const category of categoriesWithCommits) {
         progressBar.setTitle(category.name || "Other");
 
-        // Step 8: Group commits in category by package (local)
+        // Step 9: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = {};
         for (const commit of category.commits) {
           // Array of unique packages.
-          const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
+          const changedPackages = commit.packages || [];
 
           const heading = changedPackages.length > 0
             ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
@@ -115,7 +119,7 @@ export default class Changelog {
         const headings = Object.keys(commitsByPackage);
         const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
 
-        // Step 9: Print commits
+        // Step 10: Print commits
         for (const heading of headings) {
           const commits = commitsByPackage[heading];
 
@@ -311,6 +315,12 @@ export default class Changelog {
       commit.categories = Object.keys(this.config.labels)
         .filter((label) => labels.indexOf(label.toLowerCase()) !== -1)
         .map((label) => this.config.labels[label]);
+    }
+  }
+
+  fillInPackages(commits: CommitInfo[]) {
+    for (const commit of commits) {
+      commit.packages = this.getListOfUniquePackages(commit.commitSHA);
     }
   }
 }
