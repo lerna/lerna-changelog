@@ -201,9 +201,13 @@ export default class Changelog {
   }
 
   fillInPackages(commits: CommitInfo[]) {
+    progressBar.init(commits.length);
     for (const commit of commits) {
+      progressBar.setTitle(commit.commitSHA);
       commit.packages = this.getListOfUniquePackages(commit.commitSHA);
+      progressBar.tick();
     }
+    progressBar.terminate();
   }
 
   async fillInContributors(releases: Release[]) {
