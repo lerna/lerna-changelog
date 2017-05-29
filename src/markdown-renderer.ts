@@ -71,23 +71,10 @@ export default class MarkdownRenderer {
           }
 
           for (const commit of commits) {
-            const issue = commit.githubIssue;
-            if (issue) {
-              markdown += onlyOtherHeading ? "\n* " : "\n  * ";
-
-              if (issue.number && issue.pull_request && issue.pull_request.html_url) {
-                const prUrl = issue.pull_request.html_url;
-                markdown += `[#${issue.number}](${prUrl}) `;
-              }
-
-              if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
-                issue.title = issue.title.replace(
-                  COMMIT_FIX_REGEX,
-                  `Closes [#$3](${this.options.baseIssueUrl}$3)`
-                );
-              }
-
-              markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
+            const rendered = this.renderContribution(commit);
+            if (rendered) {
+              const prefix = onlyOtherHeading ? "" : "  ";
+              markdown += `\n${prefix}* ${rendered}`;
             }
           }
         }
@@ -111,6 +98,29 @@ export default class MarkdownRenderer {
     }
 
     return markdown.substring(0, markdown.length - 3);
+  }
+
+  renderContribution(commit: CommitInfo): string | undefined {
+    const issue = commit.githubIssue;
+    if (issue) {
+      let markdown = "";
+
+      if (issue.number && issue.pull_request && issue.pull_request.html_url) {
+        const prUrl = issue.pull_request.html_url;
+        markdown += `[#${issue.number}](${prUrl}) `;
+      }
+
+      if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
+        issue.title = issue.title.replace(
+          COMMIT_FIX_REGEX,
+          `Closes [#$3](${this.options.baseIssueUrl}$3)`
+        );
+      }
+
+      markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
+
+      return markdown;
+    }
   }
 
   groupByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
