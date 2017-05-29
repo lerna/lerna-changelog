@@ -43,10 +43,7 @@ export default class MarkdownRenderer {
 
         markdown += `\n\n#### ${category.name}\n`;
 
-        const hasPackages = category.commits
-          .some((commit) => commit.packages !== undefined && commit.packages.length > 0);
-
-        if (!hasPackages) {
+        if (!this.hasPackages(category.commits)) {
           markdown += this.renderContributionList(category.commits);
         } else {
           markdown += this.renderContributionsByPackage(category.commits);
@@ -65,6 +62,10 @@ export default class MarkdownRenderer {
     }
 
     return markdown.substring(0, markdown.length - 3);
+  }
+
+  hasPackages(commits: CommitInfo[]) {
+    return commits.some((commit) => commit.packages !== undefined && commit.packages.length > 0);
   }
 
   renderContributionsByPackage(commits: CommitInfo[]) {
