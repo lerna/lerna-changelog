@@ -41,6 +41,8 @@ export default class MarkdownRenderer {
       for (const category of categoriesWithCommits) {
         progressBar.setTitle(category.name || "Other");
 
+        markdown += `\n\n#### ${category.name}`;
+
         // Step 9: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = {};
         for (const commit of category.commits) {
@@ -54,10 +56,6 @@ export default class MarkdownRenderer {
           commitsByPackage[packageName] = commitsByPackage[packageName] || [];
           commitsByPackage[packageName].push(commit);
         }
-
-        markdown += "\n";
-        markdown += "\n";
-        markdown += `#### ${category.name}`;
 
         const packageNames = Object.keys(commitsByPackage);
         const onlyOtherPackage = packageNames.length === 1 && packageNames[0] === "Other";
