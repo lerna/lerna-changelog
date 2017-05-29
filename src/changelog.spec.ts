@@ -83,23 +83,6 @@ describe("Changelog", () => {
     });
   });
 
-  describe("groupByCategory", () => {
-    it("group commits by category", () => {
-      const MockedChangelog = require("./changelog").default;
-      const changelog = new MockedChangelog();
-      const testCommits = [
-        { commitSHA: "a0000005", categories: [] },
-        { commitSHA: "a0000004", categories: [":bug: Bug Fix"] },
-        { commitSHA: "a0000003", categories: [":rocket: New Feature"] },
-        { commitSHA: "a0000002", categories: [] },
-        { commitSHA: "a0000001", categories: [":bug: Bug Fix"] },
-      ];
-      const commitsByCategory = changelog.groupByCategory(testCommits);
-
-      expect(commitsByCategory).toMatchSnapshot();
-    });
-  });
-
   describe("getCommitters", () => {
     beforeEach(() => {
       require("./api-data-cache").__resetDefaults();
