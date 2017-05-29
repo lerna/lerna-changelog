@@ -196,7 +196,7 @@ const issuesCache = {
 };
 
 
-describe.only("createMarkdown", () => {
+describe("createMarkdown", () => {
   beforeEach(() => {
     require("../exec-sync").__resetDefaults();
     require("../api-data-cache").__resetDefaults();
