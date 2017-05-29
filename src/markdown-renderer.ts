@@ -84,9 +84,10 @@ export default class MarkdownRenderer {
 
       progressBar.terminate();
 
-      let contributors: GitHubUserResponse[] = release.contributors || [];
-      markdown += `\n\n#### Committers: ${contributors.length}\n`;
-      markdown += contributors.map((contributor) => `- ${this.renderContributor(contributor)}`).sort().join("\n");
+      if (release.contributors) {
+        markdown += `\n\n${this.renderContributorList(release.contributors)}`;
+      }
+
       markdown += "\n\n\n";
     }
 
@@ -114,6 +115,12 @@ export default class MarkdownRenderer {
 
       return markdown;
     }
+  }
+
+  renderContributorList(contributors: GitHubUserResponse[]) {
+    const renderedContributors = contributors.map((contributor) => `- ${this.renderContributor(contributor)}`).sort();
+
+    return `#### Committers: ${contributors.length}\n${renderedContributors.join("\n")}`;
   }
 
   renderContributor(contributor: GitHubUserResponse): string {

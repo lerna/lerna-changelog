@@ -77,6 +77,34 @@ describe("MarkdownRenderer", () => {
     });
   });
 
+  describe("renderContributorList", () => {
+    let renderer: MarkdownRenderer;
+    beforeEach(function() {
+      renderer = new MarkdownRenderer({
+        baseIssueUrl: 'http://foo.bar/',
+        categories: [],
+      });
+    });
+
+    it(`renders a list of GitHub users`, () => {
+      const user1 = {
+        login: 'hzoo',
+        name: '',
+        html_url: 'https://github.com/hzoo',
+      };
+
+      const user2 = {
+        login: 'Turbo87',
+        name: 'Tobias Bieniek',
+        html_url: 'https://github.com/Turbo87',
+      };
+
+      const result = renderer.renderContributorList([user1, user2]);
+
+      expect(result).toMatchSnapshot();
+    });
+  });
+
   describe("renderContributor", () => {
     let renderer: MarkdownRenderer;
     beforeEach(function() {
