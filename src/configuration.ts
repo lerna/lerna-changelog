@@ -1,11 +1,11 @@
 const fs = require("fs");
 const path = require("path");
+const execa = require("execa");
 
 import ConfigurationError from "./configuration-error";
-import execSync from "./exec-sync";
 
 export function fromGitRoot(cwd: string): any {
-  const rootPath = execSync("git rev-parse --show-toplevel", { cwd });
+  const rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
   return fromPath(rootPath);
 }
 
