@@ -1,3 +1,22 @@
+## v0.5.0 (2017-05-31)
+
+- Make lerna-changelog work better for a regular repo (including this one)
+
+#### :rocket: Enhancement
+* [#51](https://github.com/lerna/lerna-changelog/pull/51) Use async/await to request commit infos concurrently. ([@Turbo87](https://github.com/Turbo87))
+
+#### :bug: Bug Fix
+* [#53](https://github.com/lerna/lerna-changelog/pull/53) Skip package heading for single package repos. ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#49](https://github.com/lerna/lerna-changelog/pull/49) Exclude arrow functions, classes and generator functions from being transpiled. ([@Turbo87](https://github.com/Turbo87))
+* [#50](https://github.com/lerna/lerna-changelog/pull/50) Update "jest" to v20.0.4. ([@Turbo87](https://github.com/Turbo87))
+* [#48](https://github.com/lerna/lerna-changelog/pull/48) Adjust "lint" script. ([@Turbo87](https://github.com/Turbo87))
+* [#47](https://github.com/lerna/lerna-changelog/pull/47) Move configuration from "lerna.json" into "package.json". ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
+
 ## v0.4.0 (2017-03-24)
 
 Notable changes:
