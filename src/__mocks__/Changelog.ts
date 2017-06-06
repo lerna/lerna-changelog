@@ -21,7 +21,7 @@ export function __resetDefaults() {
 export function __getConfig() {
   return currentConfig;
 }
-export function __setConfig(customConfig) {
+export function __setConfig(customConfig: any) {
   currentConfig = { ...defaultConfig, ...customConfig };
 }
 

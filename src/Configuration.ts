@@ -1,15 +1,15 @@
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 
 import ConfigurationError from "./ConfigurationError";
 import execSync from "./execSync";
 
-export function fromGitRoot(cwd) {
+export function fromGitRoot(cwd: string): any {
   const rootPath = execSync("git rev-parse --show-toplevel", { cwd });
   return fromPath(rootPath);
 }
 
-export function fromPath(rootPath) {
+export function fromPath(rootPath: string): any {
   const config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath);
 
   if (!config) {
@@ -24,14 +24,14 @@ export function fromPath(rootPath) {
   return config;
 }
 
-function fromLernaConfig(rootPath) {
+function fromLernaConfig(rootPath: string): any | undefined {
   const lernaPath = path.join(rootPath, "lerna.json");
   if (fs.existsSync(lernaPath)) {
     return JSON.parse(fs.readFileSync(lernaPath)).changelog;
   }
 }
 
-function fromPackageConfig(rootPath) {
+function fromPackageConfig(rootPath: string): any | undefined {
   const pkgPath = path.join(rootPath, "package.json");
   if (fs.existsSync(pkgPath)) {
     return JSON.parse(fs.readFileSync(pkgPath)).changelog;

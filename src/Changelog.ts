@@ -1,4 +1,4 @@
-import pMap from "p-map";
+const pMap = require("p-map");
 
 import progressBar        from "./progressBar";
 import RemoteRepo         from "./RemoteRepo";
@@ -9,7 +9,12 @@ const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
 
 export default class Changelog {
-  constructor(options = {}) {
+  config: any;
+  remote: RemoteRepo;
+  tagFrom?: string;
+  tagTo?: string;
+
+  constructor(options: any = {}) {
     this.config = this.getConfig();
     this.remote = new RemoteRepo(this.config);
 
@@ -49,9 +54,9 @@ export default class Changelog {
         .filter((category) => category.commits.length > 0);
 
       for (const category of categoriesWithCommits) {
-        progressBar.tick(category.heading);
+        progressBar.tick(category.heading || "Other");
 
-        const commitsByPackage = category.commits.reduce((acc, commit) => {
+        const commitsByPackage = category.commits.reduce((acc: any, commit: any) => {
           // Array of unique packages.
           const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
 
@@ -109,14 +114,14 @@ export default class Changelog {
     return markdown.substring(0, markdown.length - 3);
   }
 
-  getListOfUniquePackages(sha) {
+  getListOfUniquePackages(sha: string) {
     return Object.keys(
       // turn into an array
       execSync(
         `git show -m --name-only --pretty='format:' --first-parent ${sha}`
       )
       .split("\n")
-      .reduce((acc, files) => {
+      .reduce((acc: any, files: string) => {
         if (files.indexOf("packages/") === 0) {
           acc[files.slice(9).split("/", 1)[0]] = true;
         }
@@ -150,7 +155,7 @@ export default class Changelog {
       `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
     );
     if (commits) {
-      return commits.split("\n").map((commit) => {
+      return commits.split("\n").map((commit: string) => {
         const parts = commit.split(";");
         const sha = parts[0];
         const refName = parts[1];
@@ -162,8 +167,8 @@ export default class Changelog {
     return [];
   }
 
-  async getCommitters(commits) {
-    const committers = {};
+  async getCommitters(commits: any[]) {
+    const committers: { [id: string]: string } = {};
 
     for (const commit of commits) {
       const login = (commit.user || {}).login;
@@ -172,7 +177,7 @@ export default class Changelog {
       const shouldKeepCommiter = login && (
         !this.config.ignoreCommitters ||
         !this.config.ignoreCommitters.some(
-          (c) => c === login || login.indexOf(c) > -1
+          (c: string) => c === login || login.indexOf(c) > -1
         )
       );
       if (login && shouldKeepCommiter && !committers[login]) {
@@ -195,14 +200,14 @@ export default class Changelog {
 
     progressBar.init(commits.length);
 
-    const commitsInfo = await pMap(commits, async (commit) => {
+    const commitsInfo = await pMap(commits, async (commit: any) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
       if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
         // we need to treat all of them as a list.
-        tagsInCommit = allTags.reduce((acc, tag) => {
+        tagsInCommit = allTags.reduce((acc: any, tag: string) => {
           if (refName.indexOf(tag) < 0)
             return acc;
           return acc.concat(tag);
@@ -211,7 +216,7 @@ export default class Changelog {
 
       progressBar.tick(sha);
 
-      const commitInfo = {
+      let commitInfo = {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
@@ -226,7 +231,7 @@ export default class Changelog {
         const response = await this.remote.getIssueData(issueNumber);
         response.commitSHA = sha;
         response.mergeMessage = message;
-        Object.assign(commitInfo, response);
+        commitInfo = {...commitInfo, ...response};
       }
 
       return commitInfo;
@@ -236,7 +241,7 @@ export default class Changelog {
     return commitsInfo;
   }
 
-  detectIssueNumber(message) {
+  detectIssueNumber(message: string): string | null {
     if (message.indexOf("Merge pull request ") === 0) {
       const start = message.indexOf("#") + 1;
       const end = message.slice(start).indexOf(" ");
@@ -251,7 +256,7 @@ export default class Changelog {
     return null;
   }
 
-  async getCommitsByTag(commits) {
+  async getCommitsByTag(commits: any[]) {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
@@ -294,7 +299,7 @@ export default class Changelog {
     }, {});
   }
 
-  getCommitsByCategory(commits) {
+  getCommitsByCategory(commits: any[]) {
     return this.remote.getLabels().map(
       (label) => ({
         heading: this.remote.getHeadingForLabel(label),
@@ -304,7 +309,7 @@ export default class Changelog {
           (acc, commit) => {
             if (
               commit.labels.some(
-                (l) => l.name.toLowerCase() === label.toLowerCase()
+                (l: any) => l.name.toLowerCase() === label.toLowerCase()
               )
             )
               return acc.concat(commit);

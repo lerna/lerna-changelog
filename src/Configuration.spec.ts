@@ -1,6 +1,6 @@
-import os from "os";
-import fs from "fs-extra";
-import path from "path";
+const os = require("os");
+const fs = require("fs-extra");
+const path = require("path");
 
 import { fromGitRoot, fromPath } from "../src/Configuration";
 import ConfigurationError from "../src/ConfigurationError";

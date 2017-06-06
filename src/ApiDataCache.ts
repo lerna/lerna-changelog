@@ -1,10 +1,14 @@
-import fs from "fs";
-import path from "path";
-import mkdirp from "mkdirp";
+const fs = require("fs");
+const path = require("path");
+const mkdirp = require("mkdirp");
+
 import ConfigurationError from "./ConfigurationError";
 
 export default class ApiDataCache {
-  constructor(host, { rootPath, cacheDir }) {
+  host: string;
+  dir: string;
+
+  constructor(host: string, { rootPath, cacheDir }: { rootPath: string, cacheDir: string }) {
     this.host = host;
     const dir = this.dir = cacheDir && path.join(rootPath, cacheDir, host);
 
@@ -17,7 +21,7 @@ export default class ApiDataCache {
     }
   }
 
-  get(type, key) {
+  get(type: string, key: string): any {
     if (!this.dir) return;
     try {
       return JSON.parse(fs.readFileSync(this.fn(type, key), "utf-8"));
@@ -26,12 +30,12 @@ export default class ApiDataCache {
     }
   }
 
-  set(type, key, data) {
+  set(type: string, key: string, data: any) {
     if (!this.dir) return;
     return fs.writeFileSync(this.fn(type, key), JSON.stringify(data, null, 2));
   }
 
-  fn(type, key) {
+  fn(type: string, key: string): string {
     const dir = path.join(this.dir, type);
 
     // Ensure the directory for this type is there.

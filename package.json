@@ -21,11 +21,11 @@
     "url": "git+https://github.com/lerna/lerna-changelog.git"
   },
   "scripts": {
-    "build": "npm run clean && babel src --out-dir lib --ignore src/__mocks__",
+    "build": "npm run clean && tsc",
     "changelog": "node ./bin/cli.js",
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
-    "lint": "eslint bin src test *.js",
+    "lint": "tslint src test",
     "prepublish": "npm run build",
     "test": "jest",
     "test-ci": "npm run build && jest",
@@ -41,17 +41,14 @@
     "yargs": "^6.6.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-eslint": "^7.1.1",
-    "babel-jest": "^20.0.3",
-    "babel-plugin-transform-object-rest-spread": "6.20.2",
-    "babel-preset-env": "^1.1.11",
-    "eslint": "^3.13.1",
-    "eslint-config-babel": "^6.0.0",
-    "eslint-plugin-flowtype": "^2.30.0",
+    "@types/jest": "^19.2.3",
+    "@types/node": "^7.0.22",
     "fs-extra": "^2.0.0",
     "jest": "^20.0.4",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "ts-jest": "^20.0.4",
+    "tslint": "^5.3.2",
+    "typescript": "^2.3.3"
   },
   "changelog": {
     "repo": "lerna/lerna-changelog",
@@ -64,5 +61,19 @@
       "Tag: Internal": ":house: Internal"
     },
     "cacheDir": ".changelog"
+  },
+  "jest": {
+    "roots": ["src"],
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }

@@ -1,7 +1,0 @@
-{
-  "extends": "babel",
-  "env": {
-    "node": true,
-    "jest": true
-  }
-}
