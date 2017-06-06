@@ -1,12 +1,19 @@
 const pMap = require("p-map");
 
-import progressBar        from "./progressBar";
-import RemoteRepo         from "./RemoteRepo";
-import execSync           from "./execSync";
-import * as Configuration from "./Configuration";
+import progressBar        from "./progress-bar";
+import RemoteRepo         from "./remote-repo";
+import execSync           from "./exec-sync";
+import * as Configuration from "./configuration";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
+
+interface CommitListItem {
+  sha: string;
+  refName: string;
+  summary: string;
+  date: string;
+}
 
 export default class Changelog {
   config: any;
@@ -31,7 +38,7 @@ export default class Changelog {
     let markdown = "\n";
 
     // Get all info about commits in a certain tags range
-    const commitsInfo = await this.getCommitsInfo();
+    const commitsInfo = await this.getCommitInfos();
     const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
     for (const tag of Object.keys(commitsByTag)) {
@@ -130,7 +137,7 @@ export default class Changelog {
     );
   }
 
-  async getListOfTags() {
+  async getListOfTags(): Promise<string[]> {
     const tags = execSync("git tag");
     if (tags) {
       return tags.split("\n");
@@ -142,7 +149,7 @@ export default class Changelog {
     return execSync("git describe --abbrev=0 --tags");
   }
 
-  async getListOfCommits() {
+  async getListOfCommits(): Promise<CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
@@ -151,7 +158,7 @@ export default class Changelog {
     const tagsRange = tagFrom + ".." + tagTo;
     const commits = execSync(
       // Prints "<short-hash>;<ref-name>;<summary>;<date>"
-      // This format is used in `getCommitsInfo` for easily analize the commit.
+      // This format is used in `getCommitInfos` for easily analize the commit.
       `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
     );
     if (commits) {
@@ -194,29 +201,25 @@ export default class Changelog {
     return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
-  async getCommitsInfo() {
+  async getCommitInfos() {
     const commits = await this.getListOfCommits();
     const allTags = await this.getListOfTags();
 
     progressBar.init(commits.length);
 
-    const commitsInfo = await pMap(commits, async (commit: any) => {
+    const commitInfos = await pMap(commits, async (commit: CommitListItem) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
       if (refName.length > 1) {
         // Since there might be multiple tags referenced by the same commit,
         // we need to treat all of them as a list.
-        tagsInCommit = allTags.reduce((acc: any, tag: string) => {
-          if (refName.indexOf(tag) < 0)
-            return acc;
-          return acc.concat(tag);
-        }, []);
+        tagsInCommit = allTags.filter(tag => refName.indexOf(tag) !== -1);
       }
 
       progressBar.tick(sha);
 
-      let commitInfo = {
+      let commitInfo: any = {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
@@ -229,16 +232,19 @@ export default class Changelog {
       const issueNumber = this.detectIssueNumber(message);
       if (issueNumber !== null) {
         const response = await this.remote.getIssueData(issueNumber);
-        response.commitSHA = sha;
-        response.mergeMessage = message;
-        commitInfo = {...commitInfo, ...response};
+        commitInfo = {
+          ...commitInfo,
+          ...response,
+          commitSHA: sha,
+          mergeMessage: message,
+        };
       }
 
       return commitInfo;
     }, { concurrency: 5 });
 
     progressBar.terminate();
-    return commitsInfo;
+    return commitInfos;
   }
 
   detectIssueNumber(message: string): string | null {
@@ -271,7 +277,8 @@ export default class Changelog {
       // This results in having one group of commits for each tag, even if
       // the same commits are "duplicated" across the different tags
       // referencing them.
-      const commitsForTags = currentTags.reduce((acc2, currentTag) => {
+      const commitsForTags: any = {};
+      for (const currentTag of currentTags) {
         let existingCommitsForTag = [];
         if ({}.hasOwnProperty.call(acc, currentTag)) {
           existingCommitsForTag = acc[currentTag].commits;
@@ -282,15 +289,11 @@ export default class Changelog {
           releaseDate = acc[currentTag] ? acc[currentTag].date : commit.date;
         }
 
-        return {
-          ...acc2,
-          [currentTag]: {
-            date: releaseDate,
-            commits: existingCommitsForTag.concat(commit)
-          }
+        commitsForTags[currentTag] = {
+          date: releaseDate,
+          commits: existingCommitsForTag.concat(commit)
         };
-      }, {});
-
+      }
 
       return {
         ...acc,
@@ -299,26 +302,17 @@ export default class Changelog {
     }, {});
   }
 
-  getCommitsByCategory(commits: any[]) {
-    return this.remote.getLabels().map(
-      (label) => ({
-        heading: this.remote.getHeadingForLabel(label),
-        // Keep only the commits that have a matching label with the one
-        // provided in the lerna.json config.
-        commits: commits.reduce(
-          (acc, commit) => {
-            if (
-              commit.labels.some(
-                (l: any) => l.name.toLowerCase() === label.toLowerCase()
-              )
-            )
-              return acc.concat(commit);
-            return acc;
-          },
-          []
-        )
-      })
-    );
+  getCommitsByCategory(allCommits: any[]) {
+    return this.remote.getLabels().map((label) => {
+      let heading = this.remote.getHeadingForLabel(label);
+
+      // Keep only the commits that have a matching label with the one
+      // provided in the lerna.json config.
+      let commits = allCommits
+        .filter((commit) => commit.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
+
+      return { heading, commits };
+    });
   }
 
   getToday() {

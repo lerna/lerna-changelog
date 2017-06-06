@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-import ConfigurationError from "./ConfigurationError";
-import execSync from "./execSync";
+import ConfigurationError from "./configuration-error";
+import execSync from "./exec-sync";
 
 export function fromGitRoot(cwd: string): any {
   const rootPath = execSync("git rev-parse --show-toplevel", { cwd });

@@ -1,8 +1,8 @@
-jest.mock("../../src/progressBar");
-jest.mock("../../src/ApiDataCache");
-jest.mock("../../src/Changelog");
-jest.mock("../../src/GithubAPI");
-jest.mock("../../src/execSync");
+jest.mock("../../src/progress-bar");
+jest.mock("../../src/api-data-cache");
+jest.mock("../../src/changelog");
+jest.mock("../../src/github-api");
+jest.mock("../../src/exec-sync");
 
 const listOfCommits =
   "a0000015;;chore: making of episode viii;2015-12-18\n" +
@@ -157,21 +157,21 @@ const issuesCache = {
 
 describe.only("createMarkdown", () => {
   beforeEach(() => {
-    require("../../src/execSync").__resetDefaults();
-    require("../../src/ApiDataCache").__resetDefaults();
+    require("../exec-sync").__resetDefaults();
+    require("../api-data-cache").__resetDefaults();
   });
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
-      require("../../src/execSync").__mockGitDescribe("v8.0.0");
-      require("../../src/execSync").__mockGitLog(listOfCommits);
-      require("../../src/execSync").__mockGitTag(listOfTags);
-      require("../../src/ApiDataCache").__setCache({
+      require("../exec-sync").__mockGitShow(listOfPackagesForEachCommit);
+      require("../exec-sync").__mockGitDescribe("v8.0.0");
+      require("../exec-sync").__mockGitLog(listOfCommits);
+      require("../exec-sync").__mockGitTag(listOfTags);
+      require("../api-data-cache").__setCache({
         users: usersCache,
         "repos/lerna/lerna-changelog/issues": issuesCache,
       });
-      const MockedChangelog = require("../../src/Changelog").default;
+      const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
       const markdown = await changelog.createMarkdown({
@@ -185,16 +185,16 @@ describe.only("createMarkdown", () => {
 
   describe("multiple tags", () => {
     it("outputs correct changelog", async () => {
-      require("../../src/execSync").__mockGitShow(listOfPackagesForEachCommit);
-      require("../../src/execSync").__mockGitDescribe("v8.0.0");
-      require("../../src/execSync").__mockGitLog(
+      require("../exec-sync").__mockGitShow(listOfPackagesForEachCommit);
+      require("../exec-sync").__mockGitDescribe("v8.0.0");
+      require("../exec-sync").__mockGitLog(
         "a0000004;tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, " +
         "tag: return-of-the-jedi@6.0.0;chore(release): releasing component;1977-05-25\n" +
         "a0000003;;Merge pull request #1 from star-wars;1977-05-25\n" +
         "a0000002;tag: v0.1.0;chore(release): releasing component;1966-01-01\n" +
         "a0000001;;fix: some random fix which will be ignored;1966-01-01"
       );
-      require("../../src/execSync").__mockGitTag(
+      require("../exec-sync").__mockGitTag(
         "a-new-hope@4.0.0\n" +
         "attack-of-the-clones@3.1.0\n" +
         "empire-strikes-back@5.0.0\n" +
@@ -203,11 +203,11 @@ describe.only("createMarkdown", () => {
         "the-force-awakens@7.0.0\n" +
         "the-phantom-menace@1.0.0"
       );
-      require("../../src/ApiDataCache").__setCache({
+      require("../api-data-cache").__setCache({
         users: usersCache,
         "repos/lerna/lerna-changelog/issues": issuesCache,
       });
-      const MockedChangelog = require("../../src/Changelog").default;
+      const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
       const markdown = await changelog.createMarkdown({

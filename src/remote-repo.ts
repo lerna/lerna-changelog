@@ -1,11 +1,18 @@
-import GithubAPI from "./GithubAPI";
+import GithubAPI, {GitHubIssueResponse, GitHubUserResponse} from "./github-api";
+
+export interface Options {
+  repo: string;
+  labels: { [id: string]: string };
+  rootPath: string;
+  cacheDir?: string;
+}
 
 export default class RemoteRepo {
   repo: string;
   labels: { [id: string]: string; };
   githubAPI: GithubAPI;
 
-  constructor(config: any) {
+  constructor(config: Options) {
     const { repo, labels } = config;
     this.repo = repo;
     this.labels = labels;
@@ -28,11 +35,11 @@ export default class RemoteRepo {
     return "https://github.com/" + this.repo + "/pull/";
   }
 
-  async getIssueData(issue: string): Promise<any> {
+  async getIssueData(issue: string): Promise<GitHubIssueResponse> {
     return this.githubAPI.getIssueData(issue);
   }
 
-  async getUserData(login: string): Promise<any> {
+  async getUserData(login: string): Promise<GitHubUserResponse> {
     return this.githubAPI.getUserData(login);
   }
 }
