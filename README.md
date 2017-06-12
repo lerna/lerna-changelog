@@ -39,6 +39,8 @@ Authenticate:
 $ export GITHUB_AUTH="..."
 ```
 
+You'll need a GitHub API [personal access token](https://github.com/settings/tokens) with the `repo` scope for private repositories or just `public_repo` scope for public repositories.
+
 Run:
 
 ```bash
@@ -61,10 +63,6 @@ $ lerna-changelog
 ```
 
 Copypasta.  You're done!
-
-## GitHub Auth
-
-You'll need a GitHub API [personal access token](https://github.com/settings/tokens).
 
 ## Configuration
 
