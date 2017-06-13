@@ -80,7 +80,7 @@ export default class Changelog {
         .filter((category) => category.commits.length > 0);
 
       for (const category of categoriesWithCommits) {
-        progressBar.tick(category.heading || "Other");
+        progressBar.setTitle(category.heading || "Other");
 
         // Step 7: Group commits in category by package (local)
         const commitsByPackage: { [id: string]: CommitInfo[] } = category.commits.reduce((acc: { [id: string]: CommitInfo[] }, commit) => {
@@ -133,6 +133,8 @@ export default class Changelog {
             }
           }
         }
+
+        progressBar.tick();
       }
 
       progressBar.terminate();
@@ -225,12 +227,14 @@ export default class Changelog {
     // Step 3: Download PR data (remote)
     progressBar.init(commitInfos.length);
     await pMap(commitInfos, async (commitInfo: CommitInfo) => {
-      progressBar.tick(commitInfo.commitSHA);
+      progressBar.setTitle(commitInfo.commitSHA);
 
       const issueNumber = findPullRequestId(commitInfo.message);
       if (issueNumber !== null) {
         commitInfo.githubIssue = await this.remote.getIssueData(issueNumber);
       }
+
+      progressBar.tick();
     }, { concurrency: 5 });
     progressBar.terminate();
 
