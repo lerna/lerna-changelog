@@ -100,6 +100,9 @@ const issuesCache = {
     labels: [
       { name: "Type: New Feature" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/1",
+    },
     user: usersCache.luke,
   },
   2: {
@@ -108,6 +111,9 @@ const issuesCache = {
     labels: [
       { name: "Type: Breaking Change" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/2",
+    },
     user: usersCache.gtarkin,
   },
   3: {
@@ -116,6 +122,9 @@ const issuesCache = {
     labels: [
       { name: "Type: Bug" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/3",
+    },
     user: usersCache.vader,
   },
   4: {
@@ -125,6 +134,9 @@ const issuesCache = {
       { name: "Type: Bug" },
       { name: "Type: Maintenance" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/4",
+    },
     user: usersCache.chewbacca,
   },
   5: {
@@ -133,6 +145,9 @@ const issuesCache = {
     labels: [
       { name: "Type: New Feature" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/5",
+    },
     user: usersCache.vader,
   },
   6: {
@@ -141,6 +156,9 @@ const issuesCache = {
     labels: [
       { name: "Type: Enhancement" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/6",
+    },
     user: usersCache["princess-leia"],
   },
   7: {
@@ -150,6 +168,9 @@ const issuesCache = {
       { name: "Type: New Feature" },
       { name: "Type: Enhancement" },
     ],
+    pull_request: {
+      html_url: "https://github.com/lerna/lerna-changelog/pull/7",
+    },
     user: usersCache["han-solo"],
   },
 };

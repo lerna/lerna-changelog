@@ -2,18 +2,30 @@ const pMap = require("p-map");
 
 import progressBar        from "./progress-bar";
 import RemoteRepo         from "./remote-repo";
-import execSync           from "./exec-sync";
 import * as Configuration from "./configuration";
 import findPullRequestId  from "./find-pull-request-id";
+import * as Git from "./git";
+import {GitHubIssueResponse} from "./github-api";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
 
-interface CommitListItem {
-  sha: string;
-  refName: string;
-  summary: string;
+interface CommitInfo {
+  commitSHA: string;
+  message: string;
+  tags?: string[];
   date: string;
+  githubIssue?: GitHubIssueResponse;
+}
+
+interface TagInfo {
+  date: string;
+  commits: CommitInfo[];
+}
+
+interface CategoryInfo {
+  heading: string | undefined;
+  commits: CommitInfo[];
 }
 
 export default class Changelog {
@@ -40,11 +52,17 @@ export default class Changelog {
 
     // Get all info about commits in a certain tags range
     const commitsInfo = await this.getCommitInfos();
+
+    // Step 4: Group commits by tag (local)
     const commitsByTag = await this.getCommitsByTag(commitsInfo);
 
     for (const tag of Object.keys(commitsByTag)) {
       const commitsForTag = commitsByTag[tag].commits;
+
+      // Step 5: Group commits in release by category (local)
       const commitsByCategory = this.getCommitsByCategory(commitsForTag);
+
+      // Step 6: Compile list of committers in release (local + remote)
       const committers = await this.getCommitters(commitsForTag);
 
       // Skip this iteration if there are no commits available for the tag
@@ -64,7 +82,8 @@ export default class Changelog {
       for (const category of categoriesWithCommits) {
         progressBar.tick(category.heading || "Other");
 
-        const commitsByPackage = category.commits.reduce((acc: any, commit: any) => {
+        // Step 7: Group commits in category by package (local)
+        const commitsByPackage: { [id: string]: CommitInfo[] } = category.commits.reduce((acc: { [id: string]: CommitInfo[] }, commit) => {
           // Array of unique packages.
           const changedPackages = this.getListOfUniquePackages(commit.commitSHA);
 
@@ -85,6 +104,7 @@ export default class Changelog {
         const headings = Object.keys(commitsByPackage);
         const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
 
+        // Step 8: Print commits
         for (const heading of headings) {
           const commits = commitsByPackage[heading];
 
@@ -93,21 +113,24 @@ export default class Changelog {
           }
 
           for (const commit of commits) {
-            markdown += onlyOtherHeading ? "\n* " : "\n  * ";
+            const issue = commit.githubIssue;
+            if (issue) {
+              markdown += onlyOtherHeading ? "\n* " : "\n  * ";
 
-            if (commit.number) {
-              const prUrl = this.remote.getBasePullRequestUrl() + commit.number;
-              markdown += `[#${commit.number}](${prUrl}) `;
+              if (issue.number && issue.pull_request && issue.pull_request.html_url) {
+                const prUrl = issue.pull_request.html_url;
+                markdown += `[#${issue.number}](${prUrl}) `;
+              }
+
+              if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
+                issue.title = issue.title.replace(
+                  COMMIT_FIX_REGEX,
+                  `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
+                );
+              }
+
+              markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
             }
-
-            if (commit.title.match(COMMIT_FIX_REGEX)) {
-              commit.title = commit.title.replace(
-                COMMIT_FIX_REGEX,
-                `Closes [#$3](${this.remote.getBaseIssueUrl()}$3)`
-              );
-            }
-
-            markdown += `${commit.title}. ([@${commit.user.login}](${commit.user.html_url}))`;
           }
         }
       }
@@ -122,64 +145,35 @@ export default class Changelog {
     return markdown.substring(0, markdown.length - 3);
   }
 
-  getListOfUniquePackages(sha: string) {
-    return Object.keys(
-      // turn into an array
-      execSync(
-        `git show -m --name-only --pretty='format:' --first-parent ${sha}`
-      )
-      .split("\n")
-      .reduce((acc: any, files: string) => {
-        if (files.indexOf("packages/") === 0) {
-          acc[files.slice(9).split("/", 1)[0]] = true;
-        }
-        return acc;
-      }, {})
-    );
+  getListOfUniquePackages(sha: string): string[] {
+    return Git.changedPaths(sha)
+      .map((path: string) => path.indexOf("packages/") === 0 ? path.slice(9).split("/", 1)[0] : "")
+      .filter(Boolean)
+      .filter(onlyUnique);
   }
 
   async getListOfTags(): Promise<string[]> {
-    const tags = execSync("git tag");
-    if (tags) {
-      return tags.split("\n");
-    }
-    return [];
+    return Git.listTagNames();
   }
 
   async getLastTag() {
-    return execSync("git describe --abbrev=0 --tags");
+    return Git.lastTag();
   }
 
-  async getListOfCommits(): Promise<CommitListItem[]> {
+  async getListOfCommits(): Promise<Git.CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
     const tagFrom = this.tagFrom || (await this.getLastTag());
-    const tagTo = this.tagTo || "";
-    const tagsRange = tagFrom + ".." + tagTo;
-    const commits = execSync(
-      // Prints "<short-hash>;<ref-name>;<summary>;<date>"
-      // This format is used in `getCommitInfos` for easily analize the commit.
-      `git log --oneline --pretty="%h;%D;%s;%cd" --date=short ${tagsRange}`
-    );
-    if (commits) {
-      return commits.split("\n").map((commit: string) => {
-        const parts = commit.split(";");
-        const sha = parts[0];
-        const refName = parts[1];
-        const summary = parts[2];
-        const date = parts[3];
-        return { sha, refName, summary, date };
-      });
-    }
-    return [];
+    return Git.listCommits(tagFrom, this.tagTo);
   }
 
-  async getCommitters(commits: any[]) {
+  async getCommitters(commits: CommitInfo[]): Promise<string[]> {
     const committers: { [id: string]: string } = {};
 
     for (const commit of commits) {
-      const login = (commit.user || {}).login;
+      const issue = commit.githubIssue;
+      const login = issue && issue.user.login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && (
@@ -202,13 +196,13 @@ export default class Changelog {
     return Object.keys(committers).map((k) => committers[k]).sort();
   }
 
-  async getCommitInfos() {
+  async getCommitInfos(): Promise<CommitInfo[]> {
+    // Step 1: Get list of commits between tag A and B (local)
     const commits = await this.getListOfCommits();
+
+    // Step 2: Find tagged commits (local)
     const allTags = await this.getListOfTags();
-
-    progressBar.init(commits.length);
-
-    const commitInfos = await pMap(commits, async (commit: CommitListItem) => {
+    const commitInfos = commits.map((commit) => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
@@ -218,42 +212,37 @@ export default class Changelog {
         tagsInCommit = allTags.filter(tag => refName.indexOf(tag) !== -1);
       }
 
-      progressBar.tick(sha);
-
-      let commitInfo: any = {
+      return {
         commitSHA: sha,
         message: message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
-        labels: [],
         tags: tagsInCommit,
         date
-      };
+      } as CommitInfo;
+    });
 
-      const issueNumber = findPullRequestId(message);
+    // Step 3: Download PR data (remote)
+    progressBar.init(commitInfos.length);
+    await pMap(commitInfos, async (commitInfo: CommitInfo) => {
+      progressBar.tick(commitInfo.commitSHA);
+
+      const issueNumber = findPullRequestId(commitInfo.message);
       if (issueNumber !== null) {
-        const response = await this.remote.getIssueData(issueNumber);
-        commitInfo = {
-          ...commitInfo,
-          ...response,
-          commitSHA: sha,
-          mergeMessage: message,
-        };
+        commitInfo.githubIssue = await this.remote.getIssueData(issueNumber);
       }
-
-      return commitInfo;
     }, { concurrency: 5 });
-
     progressBar.terminate();
+
     return commitInfos;
   }
 
-  async getCommitsByTag(commits: any[]) {
+  async getCommitsByTag(commits: CommitInfo[]): Promise<{ [id: string]: TagInfo }> {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
     let currentTags = [UNRELEASED_TAG];
-    return commits.reduce((acc, commit) => {
+    return commits.reduce((acc: any, commit) => {
       if (commit.tags && commit.tags.length > 0) {
         currentTags = commit.tags;
       }
@@ -288,14 +277,16 @@ export default class Changelog {
     }, {});
   }
 
-  getCommitsByCategory(allCommits: any[]) {
-    return this.remote.getLabels().map((label) => {
-      let heading = this.remote.getHeadingForLabel(label);
+  getCommitsByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
+    const { labels } = this.config;
+
+    return Object.keys(labels).map((label) => {
+      let heading = labels[label];
 
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
       let commits = allCommits
-        .filter((commit) => commit.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
+        .filter((commit) => commit.githubIssue && commit.githubIssue.labels.some((l: any) => l.name.toLowerCase() === label.toLowerCase()));
 
       return { heading, commits };
     });
@@ -305,4 +296,8 @@ export default class Changelog {
     const date = new Date().toISOString();
     return date.slice(0, date.indexOf("T"));
   }
+}
+
+function onlyUnique(value: any, index: number, self: any[]): boolean {
+  return self.indexOf(value) === index;
 }
