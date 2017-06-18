@@ -5,6 +5,7 @@ import ApiDataCache from "./api-data-cache";
 import ConfigurationError from "./configuration-error";
 
 export interface GitHubUserResponse {
+  login: string;
   name: string;
   html_url: string;
 }

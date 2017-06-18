@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Changelog getCommitInfos parse commits with different tags 1`] = `
+Array [
+  Object {
+    "commitSHA": "a0000005",
+    "date": "2017-01-01",
+    "issueNumber": null,
+    "message": "chore(release): releasing component",
+    "packages": Array [],
+    "tags": Array [
+      "v0.2.0",
+    ],
+  },
+  Object {
+    "categories": Array [
+      ":rocket: New Feature",
+    ],
+    "commitSHA": "a0000004",
+    "date": "2017-01-01",
+    "githubIssue": Object {
+      "labels": Array [
+        Object {
+          "name": "Type: New Feature",
+        },
+        Object {
+          "name": "Status: In Progress",
+        },
+      ],
+      "number": 2,
+      "title": "This is the commit title for the issue (#2)",
+      "user": Object {
+        "html_url": "https://github.com/test-user",
+        "login": "test-user",
+        "name": "Test User",
+      },
+    },
+    "issueNumber": "2",
+    "message": "Merge pull request #2 from my-feature",
+    "packages": Array [],
+    "tags": undefined,
+  },
+  Object {
+    "categories": Array [
+      ":rocket: New Feature",
+    ],
+    "commitSHA": "a0000003",
+    "date": "2017-01-01",
+    "githubIssue": Object {
+      "labels": Array [
+        Object {
+          "name": "Type: New Feature",
+        },
+        Object {
+          "name": "Status: In Progress",
+        },
+      ],
+      "number": 2,
+      "title": "This is the commit title for the issue (#2)",
+      "user": Object {
+        "html_url": "https://github.com/test-user",
+        "login": "test-user",
+        "name": "Test User",
+      },
+    },
+    "issueNumber": "2",
+    "message": "feat(module) Add new module (#2)",
+    "packages": Array [],
+    "tags": undefined,
+  },
+  Object {
+    "commitSHA": "a0000002",
+    "date": "2017-01-01",
+    "issueNumber": null,
+    "message": "refactor(module) Simplify implementation",
+    "packages": Array [],
+    "tags": undefined,
+  },
+  Object {
+    "commitSHA": "a0000001",
+    "date": "2017-01-01",
+    "issueNumber": null,
+    "message": "chore(release): releasing component",
+    "packages": Array [],
+    "tags": Array [
+      "v0.1.0",
+    ],
+  },
+]
+`;

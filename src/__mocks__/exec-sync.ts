@@ -23,7 +23,7 @@ export function __mockGitTag (result: string) {
 export default function execSync(cmd: string): string | undefined {
   if (cmd.indexOf("git show") === 0) {
     const sha = cmd.split("--first-parent")[1].trim();
-    return gitShowResult[sha];
+    return gitShowResult[sha] || '';
   } else if (cmd.indexOf("git describe") === 0)
     return gitDescribeResult;
   else if (cmd.indexOf("git log") === 0)
