@@ -1,4 +1,3 @@
-import progressBar from "./progress-bar";
 import {GitHubUserResponse} from "./github-api";
 import {CommitInfo, Release} from "./interfaces";
 
@@ -23,94 +22,116 @@ export default class MarkdownRenderer {
   }
 
   renderMarkdown(releases: Release[]) {
-    let markdown = "\n";
+    return `\n${releases
+      .map((release) => this.renderRelease(release))
+      .filter(Boolean)
+      .join("\n\n\n")}`;
+  }
 
-    for (const release of releases) {
-      // Step 8: Group commits in release by category (local)
-      const categories = this.groupByCategory(release.commits);
-      const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
+  renderRelease(release: Release): string | undefined {
+    // Group commits in release by category
+    const categories = this.groupByCategory(release.commits);
+    const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
 
-      // Skip this iteration if there are no commits available for the release
-      if (categoriesWithCommits.length === 0) continue;
+    // Skip this iteration if there are no commits available for the release
+    if (categoriesWithCommits.length === 0) return "";
 
-      const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
-      markdown += `## ${releaseTitle} (${release.date})`;
+    const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
 
-      progressBar.init(categories.length);
+    let markdown = `## ${releaseTitle} (${release.date})`;
 
-      for (const category of categoriesWithCommits) {
-        progressBar.setTitle(category.name || "Other");
+    for (const category of categoriesWithCommits) {
+      markdown += `\n\n#### ${category.name}\n`;
 
-        // Step 9: Group commits in category by package (local)
-        const commitsByPackage: { [id: string]: CommitInfo[] } = {};
-        for (const commit of category.commits) {
-          // Array of unique packages.
-          const changedPackages = commit.packages || [];
-
-          const heading = changedPackages.length > 0
-            ? `* ${changedPackages.map((pkg) => `\`${pkg}\``).join(", ")}`
-            : "* Other";
-
-          commitsByPackage[heading] = commitsByPackage[heading] || [];
-          commitsByPackage[heading].push(commit);
-        }
-
-        markdown += "\n";
-        markdown += "\n";
-        markdown += `#### ${category.name}`;
-
-        const headings = Object.keys(commitsByPackage);
-        const onlyOtherHeading = headings.length === 1 && headings[0] === "* Other";
-
-        // Step 10: Print commits
-        for (const heading of headings) {
-          const commits = commitsByPackage[heading];
-
-          if (!onlyOtherHeading) {
-            markdown += `\n${heading}`;
-          }
-
-          for (const commit of commits) {
-            const issue = commit.githubIssue;
-            if (issue) {
-              markdown += onlyOtherHeading ? "\n* " : "\n  * ";
-
-              if (issue.number && issue.pull_request && issue.pull_request.html_url) {
-                const prUrl = issue.pull_request.html_url;
-                markdown += `[#${issue.number}](${prUrl}) `;
-              }
-
-              if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
-                issue.title = issue.title.replace(
-                  COMMIT_FIX_REGEX,
-                  `Closes [#$3](${this.options.baseIssueUrl}$3)`
-                );
-              }
-
-              markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
-            }
-          }
-        }
-
-        progressBar.tick();
+      if (this.hasPackages(category.commits)) {
+        markdown += this.renderContributionsByPackage(category.commits);
+      } else {
+        markdown += this.renderContributionList(category.commits);
       }
-
-      progressBar.terminate();
-
-      let contributors: GitHubUserResponse[] = release.contributors || [];
-      markdown += `\n\n#### Committers: ${contributors.length}\n`;
-      markdown += contributors.map((contributor) => {
-        const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
-        if (contributor.name) {
-          return `- ${contributor.name} (${userNameAndLink})`;
-        } else {
-          return `- ${userNameAndLink}`;
-        }
-      }).sort().join("\n");
-      markdown += "\n\n\n";
     }
 
-    return markdown.substring(0, markdown.length - 3);
+    if (release.contributors) {
+      markdown += `\n\n${this.renderContributorList(release.contributors)}`;
+    }
+
+    return markdown;
+  }
+
+  hasPackages(commits: CommitInfo[]) {
+    return commits.some((commit) => commit.packages !== undefined && commit.packages.length > 0);
+  }
+
+  renderContributionsByPackage(commits: CommitInfo[]) {
+    // Group commits in category by package
+    const commitsByPackage: { [id: string]: CommitInfo[] } = {};
+    for (const commit of commits) {
+      // Array of unique packages.
+      const changedPackages = commit.packages || [];
+
+      const packageName = this.renderPackageNames(changedPackages);
+
+      commitsByPackage[packageName] = commitsByPackage[packageName] || [];
+      commitsByPackage[packageName].push(commit);
+    }
+
+    const packageNames = Object.keys(commitsByPackage);
+
+    return packageNames.map((packageName) => {
+      const commits = commitsByPackage[packageName];
+      return `* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
+    }).join("\n");
+  }
+
+  renderPackageNames(packageNames: string[]) {
+    return packageNames.length > 0
+      ? packageNames.map((pkg) => `\`${pkg}\``).join(", ")
+      : "Other";
+  }
+
+  renderContributionList(commits: CommitInfo[], prefix: string = ""): string {
+    return commits
+      .map((commit) => this.renderContribution(commit))
+      .filter(Boolean)
+      .map((rendered) => `${prefix}* ${rendered}`)
+      .join("\n");
+  }
+
+  renderContribution(commit: CommitInfo): string | undefined {
+    const issue = commit.githubIssue;
+    if (issue) {
+      let markdown = "";
+
+      if (issue.number && issue.pull_request && issue.pull_request.html_url) {
+        const prUrl = issue.pull_request.html_url;
+        markdown += `[#${issue.number}](${prUrl}) `;
+      }
+
+      if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
+        issue.title = issue.title.replace(
+          COMMIT_FIX_REGEX,
+          `Closes [#$3](${this.options.baseIssueUrl}$3)`
+        );
+      }
+
+      markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
+
+      return markdown;
+    }
+  }
+
+  renderContributorList(contributors: GitHubUserResponse[]) {
+    const renderedContributors = contributors.map((contributor) => `- ${this.renderContributor(contributor)}`).sort();
+
+    return `#### Committers: ${contributors.length}\n${renderedContributors.join("\n")}`;
+  }
+
+  renderContributor(contributor: GitHubUserResponse): string {
+    const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
+    if (contributor.name) {
+      return `${contributor.name} (${userNameAndLink})`;
+    } else {
+      return userNameAndLink;
+    }
   }
 
   groupByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
