@@ -49,7 +49,7 @@ export default class Changelog {
     this.fillInCategories(commitInfos);
 
     // Step 5: Fill in packages (local)
-    this.fillInPackages(commitInfos);
+    await this.fillInPackages(commitInfos);
 
     return commitInfos;
   }
@@ -73,26 +73,18 @@ export default class Changelog {
     return this.renderer.renderMarkdown(releases);
   }
 
-  getListOfUniquePackages(sha: string): string[] {
-    return Git.changedPaths(sha)
+  async getListOfUniquePackages(sha: string): Promise<string[]> {
+    return (await Git.changedPaths(sha))
       .map((path: string) => path.indexOf("packages/") === 0 ? path.slice(9).split("/", 1)[0] : "")
       .filter(Boolean)
       .filter(onlyUnique);
-  }
-
-  async getListOfTags(): Promise<string[]> {
-    return Git.listTagNames();
-  }
-
-  async getLastTag() {
-    return Git.lastTag();
   }
 
   async getListOfCommits(): Promise<Git.CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.tagFrom || (await this.getLastTag());
+    const tagFrom = this.tagFrom || (await Git.lastTag());
     return Git.listCommits(tagFrom, this.tagTo);
   }
 
@@ -122,7 +114,7 @@ export default class Changelog {
   }
 
   async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
-    const allTags = await this.getListOfTags();
+    const allTags = await Git.listTagNames();
     return commits.map((commit) => {
       const { sha, refName, summary: message, date } = commit;
 
@@ -208,10 +200,18 @@ export default class Changelog {
     }
   }
 
-  fillInPackages(commits: CommitInfo[]) {
-    for (const commit of commits) {
-      commit.packages = this.getListOfUniquePackages(commit.commitSHA);
-    }
+  async fillInPackages(commits: CommitInfo[]) {
+    progressBar.init(commits.length);
+
+    await pMap(commits, async (commit: CommitInfo) => {
+      progressBar.setTitle(commit.commitSHA);
+
+      commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
+
+      progressBar.tick();
+    }, { concurrency: 5 });
+
+    progressBar.terminate();
   }
 
   async fillInContributors(releases: Release[]) {
