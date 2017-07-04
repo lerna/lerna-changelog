@@ -8,4 +8,9 @@ describe("ConfigurationError", function() {
     const error = new Error('foobar');
     expect(error instanceof ConfigurationError).toEqual(false);
   });
+
+  it("`message` property equals first constructor argument", function() {
+    const error = new ConfigurationError('foobar');
+    expect(error.message).toEqual('foobar');
+  });
 });
