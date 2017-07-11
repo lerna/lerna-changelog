@@ -1,3 +1,27 @@
+## v0.6.0 (2017-07-11)
+
+- Don't have to specify "repo" in the config
+- Have a set of default labels
+
+#### :rocket: Enhancement
+* [#71](https://github.com/lerna/lerna-changelog/pull/71) configuration: Derive repo from package.json and use default labels. ([@Turbo87](https://github.com/Turbo87))
+* [#60](https://github.com/lerna/lerna-changelog/pull/60) Add support for homu merge commits. ([@Turbo87](https://github.com/Turbo87))
+
+#### :bug: Bug Fix
+* [#70](https://github.com/lerna/lerna-changelog/pull/70) configuration-error: Add missing "message" property. ([@Turbo87](https://github.com/Turbo87))
+* [#64](https://github.com/lerna/lerna-changelog/pull/64) progressBar: Split tick() into setTitle() and tick(). ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#67](https://github.com/lerna/lerna-changelog/pull/67) Change git functions to be async using "execa". ([@Turbo87](https://github.com/Turbo87))
+* [#66](https://github.com/lerna/lerna-changelog/pull/66) MarkdownRenderer cleanup. ([@Turbo87](https://github.com/Turbo87))
+* [#65](https://github.com/lerna/lerna-changelog/pull/65) Extract "MarkdownRenderer" class. ([@Turbo87](https://github.com/Turbo87))
+* [#61](https://github.com/lerna/lerna-changelog/pull/61) Refactorings and code simplification (part 2). ([@Turbo87](https://github.com/Turbo87))
+* [#59](https://github.com/lerna/lerna-changelog/pull/59) Refactorings and code simplification. ([@Turbo87](https://github.com/Turbo87))
+* [#54](https://github.com/lerna/lerna-changelog/pull/54) Convert to TypeScript. ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
+
 ## v0.5.0 (2017-05-31)
 
 - Make lerna-changelog work better for a regular repo (including this one)
