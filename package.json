@@ -37,6 +37,7 @@
     "fs-extra": "^2.0.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.0",
+    "normalize-git-url": "^3.0.2",
     "p-map": "^1.1.1",
     "progress": "^1.1.8",
     "string.prototype.padend": "^3.0.0",
@@ -64,7 +65,9 @@
     "cacheDir": ".changelog"
   },
   "jest": {
-    "roots": ["src"],
+    "roots": [
+      "src"
+    ],
     "transform": {
       "^.+\\.jsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"

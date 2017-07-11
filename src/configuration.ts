@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const execa = require("execa");
+const normalize = require("normalize-git-url");
 
 import ConfigurationError from "./configuration-error";
 
@@ -10,7 +11,7 @@ export function fromGitRoot(cwd: string): any {
 }
 
 export function fromPath(rootPath: string): any {
-  const config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath);
+  const config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || guessConfig(rootPath);
 
   if (!config) {
     throw new ConfigurationError(
@@ -36,4 +37,43 @@ function fromPackageConfig(rootPath: string): any | undefined {
   if (fs.existsSync(pkgPath)) {
     return JSON.parse(fs.readFileSync(pkgPath)).changelog;
   }
+}
+
+function guessConfig(rootPath: string): any | undefined {
+  const repo = findRepo(rootPath);
+  if (!repo) {
+    return;
+  }
+
+  const labels = {
+    "enhancement": ":rocket: Enhancement",
+    "bug": ":bug: Bug Fix",
+  };
+
+  return { repo, labels };
+}
+
+function findRepo(rootPath: string): string | undefined {
+  const pkgPath = path.join(rootPath, "package.json");
+  if (!fs.existsSync(pkgPath)) {
+    return;
+  }
+
+  const pkg = JSON.parse(fs.readFileSync(pkgPath));
+  if (!pkg.repository) {
+    return;
+  }
+
+  return findRepoFromPkg(pkg);
+}
+
+export function findRepoFromPkg(pkg: any): string | undefined {
+  const url = pkg.repository.url || pkg.repository;
+  const normalized = normalize(url).url;
+  const match = normalized.match(/github\.com[:/]([^./]+\/[^./]+)(?:\.git)?/);
+  if (!match) {
+    return;
+  }
+
+  return match[1];
 }
