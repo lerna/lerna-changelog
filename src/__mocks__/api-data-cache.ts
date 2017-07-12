@@ -1,28 +1,9 @@
-let localCache: { [id: string]: any } = {};
-export function __resetDefaults() {
-  localCache = {};
-}
-export function __setCache(cache: any) {
-  localCache = {};
-  for (const key of Object.keys(cache)) {
-    let value = cache[key];
+const ApiDataCache = require.requireActual("../api-data-cache").default;
 
-    for (const key2 of Object.keys(value)) {
-      let value2 = value[key2];
-      let combinedKey = `${key}/${key2}`;
-      localCache[combinedKey] = value2;
-    }
-  }
-}
-
-class MockedApiDataCache {
-  get(key: string) {
-    return localCache[key];
+export default class extends ApiDataCache  {
+  async getOrRequest<T>(key: string, fn: () => Promise<T>): Promise<T> {
+    return await fn();
   }
 
-  async getOrRequest(key: string) {
-    return this.get(key);
-  }
+  set(key: string, data: any) {}
 }
-
-export default MockedApiDataCache;
