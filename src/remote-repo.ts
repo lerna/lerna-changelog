@@ -21,7 +21,7 @@ export default class RemoteRepo {
   }
 
   async getIssueData(issue: string): Promise<GitHubIssueResponse> {
-    return this.githubAPI.getIssueData(issue);
+    return this.githubAPI.getIssueData(this.repo, issue);
   }
 
   async getUserData(login: string): Promise<GitHubUserResponse> {

@@ -49,8 +49,8 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH;
   }
 
-  async getIssueData(issue: string): Promise<GitHubIssueResponse> {
-    return this._fetch(`https://api.github.com/repos/${this.repo}/issues/${issue}`);
+  async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
+    return this._fetch(`https://api.github.com/repos/${repo}/issues/${issue}`);
   }
 
   async getUserData(login: string): Promise<GitHubUserResponse> {
