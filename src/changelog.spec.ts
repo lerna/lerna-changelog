@@ -21,8 +21,8 @@ describe("Changelog", () => {
 
     it("set cli options", () => {
       const changelog = new MockedChangelog({ tagFrom: "1", tagTo: "2" });
-      expect(changelog.tagFrom).toBe("1");
-      expect(changelog.tagTo).toBe("2");
+      expect(changelog.config.tagFrom).toBe("1");
+      expect(changelog.config.tagTo).toBe("2");
     });
   });
 

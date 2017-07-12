@@ -19,19 +19,14 @@ export default class Changelog {
   config: any;
   github: GithubAPI;
   renderer: MarkdownRenderer;
-  tagFrom?: string;
-  tagTo?: string;
 
   constructor(options: Options = {}) {
-    this.config = this.getConfig();
+    this.config = Object.assign(this.getConfig(), options);
     this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
       categories: Object.keys(this.config.labels).map(key => this.config.labels[key]),
       baseIssueUrl: this.github.getBaseIssueUrl(this.config.repo),
     });
-
-    this.tagFrom = options.tagFrom;
-    this.tagTo = options.tagTo;
   }
 
   getConfig() {
@@ -87,8 +82,8 @@ export default class Changelog {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.tagFrom || (await Git.lastTag());
-    return Git.listCommits(tagFrom, this.tagTo);
+    const tagFrom = this.config.tagFrom || (await Git.lastTag());
+    return Git.listCommits(tagFrom, this.config.tagTo);
   }
 
   async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
