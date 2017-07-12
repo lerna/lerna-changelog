@@ -1,3 +1,3 @@
-const fetch = require("node-fetch");
+const fetch = require("make-fetch-happen");
 
 export default fetch;
