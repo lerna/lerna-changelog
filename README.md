@@ -21,10 +21,9 @@ $ git diff lerna.json
 ...
  {
 +  "changelog": {
-+    "repo": "my-org/my-repo",
-+    "labels": {
-+      "bug": "Bug fix",
-+      "cleanup": "Housekeeping"
++    "labels": { // default
++      "enhancement": ":rocket: Enhancement",
++      "bug": ":bug: Bug Fix"
 +    },
 +    "cacheDir": ".changelog"
 +  },
@@ -66,7 +65,7 @@ Copypasta.  You're done!
 
 ## Configuration
 
-- `repo`: Your "org/repo" on GitHub
+- `repo`: Your "org/repo" on GitHub (automatically inferred)
 - `cacheDir` [optional]: A place to stash GitHub API responses to avoid throttling
 - `labels`: GitHub issue/PR labels mapped to changelog section headers
 - `ignoreCommitters` [optional]: list of commiters to ignore (exact or partial match). Useful for example to ignore commits from bot agents
