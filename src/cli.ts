@@ -3,7 +3,7 @@ const chalk = require("chalk");
 import Changelog from "./changelog";
 import ConfigurationError from "./configuration-error";
 
-export function run() {
+export async function run() {
   const argv = require("yargs")
     .usage("Usage: lerna-changelog [options]")
     .options({
@@ -29,16 +29,14 @@ export function run() {
     .argv;
 
   try {
-    (new Changelog(argv)).createMarkdown().then((result) => {
-      console.log(result);
-    }).catch((e) => {
-      console.log(chalk.red(e.stack));
-    });
+    let result = await (new Changelog(argv)).createMarkdown();
+    console.log(result);
+
   } catch (e) {
     if (e instanceof ConfigurationError) {
       console.log(chalk.red(e.message));
     } else {
-      throw (e);
+      console.log(chalk.red(e.stack));
     }
   }
 }
