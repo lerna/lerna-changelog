@@ -36,7 +36,6 @@
     "execa": "^0.6.3",
     "fs-extra": "^2.0.0",
     "make-fetch-happen": "^2.4.13",
-    "mkdirp": "^0.5.1",
     "normalize-git-url": "^3.0.2",
     "p-map": "^1.1.1",
     "progress": "^1.1.8",
