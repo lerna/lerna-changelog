@@ -1,5 +1,4 @@
 jest.mock("../src/progress-bar");
-jest.mock("../src/api-data-cache");
 jest.mock("../src/changelog");
 jest.mock("../src/github-api");
 jest.mock("./git");

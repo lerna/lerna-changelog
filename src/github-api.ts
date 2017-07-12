@@ -1,6 +1,5 @@
 const path = require("path");
 
-import ApiDataCache from "./api-data-cache";
 import ConfigurationError from "./configuration-error";
 import fetch from "./fetch";
 
@@ -33,15 +32,11 @@ export interface Options {
 
 export default class GithubAPI {
   repo: string;
-  cache: ApiDataCache;
   auth: string;
 
   constructor(config: Options) {
     const { repo } = config;
     this.repo = repo;
-    this.cache = new ApiDataCache({
-      path: config.cacheDir && path.join(config.rootPath, config.cacheDir, 'github')
-    });
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
@@ -61,7 +56,7 @@ export default class GithubAPI {
   }
 
   async _get(key: string): Promise<any> {
-    return this.cache.getOrRequest(key, () => this._fetch(key));
+    return this._fetch(key);
   }
 
   async _fetch(key: string): Promise<any> {
