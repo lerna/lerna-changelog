@@ -19,11 +19,6 @@ describe("Changelog", () => {
       expect(changelog.config).toEqual(testConfig);
     });
 
-    it("set remote", () => {
-      const changelog = new MockedChangelog();
-      expect(changelog.remote).toBeDefined();
-    });
-
     it("set cli options", () => {
       const changelog = new MockedChangelog({ "tag-from": "1", "tag-to": "2" });
       expect(changelog.tagFrom).toBe("1");
