@@ -50,15 +50,11 @@ export default class GithubAPI {
   }
 
   async getIssueData(issue: string): Promise<GitHubIssueResponse> {
-    return this._get(`repos/${this.repo}/issues/${issue}`);
+    return this._fetch(`repos/${this.repo}/issues/${issue}`);
   }
 
   async getUserData(login: string): Promise<GitHubUserResponse> {
-    return this._get(`users/${login}`);
-  }
-
-  async _get(key: string): Promise<any> {
-    return this._fetch(key);
+    return this._fetch(`users/${login}`);
   }
 
   async _fetch(key: string): Promise<any> {
