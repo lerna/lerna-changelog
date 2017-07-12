@@ -1,8 +1,8 @@
 jest.mock("../src/progress-bar");
-jest.mock("../src/api-data-cache");
 jest.mock("../src/changelog");
 jest.mock("../src/github-api");
 jest.mock("./git");
+jest.mock("./fetch");
 
 describe("Changelog", () => {
   describe("contructor", () => {
@@ -33,7 +33,7 @@ describe("Changelog", () => {
 
   describe("getCommitInfos", () => {
     beforeEach(() => {
-      require("./api-data-cache").__resetDefaults();
+      require("./fetch").__resetMockResponses();
 
       require("./git").listCommits.mockImplementation(() => [
         { sha: "a0000005", refName:"HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD", summary: "chore(release): releasing component", date: "2017-01-01" },
@@ -53,26 +53,26 @@ describe("Changelog", () => {
       require("./git").changedPaths.mockImplementation(() => []);
 
       const usersCache = {
-        "test-user": {
+        "https://api.github.com/users/test-user": {
           login: "test-user",
           html_url: "https://github.com/test-user",
           name: "Test User"
         },
       };
       const issuesCache = {
-        2: {
+        "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
           number: 2,
           title: "This is the commit title for the issue (#2)",
           labels: [
             { name: "Type: New Feature" },
             { name: "Status: In Progress" },
           ],
-          user: usersCache["test-user"],
+          user: usersCache["https://api.github.com/users/test-user"],
         }
       };
-      require("./api-data-cache").__setCache({
-        users: usersCache,
-        "repos/lerna/lerna-changelog/issues": issuesCache,
+      require("./fetch").__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
     });
 
@@ -91,34 +91,31 @@ describe("Changelog", () => {
 
   describe("getCommitters", () => {
     beforeEach(() => {
-      require("./api-data-cache").__resetDefaults();
+      require("./fetch").__resetMockResponses();
 
       const usersCache = {
-        "test-user": {
+        "https://api.github.com/users/test-user": {
           login: "test-user",
           html_url: "https://github.com/test-user",
           name: "Test User"
         },
-        "test-user-1": {
+        "https://api.github.com/users/test-user-1": {
           login: "test-user-1",
           html_url: "https://github.com/test-user-1",
           name: "Test User 1"
         },
-        "test-user-2": {
+        "https://api.github.com/users/test-user-2": {
           login: "test-user-2",
           html_url: "https://github.com/test-user-2",
           name: "Test User 2"
         },
-        "user-bot": {
+        "https://api.github.com/users/user-bot": {
           login: "user-bot",
           html_url: "https://github.com/user-bot",
           name: "User Bot"
         },
       };
-      require("./api-data-cache").__setCache({
-        users: usersCache,
-        "repos/lerna/lerna-changelog/issues": {},
-      });
+      require("./fetch").__setMockResponses(usersCache);
       require("./changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
     });
 

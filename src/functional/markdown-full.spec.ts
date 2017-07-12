@@ -1,10 +1,10 @@
 import {CommitListItem} from "../git";
 
 jest.mock("../../src/progress-bar");
-jest.mock("../../src/api-data-cache");
 jest.mock("../../src/changelog");
 jest.mock("../../src/github-api");
 jest.mock("../git");
+jest.mock("../fetch");
 
 const listOfCommits: CommitListItem[] = [
   { sha: "a0000015", refName:"", summary: "chore: making of episode viii", date: "2015-12-18" },
@@ -77,49 +77,49 @@ const listOfFileForEachCommit: { [id: string]: string[] } = {
 };
 
 const usersCache = {
-  luke: {
+  "https://api.github.com/users/luke": {
     login: "luke",
     html_url: "https://github.com/luke",
     name: "Luke Skywalker"
   },
-  "princess-leia": {
+  "https://api.github.com/users/princess-leia": {
     login: "princess-leia",
     html_url: "https://github.com/princess-leia",
     name: "Princess Leia Organa"
   },
-  vader: {
+  "https://api.github.com/users/vader": {
     login: "vader",
     html_url: "https://github.com/vader",
     name: "Darth Vader"
   },
-  gtarkin: {
+  "https://api.github.com/users/gtarkin": {
     login: "gtarkin",
     html_url: "https://github.com/gtarkin",
     name: "Governor Tarkin"
   },
-  "han-solo": {
+  "https://api.github.com/users/han-solo": {
     login: "han-solo",
     html_url: "https://github.com/han-solo",
     name: "Han Solo"
   },
-  chewbacca: {
+  "https://api.github.com/users/chewbacca": {
     login: "chewbacca",
     html_url: "https://github.com/chewbacca",
     name: "Chwebacca"
   },
-  "rd-d2": {
+  "https://api.github.com/users/rd-d2": {
     login: "rd-d2",
     html_url: "https://github.com/rd-d2",
     name: "R2-D2"
   },
-  "c-3po": {
+  "https://api.github.com/users/c-3po": {
     login: "c-3po",
     html_url: "https://github.com/c-3po",
     name: "C-3PO"
   }
 };
 const issuesCache = {
-  1: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/1": {
     number: 1,
     title: "feat: May the force be with you",
     labels: [
@@ -128,9 +128,9 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/1",
     },
-    user: usersCache.luke,
+    user: usersCache["https://api.github.com/users/luke"],
   },
-  2: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
     number: 2,
     title: "chore: Terminate her... immediately!",
     labels: [
@@ -139,9 +139,9 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/2",
     },
-    user: usersCache.gtarkin,
+    user: usersCache["https://api.github.com/users/gtarkin"],
   },
-  3: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/3": {
     number: 3,
     title: "fix: Get me the rebels base!",
     labels: [
@@ -150,9 +150,9 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/3",
     },
-    user: usersCache.vader,
+    user: usersCache["https://api.github.com/users/vader"],
   },
-  4: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/4": {
     number: 4,
     title: "fix: RRRAARRWHHGWWR",
     labels: [
@@ -162,9 +162,9 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/4",
     },
-    user: usersCache.chewbacca,
+    user: usersCache["https://api.github.com/users/chewbacca"],
   },
-  5: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/5": {
     number: 5,
     title: "feat: I am your father",
     labels: [
@@ -173,9 +173,9 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/5",
     },
-    user: usersCache.vader,
+    user: usersCache["https://api.github.com/users/vader"],
   },
-  6: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/6": {
     number: 6,
     title: "refactor: he is my brother",
     labels: [
@@ -184,9 +184,9 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/6",
     },
-    user: usersCache["princess-leia"],
+    user: usersCache["https://api.github.com/users/princess-leia"],
   },
-  7: {
+  "https://api.github.com/repos/lerna/lerna-changelog/issues/7": {
     number: 7,
     title: "feat: that is not how the Force works!",
     labels: [
@@ -196,14 +196,14 @@ const issuesCache = {
     pull_request: {
       html_url: "https://github.com/lerna/lerna-changelog/pull/7",
     },
-    user: usersCache["han-solo"],
+    user: usersCache["https://api.github.com/users/han-solo"],
   },
 };
 
 
 describe("createMarkdown", () => {
   beforeEach(() => {
-    require("../api-data-cache").__resetDefaults();
+    require("../fetch").__resetMockResponses();
   });
 
   afterEach(() => {
@@ -216,10 +216,12 @@ describe("createMarkdown", () => {
       require("../git").lastTag.mockImplementation(() => "v8.0.0");
       require("../git").listCommits.mockImplementation(() => listOfCommits);
       require("../git").listTagNames.mockImplementation(() => listOfTags);
-      require("../api-data-cache").__setCache({
-        users: usersCache,
-        "repos/lerna/lerna-changelog/issues": issuesCache,
+
+      require("../fetch").__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
+
       const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
@@ -251,10 +253,12 @@ describe("createMarkdown", () => {
         "the-force-awakens@7.0.0",
         "the-phantom-menace@1.0.0",
       ]);
-      require("../api-data-cache").__setCache({
-        users: usersCache,
-        "repos/lerna/lerna-changelog/issues": issuesCache,
+
+      require("../fetch").__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
+
       const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
@@ -273,10 +277,12 @@ describe("createMarkdown", () => {
       require("../git").lastTag.mockImplementation(() => "v8.0.0");
       require("../git").listCommits.mockImplementation(() => listOfCommits);
       require("../git").listTagNames.mockImplementation(() => listOfTags);
-      require("../api-data-cache").__setCache({
-        users: usersCache,
-        "repos/lerna/lerna-changelog/issues": issuesCache,
+
+      require("../fetch").__setMockResponses({
+        ...usersCache,
+        ...issuesCache,
       });
+
       const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
