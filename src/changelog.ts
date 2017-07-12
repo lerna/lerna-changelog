@@ -25,9 +25,8 @@ export default class Changelog {
       baseIssueUrl: this.github.getBaseIssueUrl(this.config.repo),
     });
 
-    // CLI options
-    this.tagFrom = options["tag-from"];
-    this.tagTo = options["tag-to"];
+    this.tagFrom = options.tagFrom;
+    this.tagTo = options.tagTo;
   }
 
   getConfig() {
