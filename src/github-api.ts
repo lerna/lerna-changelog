@@ -31,13 +31,10 @@ export interface Options {
 }
 
 export default class GithubAPI {
-  repo: string;
   cacheDir: string | undefined;
   auth: string;
 
   constructor(config: Options) {
-    const { repo } = config;
-    this.repo = repo;
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, 'github');
     this.auth = this.getAuthToken();
     if (!this.auth) {
