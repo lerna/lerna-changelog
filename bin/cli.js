@@ -2,4 +2,6 @@
 
 "use strict";
 
-require("../lib/cli");
+var cli = require("../lib/cli");
+
+cli.run();
