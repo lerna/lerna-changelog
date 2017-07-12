@@ -46,6 +46,10 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH;
   }
 
+  getBaseIssueUrl(repo: string): string {
+    return `https://github.com/${repo}/issues/`;
+  }
+
   async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
     return this._fetch(`https://api.github.com/repos/${repo}/issues/${issue}`);
   }

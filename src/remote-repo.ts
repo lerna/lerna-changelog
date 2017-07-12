@@ -17,7 +17,7 @@ export default class RemoteRepo {
   }
 
   getBaseIssueUrl(): string {
-    return "https://github.com/" + this.repo + "/issues/";
+    return this.githubAPI.getBaseIssueUrl(this.repo);
   }
 
   async getIssueData(issue: string): Promise<GitHubIssueResponse> {
