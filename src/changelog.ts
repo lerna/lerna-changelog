@@ -10,6 +10,11 @@ import MarkdownRenderer from "./markdown-renderer";
 
 const UNRELEASED_TAG = "___unreleased___";
 
+interface Options {
+  tagFrom?: string;
+  tagTo?: string;
+}
+
 export default class Changelog {
   config: any;
   github: GithubAPI;
@@ -17,7 +22,7 @@ export default class Changelog {
   tagFrom?: string;
   tagTo?: string;
 
-  constructor(options: any = {}) {
+  constructor(options: Options = {}) {
     this.config = this.getConfig();
     this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
