@@ -8,17 +8,6 @@ describe("Changelog", () => {
   describe("contructor", () => {
     const MockedChangelog = require("./changelog").default;
 
-    beforeEach(() => {
-      require("./changelog").__resetDefaults();
-    });
-
-    it("set config", () => {
-      const testConfig = require("./changelog").__getConfig();
-
-      const changelog = new MockedChangelog();
-      expect(changelog.config).toEqual(testConfig);
-    });
-
     it("set cli options", () => {
       const changelog = new MockedChangelog({ tagFrom: "1", tagTo: "2" });
       expect(changelog.config.tagFrom).toBe("1");
@@ -111,12 +100,13 @@ describe("Changelog", () => {
         },
       };
       require("./fetch").__setMockResponses(usersCache);
-      require("./changelog").__setConfig({ ignoreCommitters: ["user-bot"] });
     });
 
     it("get list of valid commiters", async () => {
       const MockedChangelog = require("./changelog").default;
-      const changelog = new MockedChangelog();
+      const changelog = new MockedChangelog({
+        ignoreCommitters: ["user-bot"]
+      });
 
       const testCommits = [
         { commitSHA: "a0000004", githubIssue: { user: { login: "test-user-1" } } },
