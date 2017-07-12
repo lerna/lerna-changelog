@@ -50,15 +50,14 @@ export default class GithubAPI {
   }
 
   async getIssueData(issue: string): Promise<GitHubIssueResponse> {
-    return this._fetch(`repos/${this.repo}/issues/${issue}`);
+    return this._fetch(`https://api.github.com/repos/${this.repo}/issues/${issue}`);
   }
 
   async getUserData(login: string): Promise<GitHubUserResponse> {
-    return this._fetch(`users/${login}`);
+    return this._fetch(`https://api.github.com/users/${login}`);
   }
 
-  async _fetch(key: string): Promise<any> {
-    const url = `https://api.github.com/${key}`;
+  async _fetch(url: string): Promise<any> {
     const res = await fetch(url, {
       cacheManager: this.cacheDir,
       headers: {
