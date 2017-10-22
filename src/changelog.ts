@@ -104,7 +104,7 @@ export default class Changelog {
 
     for (const commit of commits) {
       const issue = commit.githubIssue;
-      const login = issue && issue.user.login;
+      const login = issue && issue.user && issue.user.login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && !this.ignoreCommitter(login);
@@ -201,7 +201,7 @@ export default class Changelog {
 
   fillInCategories(commits: CommitInfo[]) {
     for (const commit of commits) {
-      if (!commit.githubIssue) continue;
+      if (!commit.githubIssue || !commit.githubIssue.labels) continue;
 
       const labels = commit.githubIssue.labels.map((label) => label.name.toLowerCase());
 
