@@ -86,6 +86,10 @@ export default class Changelog {
       return "";
     }
 
+    if (parts.length >= 4 && parts[1][0] === "@") {
+      return `${parts[1]}/${parts[2]}`;
+    }
+
     return parts[1];
   }
 

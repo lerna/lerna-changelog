@@ -45,7 +45,7 @@ describe("Changelog", () => {
       ['packages/foo/bar.js', 'foo'],
       ['packages/foo/bar/baz.js', 'foo'],
       ['packages/@foo/bar.js', '@foo'],
-      ['packages/@foo/bar/baz.js', '@foo'],
+      ['packages/@foo/bar/baz.js', '@foo/bar'],
     ];
 
     for (let [input, expected] of TESTS) {
