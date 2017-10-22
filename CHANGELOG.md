@@ -1,3 +1,19 @@
+## v0.7.0 (2017-10-22)
+
+#### :rocket: Enhancement
+* [#81](https://github.com/lerna/lerna-changelog/pull/81) Add support for nested/scoped packages. ([@Turbo87](https://github.com/Turbo87))
+
+#### :bug: Bug Fix
+* [#82](https://github.com/lerna/lerna-changelog/pull/82) changelog: Handle missing issues/PRs gracefully. ([@Turbo87](https://github.com/Turbo87))
+* [#73](https://github.com/lerna/lerna-changelog/pull/73) Use HTTP-based caching. ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#80](https://github.com/lerna/lerna-changelog/pull/80) GitHubAPI class refactorings. ([@Turbo87](https://github.com/Turbo87))
+* [#72](https://github.com/lerna/lerna-changelog/pull/72) Convert "cli" script to TypeScript and wrap in a run() function. ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
+
 ## v0.6.0 (2017-07-11)
 
 - Don't have to specify "repo" in the config
