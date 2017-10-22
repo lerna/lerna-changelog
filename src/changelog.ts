@@ -81,9 +81,12 @@ export default class Changelog {
   }
 
   packageFromPath(path: string): string {
-    return path.indexOf("packages/") === 0
-      ? path.slice(9).split("/", 1)[0]
-      : "";
+    const parts = path.split("/");
+    if (parts[0] !== "packages" || parts.length < 3) {
+      return "";
+    }
+
+    return parts[1];
   }
 
   async getListOfCommits(): Promise<Git.CommitListItem[]> {

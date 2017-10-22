@@ -41,7 +41,7 @@ describe("Changelog", () => {
     const TESTS = [
       ['', ''],
       ['foo.js', ''],
-      ['packages/foo.js', 'foo.js'],
+      ['packages/foo.js', ''],
       ['packages/foo/bar.js', 'foo'],
       ['packages/foo/bar/baz.js', 'foo'],
       ['packages/@foo/bar.js', '@foo'],
