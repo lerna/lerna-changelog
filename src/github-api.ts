@@ -31,13 +31,10 @@ export interface Options {
 }
 
 export default class GithubAPI {
-  repo: string;
   cacheDir: string | undefined;
   auth: string;
 
   constructor(config: Options) {
-    const { repo } = config;
-    this.repo = repo;
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, 'github');
     this.auth = this.getAuthToken();
     if (!this.auth) {
@@ -49,20 +46,19 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH;
   }
 
-  async getIssueData(issue: string): Promise<GitHubIssueResponse> {
-    return this._get(`repos/${this.repo}/issues/${issue}`);
+  getBaseIssueUrl(repo: string): string {
+    return `https://github.com/${repo}/issues/`;
+  }
+
+  async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
+    return this._fetch(`https://api.github.com/repos/${repo}/issues/${issue}`);
   }
 
   async getUserData(login: string): Promise<GitHubUserResponse> {
-    return this._get(`users/${login}`);
+    return this._fetch(`https://api.github.com/users/${login}`);
   }
 
-  async _get(key: string): Promise<any> {
-    return this._fetch(key);
-  }
-
-  async _fetch(key: string): Promise<any> {
-    const url = `https://api.github.com/${key}`;
+  async _fetch(url: string): Promise<any> {
     const res = await fetch(url, {
       cacheManager: this.cacheDir,
       headers: {

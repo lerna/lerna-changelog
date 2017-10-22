@@ -14,20 +14,9 @@ const defaultConfig = {
   cacheDir: ".changelog"
 };
 
-let currentConfig = defaultConfig;
-export function __resetDefaults() {
-  currentConfig = defaultConfig;
-}
-export function __getConfig() {
-  return currentConfig;
-}
-export function __setConfig(customConfig: any) {
-  currentConfig = { ...defaultConfig, ...customConfig };
-}
-
 class MockedChangelog extends Changelog {
   getConfig() {
-    return currentConfig;
+    return defaultConfig;
   }
   getToday() {
     return "2099-01-01";

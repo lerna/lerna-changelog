@@ -28,8 +28,13 @@ export async function run() {
     .help()
     .argv;
 
+  let options = {
+    tagFrom: argv['tag-from'],
+    tagTo: argv['tag-to'],
+  };
+
   try {
-    let result = await (new Changelog(argv)).createMarkdown();
+    let result = await (new Changelog(options)).createMarkdown();
     console.log(result);
 
   } catch (e) {

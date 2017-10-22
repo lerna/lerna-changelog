@@ -1,34 +1,32 @@
 const pMap = require("p-map");
 
 import progressBar        from "./progress-bar";
-import RemoteRepo         from "./remote-repo";
 import * as Configuration from "./configuration";
 import findPullRequestId  from "./find-pull-request-id";
 import * as Git from "./git";
-import {GitHubUserResponse} from "./github-api";
+import GithubAPI, {GitHubUserResponse} from "./github-api";
 import {CommitInfo, Release} from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
 
 const UNRELEASED_TAG = "___unreleased___";
 
-export default class Changelog {
-  config: any;
-  remote: RemoteRepo;
-  renderer: MarkdownRenderer;
+interface Options {
   tagFrom?: string;
   tagTo?: string;
+}
 
-  constructor(options: any = {}) {
-    this.config = this.getConfig();
-    this.remote = new RemoteRepo(this.config);
+export default class Changelog {
+  config: any;
+  github: GithubAPI;
+  renderer: MarkdownRenderer;
+
+  constructor(options: Options = {}) {
+    this.config = Object.assign(this.getConfig(), options);
+    this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
       categories: Object.keys(this.config.labels).map(key => this.config.labels[key]),
-      baseIssueUrl: this.remote.getBaseIssueUrl(),
+      baseIssueUrl: this.github.getBaseIssueUrl(this.config.repo),
     });
-
-    // CLI options
-    this.tagFrom = options["tag-from"];
-    this.tagTo = options["tag-to"];
   }
 
   getConfig() {
@@ -84,8 +82,8 @@ export default class Changelog {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.tagFrom || (await Git.lastTag());
-    return Git.listCommits(tagFrom, this.tagTo);
+    const tagFrom = this.config.tagFrom || (await Git.lastTag());
+    return Git.listCommits(tagFrom, this.config.tagTo);
   }
 
   async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
@@ -98,7 +96,7 @@ export default class Changelog {
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && !this.ignoreCommitter(login);
       if (login && shouldKeepCommiter && !committers[login]) {
-        committers[login] = await this.remote.getUserData(login);
+        committers[login] = await this.github.getUserData(login);
       }
     }
 
@@ -145,7 +143,7 @@ export default class Changelog {
       progressBar.setTitle(commitInfo.commitSHA);
 
       if (commitInfo.issueNumber) {
-        commitInfo.githubIssue = await this.remote.getIssueData(commitInfo.issueNumber);
+        commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
       }
 
       progressBar.tick();

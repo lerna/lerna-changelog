@@ -225,10 +225,7 @@ describe("createMarkdown", () => {
       const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
-      const markdown = await changelog.createMarkdown({
-        "tag-from": "v4.0.0",
-        "tag-to": undefined,
-      });
+      const markdown = await changelog.createMarkdown();
 
       expect(markdown).toMatchSnapshot();
     });
@@ -262,10 +259,7 @@ describe("createMarkdown", () => {
       const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
-      const markdown = await changelog.createMarkdown({
-        "tag-from": "v0.1.0",
-        "tag-to": undefined,
-      });
+      const markdown = await changelog.createMarkdown();
 
       expect(markdown).toMatchSnapshot();
     });
@@ -286,10 +280,7 @@ describe("createMarkdown", () => {
       const MockedChangelog = require("../changelog").default;
       const changelog = new MockedChangelog();
 
-      const markdown = await changelog.createMarkdown({
-        "tag-from": "v4.0.0",
-        "tag-to": undefined,
-      });
+      const markdown = await changelog.createMarkdown();
 
       expect(markdown).toMatchSnapshot();
     });
