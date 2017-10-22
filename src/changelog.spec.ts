@@ -18,10 +18,6 @@ describe("Changelog", () => {
   describe("packageFromPath", () => {
     const MockedChangelog = require("./changelog").default;
 
-    beforeEach(() => {
-      require("./changelog").__resetDefaults();
-    });
-
     const TESTS = [
       ['', ''],
       ['foo.js', ''],
