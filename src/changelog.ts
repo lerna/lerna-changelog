@@ -75,9 +75,15 @@ export default class Changelog {
 
   async getListOfUniquePackages(sha: string): Promise<string[]> {
     return (await Git.changedPaths(sha))
-      .map((path: string) => path.indexOf("packages/") === 0 ? path.slice(9).split("/", 1)[0] : "")
+      .map(path => this.packageFromPath(path))
       .filter(Boolean)
       .filter(onlyUnique);
+  }
+
+  packageFromPath(path: string): string {
+    return path.indexOf("packages/") === 0
+      ? path.slice(9).split("/", 1)[0]
+      : "";
   }
 
   async getListOfCommits(): Promise<Git.CommitListItem[]> {
