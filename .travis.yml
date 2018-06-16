@@ -11,15 +11,5 @@ node_js:
   - '8'
   - '10'
 
-env:
-  - JOB=test
-
 script:
-  - 'if [ "$JOB" = "test" ]; then npm run test-ci; fi'
-  - 'if [ "$JOB" = "lint" ]; then npm run lint; fi'
-
-matrix:
-  fast_finish: true
-  include:
-    - node_js: "node"
-      env: JOB=lint
+  - npm run test-ci
