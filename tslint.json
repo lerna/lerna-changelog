@@ -1,7 +1,8 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint:recommended"
+        "tslint:recommended",
+        "tslint-config-prettier"
     ],
     "jsRules": {},
     "rules": {
@@ -13,10 +14,7 @@
       "object-literal-sort-keys": false,
       "only-arrow-functions": false,
       "ordered-imports": false,
-      "prefer-const": false,
-      "quotemark": {
-        "options": "double"
-      }
+      "prefer-const": false
     },
     "rulesDirectory": []
 }
