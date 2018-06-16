@@ -47,18 +47,33 @@ describe("Changelog", () => {
           summary: "chore(release): releasing component",
           date: "2017-01-01",
         },
-        { sha: "a0000004", refName: "", summary: "Merge pull request #2 from my-feature", date: "2017-01-01" },
-        { sha: "a0000003", refName: "", summary: "feat(module) Add new module (#2)", date: "2017-01-01" },
-        { sha: "a0000002", refName: "", summary: "refactor(module) Simplify implementation", date: "2017-01-01" },
-        { sha: "a0000001", refName: "tag: v0.1.0", summary: "chore(release): releasing component", date: "2017-01-01" },
+        {
+          sha: "a0000004",
+          refName: "",
+          summary: "Merge pull request #2 from my-feature",
+          date: "2017-01-01",
+        },
+        {
+          sha: "a0000003",
+          refName: "",
+          summary: "feat(module) Add new module (#2)",
+          date: "2017-01-01",
+        },
+        {
+          sha: "a0000002",
+          refName: "",
+          summary: "refactor(module) Simplify implementation",
+          date: "2017-01-01",
+        },
+        {
+          sha: "a0000001",
+          refName: "tag: v0.1.0",
+          summary: "chore(release): releasing component",
+          date: "2017-01-01",
+        },
       ]);
 
-      require("./git").listTagNames.mockImplementation(() => [
-        "v0.2.0",
-        "v0.1.1",
-        "v0.1.0",
-        "v0.0.1",
-      ]);
+      require("./git").listTagNames.mockImplementation(() => ["v0.2.0", "v0.1.1", "v0.1.0", "v0.0.1"]);
 
       require("./git").changedPaths.mockImplementation(() => []);
 
@@ -73,10 +88,7 @@ describe("Changelog", () => {
         "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
           number: 2,
           title: "This is the commit title for the issue (#2)",
-          labels: [
-            { name: "Type: New Feature" },
-            { name: "Status: In Progress" },
-          ],
+          labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
           user: usersCache["https://api.github.com/users/test-user"],
         },
       };
@@ -135,22 +147,31 @@ describe("Changelog", () => {
       });
 
       const testCommits = [
-        { commitSHA: "a0000004", githubIssue: { user: { login: "test-user-1" } } },
-        { commitSHA: "a0000003", githubIssue: { user: { login: "test-user-2" } } },
+        {
+          commitSHA: "a0000004",
+          githubIssue: { user: { login: "test-user-1" } },
+        },
+        {
+          commitSHA: "a0000003",
+          githubIssue: { user: { login: "test-user-2" } },
+        },
         { commitSHA: "a0000002", githubIssue: { user: { login: "user-bot" } } },
         { commitSHA: "a0000001" },
       ];
       const committers = await changelog.getCommitters(testCommits);
 
-      expect(committers).toEqual([{
-        login: "test-user-1",
-        html_url: "https://github.com/test-user-1",
-        name: "Test User 1",
-      }, {
-        login: "test-user-2",
-        html_url: "https://github.com/test-user-2",
-        name: "Test User 2",
-      }]);
+      expect(committers).toEqual([
+        {
+          login: "test-user-1",
+          html_url: "https://github.com/test-user-1",
+          name: "Test User 1",
+        },
+        {
+          login: "test-user-2",
+          html_url: "https://github.com/test-user-2",
+          name: "Test User 2",
+        },
+      ]);
     });
   });
 });

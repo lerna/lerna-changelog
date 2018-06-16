@@ -1,4 +1,4 @@
-import {CommitInfo} from "./interfaces";
+import { CommitInfo } from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
 
 const BASIC_COMMIT = {

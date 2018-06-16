@@ -1,7 +1,7 @@
 const execa = require("execa");
 
 export async function changedPaths(sha: string): Promise<string[]> {
-  const result = await execa("git", ["show", "-m", "--name-only" , "--pretty=format:", "--first-parent", sha]);
+  const result = await execa("git", ["show", "-m", "--name-only", "--pretty=format:", "--first-parent", sha]);
   return result.stdout.split("\n");
 }
 
@@ -9,7 +9,10 @@ export async function changedPaths(sha: string): Promise<string[]> {
  * All existing tags in the repository
  */
 export function listTagNames(): string[] {
-  return execa.sync("git", ["tag"]).stdout.split("\n").filter(Boolean);
+  return execa
+    .sync("git", ["tag"])
+    .stdout.split("\n")
+    .filter(Boolean);
 }
 
 /**
@@ -29,8 +32,9 @@ export interface CommitListItem {
 export function listCommits(from: string, to: string = ""): CommitListItem[] {
   // Prints "<short-hash>;<ref-name>;<summary>;<date>"
   // This format is used in `getCommitInfos` for easily analize the commit.
-  return execa.sync("git", ["log", "--oneline", "--pretty=%h;%D;%s;%cd", "--date=short", `${from}..${to}`]).stdout
-    .split("\n")
+  return execa
+    .sync("git", ["log", "--oneline", "--pretty=%h;%D;%s;%cd", "--date=short", `${from}..${to}`])
+    .stdout.split("\n")
     .filter(Boolean)
     .map((commit: string) => {
       const parts = commit.split(";");

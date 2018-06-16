@@ -4,8 +4,8 @@ import progressBar from "./progress-bar";
 import * as Configuration from "./configuration";
 import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
-import GithubAPI, {GitHubUserResponse} from "./github-api";
-import {CommitInfo, Release} from "./interfaces";
+import GithubAPI, { GitHubUserResponse } from "./github-api";
+import { CommitInfo, Release } from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
 
 const UNRELEASED_TAG = "___unreleased___";
@@ -113,7 +113,7 @@ export default class Changelog {
       }
     }
 
-    return Object.keys(committers).map((k) => committers[k]);
+    return Object.keys(committers).map(k => committers[k]);
   }
 
   private ignoreCommitter(login: string): boolean {
@@ -126,7 +126,7 @@ export default class Changelog {
 
   private async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
     const allTags = await Git.listTagNames();
-    return commits.map((commit) => {
+    return commits.map(commit => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
@@ -152,15 +152,19 @@ export default class Changelog {
 
   private async downloadIssueData(commitInfos: CommitInfo[]) {
     progressBar.init(commitInfos.length);
-    await pMap(commitInfos, async (commitInfo: CommitInfo) => {
-      progressBar.setTitle(commitInfo.commitSHA);
+    await pMap(
+      commitInfos,
+      async (commitInfo: CommitInfo) => {
+        progressBar.setTitle(commitInfo.commitSHA);
 
-      if (commitInfo.issueNumber) {
-        commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
-      }
+        if (commitInfo.issueNumber) {
+          commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
+        }
 
-      progressBar.tick();
-    }, { concurrency: 5 });
+        progressBar.tick();
+      },
+      { concurrency: 5 }
+    );
     progressBar.terminate();
   }
 
@@ -191,7 +195,7 @@ export default class Changelog {
       }
     }
 
-    return Object.keys(releaseMap).map((tag) => releaseMap[tag]);
+    return Object.keys(releaseMap).map(tag => releaseMap[tag]);
   }
 
   private getToday() {
@@ -203,24 +207,28 @@ export default class Changelog {
     for (const commit of commits) {
       if (!commit.githubIssue || !commit.githubIssue.labels) continue;
 
-      const labels = commit.githubIssue.labels.map((label) => label.name.toLowerCase());
+      const labels = commit.githubIssue.labels.map(label => label.name.toLowerCase());
 
       commit.categories = Object.keys(this.config.labels)
-        .filter((label) => labels.indexOf(label.toLowerCase()) !== -1)
-        .map((label) => this.config.labels[label]);
+        .filter(label => labels.indexOf(label.toLowerCase()) !== -1)
+        .map(label => this.config.labels[label]);
     }
   }
 
   private async fillInPackages(commits: CommitInfo[]) {
     progressBar.init(commits.length);
 
-    await pMap(commits, async (commit: CommitInfo) => {
-      progressBar.setTitle(commit.commitSHA);
+    await pMap(
+      commits,
+      async (commit: CommitInfo) => {
+        progressBar.setTitle(commit.commitSHA);
 
-      commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
+        commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
 
-      progressBar.tick();
-    }, { concurrency: 5 });
+        progressBar.tick();
+      },
+      { concurrency: 5 }
+    );
 
     progressBar.terminate();
   }

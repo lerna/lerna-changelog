@@ -16,7 +16,7 @@ export function fromPath(rootPath: string): any {
   if (!config) {
     throw new ConfigurationError(
       "Missing changelog config in `lerna.json`.\n" +
-      "See docs for setup: https://github.com/lerna/lerna-changelog#readme",
+        "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
     );
   }
 

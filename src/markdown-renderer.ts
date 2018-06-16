@@ -1,5 +1,5 @@
-import {GitHubUserResponse} from "./github-api";
-import {CommitInfo, Release} from "./interfaces";
+import { GitHubUserResponse } from "./github-api";
+import { CommitInfo, Release } from "./interfaces";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
@@ -23,7 +23,7 @@ export default class MarkdownRenderer {
 
   public renderMarkdown(releases: Release[]) {
     return `\n${releases
-      .map((release) => this.renderRelease(release))
+      .map(release => this.renderRelease(release))
       .filter(Boolean)
       .join("\n\n\n")}`;
   }
@@ -31,7 +31,7 @@ export default class MarkdownRenderer {
   public renderRelease(release: Release): string | undefined {
     // Group commits in release by category
     const categories = this.groupByCategory(release.commits);
-    const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
+    const categoriesWithCommits = categories.filter(category => category.commits.length > 0);
 
     // Skip this iteration if there are no commits available for the release
     if (categoriesWithCommits.length === 0) return "";
@@ -72,23 +72,23 @@ export default class MarkdownRenderer {
 
     const packageNames = Object.keys(commitsByPackage);
 
-    return packageNames.map((packageName) => {
-      const pkgCommits = commitsByPackage[packageName];
-      return `* ${packageName}\n${this.renderContributionList(pkgCommits, "  ")}`;
-    }).join("\n");
+    return packageNames
+      .map(packageName => {
+        const pkgCommits = commitsByPackage[packageName];
+        return `* ${packageName}\n${this.renderContributionList(pkgCommits, "  ")}`;
+      })
+      .join("\n");
   }
 
   public renderPackageNames(packageNames: string[]) {
-    return packageNames.length > 0
-      ? packageNames.map((pkg) => `\`${pkg}\``).join(", ")
-      : "Other";
+    return packageNames.length > 0 ? packageNames.map(pkg => `\`${pkg}\``).join(", ") : "Other";
   }
 
   public renderContributionList(commits: CommitInfo[], prefix: string = ""): string {
     return commits
-      .map((commit) => this.renderContribution(commit))
+      .map(commit => this.renderContribution(commit))
       .filter(Boolean)
-      .map((rendered) => `${prefix}* ${rendered}`)
+      .map(rendered => `${prefix}* ${rendered}`)
       .join("\n");
   }
 
@@ -103,10 +103,7 @@ export default class MarkdownRenderer {
       }
 
       if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
-        issue.title = issue.title.replace(
-          COMMIT_FIX_REGEX,
-          `Closes [#$3](${this.options.baseIssueUrl}$3)`,
-        );
+        issue.title = issue.title.replace(COMMIT_FIX_REGEX, `Closes [#$3](${this.options.baseIssueUrl}$3)`);
       }
 
       markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
@@ -116,7 +113,7 @@ export default class MarkdownRenderer {
   }
 
   public renderContributorList(contributors: GitHubUserResponse[]) {
-    const renderedContributors = contributors.map((contributor) => `- ${this.renderContributor(contributor)}`).sort();
+    const renderedContributors = contributors.map(contributor => `- ${this.renderContributor(contributor)}`).sort();
 
     return `#### Committers: ${contributors.length}\n${renderedContributors.join("\n")}`;
   }
@@ -131,15 +128,14 @@ export default class MarkdownRenderer {
   }
 
   private hasPackages(commits: CommitInfo[]) {
-    return commits.some((commit) => commit.packages !== undefined && commit.packages.length > 0);
+    return commits.some(commit => commit.packages !== undefined && commit.packages.length > 0);
   }
 
   private groupByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
-    return this.options.categories.map((name) => {
+    return this.options.categories.map(name => {
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.
-      let commits = allCommits
-        .filter((commit) => commit.categories && commit.categories.indexOf(name) !== -1);
+      let commits = allCommits.filter(commit => commit.categories && commit.categories.indexOf(name) !== -1);
 
       return { name, commits };
     });
