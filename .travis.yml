@@ -2,10 +2,9 @@ git:
   depth: 10
 sudo: false
 language: node_js
-cache:
-  yarn: true
-  directories:
-  - node_modules
+
+cache: yarn
+
 node_js:
   - '6'
   - '8'
