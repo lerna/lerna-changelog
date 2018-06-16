@@ -2,29 +2,10 @@ const os = require("os");
 const fs = require("fs-extra");
 const path = require("path");
 
-import { findRepoFromPkg, fromGitRoot, fromPath } from "./configuration";
+import { findRepoFromPkg, fromPath } from "./configuration";
 import ConfigurationError from "./configuration-error";
 
 describe("Configuration", function() {
-  describe("fromGitRoot", function() {
-    it("reads the configuration from 'lerna.json'", function() {
-      const rootPath = path.resolve(`${__dirname}/..`);
-      const result = fromGitRoot(path.join(rootPath, "src"));
-      expect(result).toEqual({
-        repo: "lerna/lerna-changelog",
-        labels: {
-          breaking: ":boom: Breaking Change",
-          enhancement: ":rocket: Enhancement",
-          bug: ":bug: Bug Fix",
-          documentation: ":memo: Documentation",
-          internal: ":house: Internal",
-        },
-        cacheDir: ".changelog",
-        rootPath,
-      });
-    });
-  });
-
   describe("fromPath", function() {
     const tmpDir = `${os.tmpDir()}/changelog-test`;
 

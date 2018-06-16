@@ -1,3 +1,5 @@
+import { Configuration } from "../configuration";
+
 const Changelog = require.requireActual("../changelog").default;
 
 const defaultConfig = {
@@ -11,11 +13,12 @@ const defaultConfig = {
     "Type: Documentation": ":memo: Documentation",
     "Type: Maintenance": ":house: Maintenance",
   },
+  ignoreCommitters: [],
   cacheDir: ".changelog",
 };
 
 class MockedChangelog extends Changelog {
-  private loadConfig(options: any) {
+  private loadConfig(options: Partial<Configuration>): Configuration {
     return Object.assign({}, defaultConfig, options);
   }
   private getToday() {

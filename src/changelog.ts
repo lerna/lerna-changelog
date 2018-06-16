@@ -1,7 +1,7 @@
 const pMap = require("p-map");
 
 import progressBar from "./progress-bar";
-import * as Configuration from "./configuration";
+import { Configuration, load as loadConfig } from "./configuration";
 import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
 import GithubAPI, { GitHubUserResponse } from "./github-api";
@@ -16,11 +16,11 @@ interface Options {
 }
 
 export default class Changelog {
-  private config: any;
+  private readonly config: Configuration;
   private github: GithubAPI;
   private renderer: MarkdownRenderer;
 
-  constructor(options: any = {}) {
+  constructor(options: Partial<Configuration> = {}) {
     this.config = this.loadConfig(options);
     this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
@@ -38,8 +38,8 @@ export default class Changelog {
     return this.renderer.renderMarkdown(releases);
   }
 
-  private loadConfig(options: any) {
-    return Configuration.load(options);
+  private loadConfig(options: Partial<Configuration>): Configuration {
+    return loadConfig(options);
   }
 
   private async getCommitInfos(from: string, to: string): Promise<CommitInfo[]> {
@@ -119,10 +119,6 @@ export default class Changelog {
   }
 
   private ignoreCommitter(login: string): boolean {
-    if (!this.config.ignoreCommitters) {
-      return false;
-    }
-
     return this.config.ignoreCommitters.some((c: string) => c === login || login.indexOf(c) > -1);
   }
 

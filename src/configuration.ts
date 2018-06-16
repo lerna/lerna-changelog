@@ -5,56 +5,70 @@ const normalize = require("normalize-git-url");
 
 import ConfigurationError from "./configuration-error";
 
-export function load(options: any) {
-  return Object.assign(fromGitRoot(process.cwd()), options);
+export interface Configuration {
+  repo: string;
+  rootPath: string;
+  labels: { [key: string]: string };
+  ignoreCommitters: string[];
+  cacheDir?: string;
 }
 
-export function fromGitRoot(cwd: string): any {
-  const rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
-  return fromPath(rootPath);
+export function load(options: Partial<Configuration> = {}): Configuration {
+  let cwd = process.cwd();
+  let rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
+
+  return fromPath(rootPath, options);
 }
 
-export function fromPath(rootPath: string): any {
-  const config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || guessConfig(rootPath);
+export function fromPath(rootPath: string, options: Partial<Configuration> = {}): Configuration {
+  // Step 1: load partial config from `package.json` or `lerna.json`
+  let config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || {};
 
-  if (!config) {
-    throw new ConfigurationError(
-      "Missing changelog config in `lerna.json`.\n" +
-        "See docs for setup: https://github.com/lerna/lerna-changelog#readme"
-    );
+  // Step 2: override partial config with passed in options
+  Object.assign(config, options);
+
+  // Step 3: fill partial config with defaults
+  let { repo, labels, cacheDir, ignoreCommitters } = config;
+
+  if (!repo) {
+    repo = findRepo(rootPath);
+    if (!repo) {
+      throw new ConfigurationError('Could not infer "repo” from the "package.json" file.');
+    }
   }
 
-  config.rootPath = rootPath;
+  if (!labels) {
+    labels = {
+      enhancement: ":rocket: Enhancement",
+      bug: ":bug: Bug Fix",
+    };
+  }
 
-  return config;
+  if (!ignoreCommitters) {
+    ignoreCommitters = [];
+  }
+
+  return {
+    repo,
+    rootPath,
+    labels,
+    ignoreCommitters,
+    cacheDir,
+  };
 }
 
-function fromLernaConfig(rootPath: string): any | undefined {
+function fromLernaConfig(rootPath: string): Partial<Configuration> | undefined {
   const lernaPath = path.join(rootPath, "lerna.json");
   if (fs.existsSync(lernaPath)) {
     return JSON.parse(fs.readFileSync(lernaPath)).changelog;
   }
 }
 
-function fromPackageConfig(rootPath: string): any | undefined {
+function fromPackageConfig(rootPath: string): Partial<Configuration> | undefined {
   const pkgPath = path.join(rootPath, "package.json");
   if (fs.existsSync(pkgPath)) {
     return JSON.parse(fs.readFileSync(pkgPath)).changelog;
   }
-}
-
-function guessConfig(rootPath: string): any | undefined {
-  const repo = findRepo(rootPath);
-  if (!repo) {
-    return;
-  }
-
-  const labels = {
-    enhancement: ":rocket: Enhancement",
-    bug: ":bug: Bug Fix",
-  };
-
-  return { repo, labels };
 }
 
 function findRepo(rootPath: string): string | undefined {
