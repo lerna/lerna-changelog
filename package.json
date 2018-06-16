@@ -46,6 +46,7 @@
     "@types/node": "^7.0.22",
     "fs-extra": "^6.0.1",
     "jest": "^23.1.0",
+    "jest-runner-tslint": "^1.0.5",
     "rimraf": "^2.5.4",
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
@@ -67,19 +68,30 @@
     "cacheDir": ".changelog"
   },
   "jest": {
-    "roots": [
-      "src"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
+    "projects": [
+      {
+        "displayName": "test",
+        "roots": [
+          "src"
+        ],
+        "transform": {
+          "^.+\\.jsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+          "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+        "moduleFileExtensions": [
+          "ts",
+          "tsx",
+          "js",
+          "json"
+        ]
+      },
+      {
+        "runner": "jest-runner-tslint",
+        "displayName": "lint",
+        "moduleFileExtensions": ["ts"],
+        "testMatch": ["<rootDir>/src/**/*.ts"]
+      }
     ]
   }
 }
