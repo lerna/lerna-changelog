@@ -20,7 +20,7 @@ export default class Changelog {
   private github: GithubAPI;
   private renderer: MarkdownRenderer;
 
-  constructor(options: Options = {}) {
+  constructor(options: any = {}) {
     this.config = this.loadConfig(options);
     this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
@@ -29,19 +29,22 @@ export default class Changelog {
     });
   }
 
-  public async createMarkdown() {
-    const releases = await this.listReleases();
+  public async createMarkdown(options: Options = {}) {
+    const from = options.tagFrom || (await Git.lastTag());
+    const to = options.tagTo || "HEAD";
+
+    const releases = await this.listReleases(from, to);
 
     return this.renderer.renderMarkdown(releases);
   }
 
-  private loadConfig(options: Options) {
+  private loadConfig(options: any) {
     return Configuration.load(options);
   }
 
-  private async getCommitInfos(): Promise<CommitInfo[]> {
+  private async getCommitInfos(from: string, to: string): Promise<CommitInfo[]> {
     // Step 1: Get list of commits between tag A and B (local)
-    const commits = await this.getListOfCommits();
+    const commits = this.getListOfCommits(from, to);
 
     // Step 2: Find tagged commits (local)
     const commitInfos = await this.toCommitInfos(commits);
@@ -58,9 +61,9 @@ export default class Changelog {
     return commitInfos;
   }
 
-  private async listReleases(): Promise<Release[]> {
+  private async listReleases(from: string, to: string): Promise<Release[]> {
     // Get all info about commits in a certain tags range
-    const commits = await this.getCommitInfos();
+    const commits = await this.getCommitInfos(from, to);
 
     // Step 6: Group commits by release (local)
     let releases = this.groupByRelease(commits);
@@ -91,12 +94,11 @@ export default class Changelog {
     return parts[1];
   }
 
-  private async getListOfCommits(): Promise<Git.CommitListItem[]> {
+  private getListOfCommits(from: string, to: string): Git.CommitListItem[] {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
-    const tagFrom = this.config.tagFrom || (await Git.lastTag());
-    return Git.listCommits(tagFrom, this.config.tagTo);
+    return Git.listCommits(from, to);
   }
 
   private async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
