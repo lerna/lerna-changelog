@@ -39,8 +39,11 @@ export function fromPath(rootPath: string, options: Partial<Configuration> = {})
 
   if (!labels) {
     labels = {
+      breaking: ":boom: Breaking Change",
       enhancement: ":rocket: Enhancement",
       bug: ":bug: Bug Fix",
+      documentation: ":memo: Documentation",
+      internal: ":house: Internal",
     };
   }
 
