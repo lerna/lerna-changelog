@@ -5,7 +5,10 @@
         "tslint-config-prettier"
     ],
     "jsRules": {},
+    "rulesDirectory": ["tslint-plugin-prettier"],
     "rules": {
+      "prettier": true,
+
       "arrow-parens": false,
       "curly": false,
       "interface-name": false,
@@ -15,6 +18,5 @@
       "only-arrow-functions": false,
       "ordered-imports": false,
       "prefer-const": false
-    },
-    "rulesDirectory": []
+    }
 }
