@@ -32,7 +32,7 @@ export async function run() {
   };
 
   try {
-    let result = await new Changelog(options).createMarkdown();
+    let result = await new Changelog().createMarkdown(options);
     console.log(result);
   } catch (e) {
     if (e instanceof ConfigurationError) {
