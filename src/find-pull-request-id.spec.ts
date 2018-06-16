@@ -1,3 +1,5 @@
+/* tslint:disable:max-line-length */
+
 import findPullRequestId from "./find-pull-request-id";
 
 describe("findPullRequestId", function() {

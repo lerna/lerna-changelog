@@ -1,3 +1,5 @@
+/* tslint:disable:no-console */
+
 const chalk = require("chalk");
 
 import Changelog from "./changelog";
@@ -9,28 +11,28 @@ export async function run() {
     .options({
       "tag-from": {
         type: "string",
-        desc: "A git tag that determines the lower bound of the range of commits (defaults to last available)"
+        desc: "A git tag that determines the lower bound of the range of commits (defaults to last available)",
       },
       "tag-to": {
         type: "string",
-        desc: "A git tag that determines the upper bound of the range of commits"
-      }
+        desc: "A git tag that determines the upper bound of the range of commits",
+      },
     })
     .example(
       "lerna-changelog",
-      "create a changelog for the changes after the latest available tag"
+      "create a changelog for the changes after the latest available tag",
     )
     .example(
       "lerna-changelog --tag-from 0.1.0 --tag-to 0.3.0",
-      "create a changelog for the changes in all tags within the given range"
+      "create a changelog for the changes in all tags within the given range",
     )
     .version()
     .help()
     .argv;
 
   let options = {
-    tagFrom: argv['tag-from'],
-    tagTo: argv['tag-to'],
+    tagFrom: argv["tag-from"],
+    tagTo: argv["tag-to"],
   };
 
   try {

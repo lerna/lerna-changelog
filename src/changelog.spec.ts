@@ -19,13 +19,13 @@ describe("Changelog", () => {
     const MockedChangelog = require("./changelog").default;
 
     const TESTS = [
-      ['', ''],
-      ['foo.js', ''],
-      ['packages/foo.js', ''],
-      ['packages/foo/bar.js', 'foo'],
-      ['packages/foo/bar/baz.js', 'foo'],
-      ['packages/@foo/bar.js', '@foo'],
-      ['packages/@foo/bar/baz.js', '@foo/bar'],
+      ["", ""],
+      ["foo.js", ""],
+      ["packages/foo.js", ""],
+      ["packages/foo/bar.js", "foo"],
+      ["packages/foo/bar/baz.js", "foo"],
+      ["packages/@foo/bar.js", "@foo"],
+      ["packages/@foo/bar/baz.js", "@foo/bar"],
     ];
 
     for (let [input, expected] of TESTS) {
@@ -41,11 +41,16 @@ describe("Changelog", () => {
       require("./fetch").__resetMockResponses();
 
       require("./git").listCommits.mockImplementation(() => [
-        { sha: "a0000005", refName:"HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD", summary: "chore(release): releasing component", date: "2017-01-01" },
-        { sha: "a0000004", refName:"", summary: "Merge pull request #2 from my-feature", date: "2017-01-01" },
-        { sha: "a0000003", refName:"", summary: "feat(module) Add new module (#2)", date: "2017-01-01" },
-        { sha: "a0000002", refName:"", summary: "refactor(module) Simplify implementation", date: "2017-01-01" },
-        { sha: "a0000001", refName:"tag: v0.1.0", summary: "chore(release): releasing component", date: "2017-01-01" },
+        {
+          sha: "a0000005",
+          refName: "HEAD -> master, tag: v0.2.0, origin/master, origin/HEAD",
+          summary: "chore(release): releasing component",
+          date: "2017-01-01",
+        },
+        { sha: "a0000004", refName: "", summary: "Merge pull request #2 from my-feature", date: "2017-01-01" },
+        { sha: "a0000003", refName: "", summary: "feat(module) Add new module (#2)", date: "2017-01-01" },
+        { sha: "a0000002", refName: "", summary: "refactor(module) Simplify implementation", date: "2017-01-01" },
+        { sha: "a0000001", refName: "tag: v0.1.0", summary: "chore(release): releasing component", date: "2017-01-01" },
       ]);
 
       require("./git").listTagNames.mockImplementation(() => [
@@ -61,7 +66,7 @@ describe("Changelog", () => {
         "https://api.github.com/users/test-user": {
           login: "test-user",
           html_url: "https://github.com/test-user",
-          name: "Test User"
+          name: "Test User",
         },
       };
       const issuesCache = {
@@ -73,7 +78,7 @@ describe("Changelog", () => {
             { name: "Status: In Progress" },
           ],
           user: usersCache["https://api.github.com/users/test-user"],
-        }
+        },
       };
       require("./fetch").__setMockResponses({
         ...usersCache,
@@ -102,22 +107,22 @@ describe("Changelog", () => {
         "https://api.github.com/users/test-user": {
           login: "test-user",
           html_url: "https://github.com/test-user",
-          name: "Test User"
+          name: "Test User",
         },
         "https://api.github.com/users/test-user-1": {
           login: "test-user-1",
           html_url: "https://github.com/test-user-1",
-          name: "Test User 1"
+          name: "Test User 1",
         },
         "https://api.github.com/users/test-user-2": {
           login: "test-user-2",
           html_url: "https://github.com/test-user-2",
-          name: "Test User 2"
+          name: "Test User 2",
         },
         "https://api.github.com/users/user-bot": {
           login: "user-bot",
           html_url: "https://github.com/user-bot",
-          name: "User Bot"
+          name: "User Bot",
         },
       };
       require("./fetch").__setMockResponses(usersCache);
@@ -126,7 +131,7 @@ describe("Changelog", () => {
     it("get list of valid commiters", async () => {
       const MockedChangelog = require("./changelog").default;
       const changelog = new MockedChangelog({
-        ignoreCommitters: ["user-bot"]
+        ignoreCommitters: ["user-bot"],
       });
 
       const testCommits = [
@@ -140,11 +145,11 @@ describe("Changelog", () => {
       expect(committers).toEqual([{
         login: "test-user-1",
         html_url: "https://github.com/test-user-1",
-        name: "Test User 1"
+        name: "Test User 1",
       }, {
         login: "test-user-2",
         html_url: "https://github.com/test-user-2",
-        name: "Test User 2"
+        name: "Test User 2",
       }]);
     });
   });

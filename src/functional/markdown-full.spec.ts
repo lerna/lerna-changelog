@@ -1,3 +1,5 @@
+/* tslint:disable:max-line-length */
+
 import {CommitListItem} from "../git";
 
 jest.mock("../../src/progress-bar");
@@ -7,21 +9,21 @@ jest.mock("../git");
 jest.mock("../fetch");
 
 const listOfCommits: CommitListItem[] = [
-  { sha: "a0000015", refName:"", summary: "chore: making of episode viii", date: "2015-12-18" },
-  { sha: "a0000014", refName:"", summary: "feat: infiltration (#7)", date: "2015-12-18" },
-  { sha: "a0000013", refName:"HEAD -> master, tag: v6.0.0, origin/master, origin/HEAD", summary: "chore(release): releasing component", date: "1983-05-25" },
-  { sha: "a0000012", refName:"", summary: "Merge pull request #6 from return-of-the-jedi", date: "1983-05-25" },
-  { sha: "a0000011", refName:"", summary: "feat: I am your father (#5)", date: "1983-05-25" },
-  { sha: "a0000010", refName:"", summary: "fix(han-solo): unfreezes (#4)", date: "1983-05-25" },
-  { sha: "a0000009", refName:"tag: v5.0.0", summary: "chore(release): releasing component", date: "1980-05-17" },
-  { sha: "a0000008", refName:"", summary: "Merge pull request #3 from empire-strikes-back", date: "1980-05-17" },
-  { sha: "a0000007", refName:"", summary: "fix: destroy rebels base", date: "1980-05-17" },
-  { sha: "a0000006", refName:"", summary: "chore: the end of Alderaan (#2)", date: "1980-05-17" },
-  { sha: "a0000005", refName:"", summary: "refactor(death-star): add deflector shield", date: "1980-05-17" },
-  { sha: "a0000004", refName:"tag: v4.0.0", summary: "chore(release): releasing component", date: "1977-05-25" },
-  { sha: "a0000003", refName:"", summary: "Merge pull request #1 from star-wars", date: "1977-05-25" },
-  { sha: "a0000002", refName:"tag: v0.1.0", summary: "chore(release): releasing component", date: "1966-01-01" },
-  { sha: "a0000001", refName:"", summary: "fix: some random fix which will be ignored", date: "1966-01-01" },
+  { sha: "a0000015", refName: "", summary: "chore: making of episode viii", date: "2015-12-18" },
+  { sha: "a0000014", refName: "", summary: "feat: infiltration (#7)", date: "2015-12-18" },
+  { sha: "a0000013", refName: "HEAD -> master, tag: v6.0.0, origin/master, origin/HEAD", summary: "chore(release): releasing component", date: "1983-05-25" },
+  { sha: "a0000012", refName: "", summary: "Merge pull request #6 from return-of-the-jedi", date: "1983-05-25" },
+  { sha: "a0000011", refName: "", summary: "feat: I am your father (#5)", date: "1983-05-25" },
+  { sha: "a0000010", refName: "", summary: "fix(han-solo): unfreezes (#4)", date: "1983-05-25" },
+  { sha: "a0000009", refName: "tag: v5.0.0", summary: "chore(release): releasing component", date: "1980-05-17" },
+  { sha: "a0000008", refName: "", summary: "Merge pull request #3 from empire-strikes-back", date: "1980-05-17" },
+  { sha: "a0000007", refName: "", summary: "fix: destroy rebels base", date: "1980-05-17" },
+  { sha: "a0000006", refName: "", summary: "chore: the end of Alderaan (#2)", date: "1980-05-17" },
+  { sha: "a0000005", refName: "", summary: "refactor(death-star): add deflector shield", date: "1980-05-17" },
+  { sha: "a0000004", refName: "tag: v4.0.0", summary: "chore(release): releasing component", date: "1977-05-25" },
+  { sha: "a0000003", refName: "", summary: "Merge pull request #1 from star-wars", date: "1977-05-25" },
+  { sha: "a0000002", refName: "tag: v0.1.0", summary: "chore(release): releasing component", date: "1966-01-01" },
+  { sha: "a0000001", refName: "", summary: "fix: some random fix which will be ignored", date: "1966-01-01" },
 ];
 
 const listOfTags = [
@@ -80,43 +82,43 @@ const usersCache = {
   "https://api.github.com/users/luke": {
     login: "luke",
     html_url: "https://github.com/luke",
-    name: "Luke Skywalker"
+    name: "Luke Skywalker",
   },
   "https://api.github.com/users/princess-leia": {
     login: "princess-leia",
     html_url: "https://github.com/princess-leia",
-    name: "Princess Leia Organa"
+    name: "Princess Leia Organa",
   },
   "https://api.github.com/users/vader": {
     login: "vader",
     html_url: "https://github.com/vader",
-    name: "Darth Vader"
+    name: "Darth Vader",
   },
   "https://api.github.com/users/gtarkin": {
     login: "gtarkin",
     html_url: "https://github.com/gtarkin",
-    name: "Governor Tarkin"
+    name: "Governor Tarkin",
   },
   "https://api.github.com/users/han-solo": {
     login: "han-solo",
     html_url: "https://github.com/han-solo",
-    name: "Han Solo"
+    name: "Han Solo",
   },
   "https://api.github.com/users/chewbacca": {
     login: "chewbacca",
     html_url: "https://github.com/chewbacca",
-    name: "Chwebacca"
+    name: "Chwebacca",
   },
   "https://api.github.com/users/rd-d2": {
     login: "rd-d2",
     html_url: "https://github.com/rd-d2",
-    name: "R2-D2"
+    name: "R2-D2",
   },
   "https://api.github.com/users/c-3po": {
     login: "c-3po",
     html_url: "https://github.com/c-3po",
-    name: "C-3PO"
-  }
+    name: "C-3PO",
+  },
 };
 const issuesCache = {
   "https://api.github.com/repos/lerna/lerna-changelog/issues/1": {
@@ -200,7 +202,6 @@ const issuesCache = {
   },
 };
 
-
 describe("createMarkdown", () => {
   beforeEach(() => {
     require("../fetch").__resetMockResponses();
@@ -236,10 +237,10 @@ describe("createMarkdown", () => {
       require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
       require("../git").lastTag.mockImplementation(() => "v8.0.0");
       require("../git").listCommits.mockImplementation(() => [
-        { sha: "a0000004", refName:"tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, tag: return-of-the-jedi@6.0.0", summary: "chore(release): releasing component", date: "1977-05-25" },
-        { sha: "a0000003", refName:"", summary: "Merge pull request #1 from star-wars", date: "1977-05-25" },
-        { sha: "a0000002", refName:"tag: v0.1.0", summary: "chore(release): releasing component", date: "1966-01-01" },
-        { sha: "a0000001", refName:"", summary: "fix: some random fix which will be ignored", date: "1966-01-01" },
+        { sha: "a0000004", refName: "tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, tag: return-of-the-jedi@6.0.0", summary: "chore(release): releasing component", date: "1977-05-25" },
+        { sha: "a0000003", refName: "", summary: "Merge pull request #1 from star-wars", date: "1977-05-25" },
+        { sha: "a0000002", refName: "tag: v0.1.0", summary: "chore(release): releasing component", date: "1966-01-01" },
+        { sha: "a0000001", refName: "", summary: "fix: some random fix which will be ignored", date: "1966-01-01" },
       ]);
       require("../git").listTagNames.mockImplementation(() => [
         "a-new-hope@4.0.0",

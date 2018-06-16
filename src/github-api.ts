@@ -15,9 +15,9 @@ export interface GitHubIssueResponse {
   pull_request?: {
     html_url: string;
   };
-  labels: {
+  labels: Array<{
     name: string;
-  }[];
+  }>;
   user: {
     login: string;
     html_url: string;
@@ -31,40 +31,40 @@ export interface Options {
 }
 
 export default class GithubAPI {
-  cacheDir: string | undefined;
-  auth: string;
+  private cacheDir: string | undefined;
+  private auth: string;
 
   constructor(config: Options) {
-    this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, 'github');
+    this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
     }
   }
 
-  getAuthToken(): string {
-    return process.env.GITHUB_AUTH;
-  }
-
-  getBaseIssueUrl(repo: string): string {
+  public getBaseIssueUrl(repo: string): string {
     return `https://github.com/${repo}/issues/`;
   }
 
-  async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
+  public async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
     return this._fetch(`https://api.github.com/repos/${repo}/issues/${issue}`);
   }
 
-  async getUserData(login: string): Promise<GitHubUserResponse> {
+  public async getUserData(login: string): Promise<GitHubUserResponse> {
     return this._fetch(`https://api.github.com/users/${login}`);
   }
 
-  async _fetch(url: string): Promise<any> {
+  private async _fetch(url: string): Promise<any> {
     const res = await fetch(url, {
       cacheManager: this.cacheDir,
       headers: {
-        "Authorization": `token ${this.auth}`,
+        Authorization: `token ${this.auth}`,
       },
     });
     return res.json();
+  }
+
+  private getAuthToken(): string {
+    return process.env.GITHUB_AUTH;
   }
 }

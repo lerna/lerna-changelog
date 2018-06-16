@@ -9,16 +9,16 @@ const defaultConfig = {
     "Type: Bug": ":bug: Bug Fix",
     "Type: Enhancement": ":nail_care: Enhancement",
     "Type: Documentation": ":memo: Documentation",
-    "Type: Maintenance": ":house: Maintenance"
+    "Type: Maintenance": ":house: Maintenance",
   },
-  cacheDir: ".changelog"
+  cacheDir: ".changelog",
 };
 
 class MockedChangelog extends Changelog {
-  getConfig() {
+  private getConfig() {
     return defaultConfig;
   }
-  getToday() {
+  private getToday() {
     return "2099-01-01";
   }
 }
