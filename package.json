@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "chalk": "^1.1.3",
-    "execa": "^0.6.3",
+    "execa": "^0.10.0",
     "fs-extra": "^2.0.0",
     "make-fetch-happen": "^2.4.13",
     "normalize-git-url": "^3.0.2",
