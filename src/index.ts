@@ -3,5 +3,5 @@ import ConfigurationError from "./configuration-error";
 
 export {
   Changelog,
-  ConfigurationError
+  ConfigurationError,
 };

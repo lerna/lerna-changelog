@@ -2,7 +2,7 @@ const os = require("os");
 const fs = require("fs-extra");
 const path = require("path");
 
-import { fromGitRoot, fromPath, findRepoFromPkg } from "./configuration";
+import { findRepoFromPkg, fromGitRoot, fromPath } from "./configuration";
 import ConfigurationError from "./configuration-error";
 
 describe("Configuration", function() {
@@ -11,16 +11,16 @@ describe("Configuration", function() {
       const rootPath = path.resolve(`${__dirname}/..`);
       const result = fromGitRoot(path.join(rootPath, "src"));
       expect(result).toEqual({
-        "repo": "lerna/lerna-changelog",
-        "labels": {
+        repo: "lerna/lerna-changelog",
+        labels: {
           "Tag: Breaking Change": ":boom: Breaking Change",
           "Tag: Enhancement": ":rocket: Enhancement",
           "Tag: Bug Fix": ":bug: Bug Fix",
           "Tag: Polish": ":nail_care: Polish",
           "Tag: Documentation": ":memo: Documentation",
-          "Tag: Internal": ":house: Internal"
+          "Tag: Internal": ":house: Internal",
         },
-        "cacheDir": ".changelog",
+        cacheDir: ".changelog",
         rootPath,
       });
     });
@@ -75,20 +75,20 @@ describe("Configuration", function() {
 
   describe("findRepoFromPkg", function() {
     const tests = [
-      ['git+https://github.com/ember-cli/ember-rfc176-data.git', 'ember-cli/ember-rfc176-data'],
-      ['https://github.com/ember-cli/ember-rfc176-data.git', 'ember-cli/ember-rfc176-data'],
-      ['https://github.com/babel/ember-cli-babel', 'babel/ember-cli-babel'],
-      ['https://github.com/babel/ember-cli-babel.git', 'babel/ember-cli-babel'],
-      ['git@github.com:babel/ember-cli-babel.git', 'babel/ember-cli-babel'],
-      ['https://gitlab.com/gnachman/iterm2.git', undefined],
-      ['git@gitlab.com:gnachman/iterm2.git', undefined],
+      ["git+https://github.com/ember-cli/ember-rfc176-data.git", "ember-cli/ember-rfc176-data"],
+      ["https://github.com/ember-cli/ember-rfc176-data.git", "ember-cli/ember-rfc176-data"],
+      ["https://github.com/babel/ember-cli-babel", "babel/ember-cli-babel"],
+      ["https://github.com/babel/ember-cli-babel.git", "babel/ember-cli-babel"],
+      ["git@github.com:babel/ember-cli-babel.git", "babel/ember-cli-babel"],
+      ["https://gitlab.com/gnachman/iterm2.git", undefined],
+      ["git@gitlab.com:gnachman/iterm2.git", undefined],
     ];
 
     tests.forEach(([input, output]) => {
       it(`'${input}' -> '${output}'`, function() {
         expect(findRepoFromPkg({
           repository: {
-            type: 'git',
+            type: "git",
             url: input,
           },
         })).toEqual(output);
@@ -97,8 +97,8 @@ describe("Configuration", function() {
 
     it(`works with shorthand 'repository' syntax`, function() {
       expect(findRepoFromPkg({
-        repository: 'https://github.com/babel/ember-cli-babel',
-      })).toEqual('babel/ember-cli-babel');
+        repository: "https://github.com/babel/ember-cli-babel",
+      })).toEqual("babel/ember-cli-babel");
     });
   });
 });

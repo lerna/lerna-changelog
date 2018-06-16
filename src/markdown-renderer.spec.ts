@@ -1,53 +1,53 @@
-import MarkdownRenderer from "./markdown-renderer";
 import {CommitInfo} from "./interfaces";
+import MarkdownRenderer from "./markdown-renderer";
 
 const BASIC_COMMIT = {
   githubIssue: {
-    title: 'My cool PR',
+    title: "My cool PR",
     user: {
-      login: 'hzoo',
-      html_url: 'http://hzoo.com',
+      login: "hzoo",
+      html_url: "http://hzoo.com",
     },
   },
 } as CommitInfo;
 
 const COMMIT_WITH_NUMBER = {
   githubIssue: {
-    title: 'My cool PR',
+    title: "My cool PR",
     user: {
-      login: 'hzoo',
-      html_url: 'http://hzoo.com',
+      login: "hzoo",
+      html_url: "http://hzoo.com",
     },
     number: 42,
     pull_request: {
-      html_url: 'http://github.com/42',
+      html_url: "http://github.com/42",
     },
   },
 } as CommitInfo;
 
 const COMMIT_WITH_GH_ISSUE_REF = {
   githubIssue: {
-    title: 'My cool PR (resolved #123)',
+    title: "My cool PR (resolved #123)",
     user: {
-      login: 'hzoo',
-      html_url: 'http://hzoo.com',
+      login: "hzoo",
+      html_url: "http://hzoo.com",
     },
   },
 } as CommitInfo;
 
 const COMMIT_WITH_PHAB_ISSUE_REF = {
   githubIssue: {
-    title: 'My cool PR (resolved T42)',
+    title: "My cool PR (resolved T42)",
     user: {
-      login: 'hzoo',
-      html_url: 'http://hzoo.com',
+      login: "hzoo",
+      html_url: "http://hzoo.com",
     },
   },
 } as CommitInfo;
 
 function renderer(options: any = {}): MarkdownRenderer {
   return new MarkdownRenderer({
-    baseIssueUrl: 'http://foo.bar/',
+    baseIssueUrl: "http://foo.bar/",
     categories: [],
     ...options,
   });
@@ -109,15 +109,15 @@ describe("MarkdownRenderer", () => {
   describe("renderContributorList", () => {
     it(`renders a list of GitHub users`, () => {
       const user1 = {
-        login: 'hzoo',
-        name: '',
-        html_url: 'https://github.com/hzoo',
+        login: "hzoo",
+        name: "",
+        html_url: "https://github.com/hzoo",
       };
 
       const user2 = {
-        login: 'Turbo87',
-        name: 'Tobias Bieniek',
-        html_url: 'https://github.com/Turbo87',
+        login: "Turbo87",
+        name: "Tobias Bieniek",
+        html_url: "https://github.com/Turbo87",
       };
 
       const result = renderer().renderContributorList([user1, user2]);
@@ -129,9 +129,9 @@ describe("MarkdownRenderer", () => {
   describe("renderContributor", () => {
     it(`renders GitHub user without name`, () => {
       const result = renderer().renderContributor({
-        login: 'foo',
-        name: '',
-        html_url: 'http://github.com/foo',
+        login: "foo",
+        name: "",
+        html_url: "http://github.com/foo",
       });
 
       expect(result).toEqual("[foo](http://github.com/foo)");
@@ -139,9 +139,9 @@ describe("MarkdownRenderer", () => {
 
     it(`renders GitHub user with name`, () => {
       const result = renderer().renderContributor({
-        login: 'foo',
-        name: 'Foo Bar',
-        html_url: 'http://github.com/foo',
+        login: "foo",
+        name: "Foo Bar",
+        html_url: "http://github.com/foo",
       });
 
       expect(result).toEqual("Foo Bar ([foo](http://github.com/foo))");
@@ -167,7 +167,7 @@ describe("MarkdownRenderer", () => {
         { commitSHA: "a0000002", categories: [] },
         { commitSHA: "a0000001", categories: [":bug: Bug Fix"] },
       ];
-      const commitsByCategory = r.groupByCategory(testCommits as CommitInfo[]);
+      const commitsByCategory = r["groupByCategory"](testCommits as CommitInfo[]);
 
       expect(commitsByCategory).toMatchSnapshot();
     });

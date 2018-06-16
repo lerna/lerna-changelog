@@ -21,14 +21,14 @@ export default class MarkdownRenderer {
     this.options = options;
   }
 
-  renderMarkdown(releases: Release[]) {
+  public renderMarkdown(releases: Release[]) {
     return `\n${releases
       .map((release) => this.renderRelease(release))
       .filter(Boolean)
       .join("\n\n\n")}`;
   }
 
-  renderRelease(release: Release): string | undefined {
+  public renderRelease(release: Release): string | undefined {
     // Group commits in release by category
     const categories = this.groupByCategory(release.commits);
     const categoriesWithCommits = categories.filter((category) => category.commits.length > 0);
@@ -57,11 +57,7 @@ export default class MarkdownRenderer {
     return markdown;
   }
 
-  hasPackages(commits: CommitInfo[]) {
-    return commits.some((commit) => commit.packages !== undefined && commit.packages.length > 0);
-  }
-
-  renderContributionsByPackage(commits: CommitInfo[]) {
+  public renderContributionsByPackage(commits: CommitInfo[]) {
     // Group commits in category by package
     const commitsByPackage: { [id: string]: CommitInfo[] } = {};
     for (const commit of commits) {
@@ -77,18 +73,18 @@ export default class MarkdownRenderer {
     const packageNames = Object.keys(commitsByPackage);
 
     return packageNames.map((packageName) => {
-      const commits = commitsByPackage[packageName];
-      return `* ${packageName}\n${this.renderContributionList(commits, "  ")}`;
+      const pkgCommits = commitsByPackage[packageName];
+      return `* ${packageName}\n${this.renderContributionList(pkgCommits, "  ")}`;
     }).join("\n");
   }
 
-  renderPackageNames(packageNames: string[]) {
+  public renderPackageNames(packageNames: string[]) {
     return packageNames.length > 0
       ? packageNames.map((pkg) => `\`${pkg}\``).join(", ")
       : "Other";
   }
 
-  renderContributionList(commits: CommitInfo[], prefix: string = ""): string {
+  public renderContributionList(commits: CommitInfo[], prefix: string = ""): string {
     return commits
       .map((commit) => this.renderContribution(commit))
       .filter(Boolean)
@@ -96,7 +92,7 @@ export default class MarkdownRenderer {
       .join("\n");
   }
 
-  renderContribution(commit: CommitInfo): string | undefined {
+  public renderContribution(commit: CommitInfo): string | undefined {
     const issue = commit.githubIssue;
     if (issue) {
       let markdown = "";
@@ -109,7 +105,7 @@ export default class MarkdownRenderer {
       if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
         issue.title = issue.title.replace(
           COMMIT_FIX_REGEX,
-          `Closes [#$3](${this.options.baseIssueUrl}$3)`
+          `Closes [#$3](${this.options.baseIssueUrl}$3)`,
         );
       }
 
@@ -119,13 +115,13 @@ export default class MarkdownRenderer {
     }
   }
 
-  renderContributorList(contributors: GitHubUserResponse[]) {
+  public renderContributorList(contributors: GitHubUserResponse[]) {
     const renderedContributors = contributors.map((contributor) => `- ${this.renderContributor(contributor)}`).sort();
 
     return `#### Committers: ${contributors.length}\n${renderedContributors.join("\n")}`;
   }
 
-  renderContributor(contributor: GitHubUserResponse): string {
+  public renderContributor(contributor: GitHubUserResponse): string {
     const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
     if (contributor.name) {
       return `${contributor.name} (${userNameAndLink})`;
@@ -134,7 +130,11 @@ export default class MarkdownRenderer {
     }
   }
 
-  groupByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
+  private hasPackages(commits: CommitInfo[]) {
+    return commits.some((commit) => commit.packages !== undefined && commit.packages.length > 0);
+  }
+
+  private groupByCategory(allCommits: CommitInfo[]): CategoryInfo[] {
     return this.options.categories.map((name) => {
       // Keep only the commits that have a matching label with the one
       // provided in the lerna.json config.

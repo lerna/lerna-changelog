@@ -1,7 +1,7 @@
 const execa = require("execa");
 
 export async function changedPaths(sha: string): Promise<string[]> {
-  const result = await execa("git", ["show", "-m", "--name-only" ,"--pretty=format:", "--first-parent", sha]);
+  const result = await execa("git", ["show", "-m", "--name-only" , "--pretty=format:", "--first-parent", sha]);
   return result.stdout.split("\n");
 }
 

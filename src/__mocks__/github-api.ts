@@ -1,7 +1,7 @@
 const GithubAPI = require.requireActual("../github-api").default;
 
 class MockedGithubAPI extends GithubAPI {
-  getAuthToken() {
+  private getAuthToken() {
     return "123";
   }
 }

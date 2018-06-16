@@ -1,8 +1,8 @@
 const pMap = require("p-map");
 
-import progressBar        from "./progress-bar";
+import progressBar from "./progress-bar";
 import * as Configuration from "./configuration";
-import findPullRequestId  from "./find-pull-request-id";
+import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
 import GithubAPI, {GitHubUserResponse} from "./github-api";
 import {CommitInfo, Release} from "./interfaces";
@@ -16,9 +16,9 @@ interface Options {
 }
 
 export default class Changelog {
-  config: any;
-  github: GithubAPI;
-  renderer: MarkdownRenderer;
+  private config: any;
+  private github: GithubAPI;
+  private renderer: MarkdownRenderer;
 
   constructor(options: Options = {}) {
     this.config = Object.assign(this.getConfig(), options);
@@ -29,11 +29,17 @@ export default class Changelog {
     });
   }
 
-  getConfig() {
+  public async createMarkdown() {
+    const releases = await this.listReleases();
+
+    return this.renderer.renderMarkdown(releases);
+  }
+
+  private getConfig() {
     return Configuration.fromGitRoot(process.cwd());
   }
 
-  async getCommitInfos(): Promise<CommitInfo[]> {
+  private async getCommitInfos(): Promise<CommitInfo[]> {
     // Step 1: Get list of commits between tag A and B (local)
     const commits = await this.getListOfCommits();
 
@@ -52,7 +58,7 @@ export default class Changelog {
     return commitInfos;
   }
 
-  async listReleases(): Promise<Release[]> {
+  private async listReleases(): Promise<Release[]> {
     // Get all info about commits in a certain tags range
     const commits = await this.getCommitInfos();
 
@@ -65,20 +71,14 @@ export default class Changelog {
     return releases;
   }
 
-  async createMarkdown() {
-    const releases = await this.listReleases();
-
-    return this.renderer.renderMarkdown(releases);
-  }
-
-  async getListOfUniquePackages(sha: string): Promise<string[]> {
+  private async getListOfUniquePackages(sha: string): Promise<string[]> {
     return (await Git.changedPaths(sha))
       .map(path => this.packageFromPath(path))
       .filter(Boolean)
       .filter(onlyUnique);
   }
 
-  packageFromPath(path: string): string {
+  private packageFromPath(path: string): string {
     const parts = path.split("/");
     if (parts[0] !== "packages" || parts.length < 3) {
       return "";
@@ -91,7 +91,7 @@ export default class Changelog {
     return parts[1];
   }
 
-  async getListOfCommits(): Promise<Git.CommitListItem[]> {
+  private async getListOfCommits(): Promise<Git.CommitListItem[]> {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
@@ -99,7 +99,7 @@ export default class Changelog {
     return Git.listCommits(tagFrom, this.config.tagTo);
   }
 
-  async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
+  private async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
     const committers: { [id: string]: GitHubUserResponse } = {};
 
     for (const commit of commits) {
@@ -116,15 +116,15 @@ export default class Changelog {
     return Object.keys(committers).map((k) => committers[k]);
   }
 
-  ignoreCommitter(login: string): boolean {
+  private ignoreCommitter(login: string): boolean {
     if (!this.config.ignoreCommitters) {
       return false;
     }
 
-    return this.config.ignoreCommitters.some((c: string) => c === login || login.indexOf(c) > -1)
+    return this.config.ignoreCommitters.some((c: string) => c === login || login.indexOf(c) > -1);
   }
 
-  async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
+  private async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
     const allTags = await Git.listTagNames();
     return commits.map((commit) => {
       const { sha, refName, summary: message, date } = commit;
@@ -140,7 +140,7 @@ export default class Changelog {
 
       return {
         commitSHA: sha,
-        message: message,
+        message,
         // Note: Only merge commits or commits referencing an issue / PR
         // will be kept in the changelog.
         tags: tagsInCommit,
@@ -150,7 +150,7 @@ export default class Changelog {
     });
   }
 
-  async downloadIssueData(commitInfos: CommitInfo[]) {
+  private async downloadIssueData(commitInfos: CommitInfo[]) {
     progressBar.init(commitInfos.length);
     await pMap(commitInfos, async (commitInfo: CommitInfo) => {
       progressBar.setTitle(commitInfo.commitSHA);
@@ -164,7 +164,7 @@ export default class Changelog {
     progressBar.terminate();
   }
 
-  groupByRelease(commits: CommitInfo[]): Release[] {
+  private groupByRelease(commits: CommitInfo[]): Release[] {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
@@ -194,12 +194,12 @@ export default class Changelog {
     return Object.keys(releaseMap).map((tag) => releaseMap[tag]);
   }
 
-  getToday() {
+  private getToday() {
     const date = new Date().toISOString();
     return date.slice(0, date.indexOf("T"));
   }
 
-  fillInCategories(commits: CommitInfo[]) {
+  private fillInCategories(commits: CommitInfo[]) {
     for (const commit of commits) {
       if (!commit.githubIssue || !commit.githubIssue.labels) continue;
 
@@ -211,7 +211,7 @@ export default class Changelog {
     }
   }
 
-  async fillInPackages(commits: CommitInfo[]) {
+  private async fillInPackages(commits: CommitInfo[]) {
     progressBar.init(commits.length);
 
     await pMap(commits, async (commit: CommitInfo) => {
@@ -225,7 +225,7 @@ export default class Changelog {
     progressBar.terminate();
   }
 
-  async fillInContributors(releases: Release[]) {
+  private async fillInContributors(releases: Release[]) {
     for (const release of releases) {
       release.contributors = await this.getCommitters(release.commits);
     }
