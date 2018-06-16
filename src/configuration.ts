@@ -5,6 +5,10 @@ const normalize = require("normalize-git-url");
 
 import ConfigurationError from "./configuration-error";
 
+export function load(options: any) {
+  return Object.assign(fromGitRoot(process.cwd()), options);
+}
+
 export function fromGitRoot(cwd: string): any {
   const rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
   return fromPath(rootPath);

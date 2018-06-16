@@ -21,7 +21,7 @@ export default class Changelog {
   private renderer: MarkdownRenderer;
 
   constructor(options: Options = {}) {
-    this.config = Object.assign(this.getConfig(), options);
+    this.config = this.loadConfig(options);
     this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
       categories: Object.keys(this.config.labels).map(key => this.config.labels[key]),
@@ -35,8 +35,8 @@ export default class Changelog {
     return this.renderer.renderMarkdown(releases);
   }
 
-  private getConfig() {
-    return Configuration.fromGitRoot(process.cwd());
+  private loadConfig(options: Options) {
+    return Configuration.load(options);
   }
 
   private async getCommitInfos(): Promise<CommitInfo[]> {

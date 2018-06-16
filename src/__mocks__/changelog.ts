@@ -15,8 +15,8 @@ const defaultConfig = {
 };
 
 class MockedChangelog extends Changelog {
-  private getConfig() {
-    return defaultConfig;
+  private loadConfig(options: any) {
+    return Object.assign({}, defaultConfig, options);
   }
   private getToday() {
     return "2099-01-01";
