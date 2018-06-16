@@ -51,6 +51,9 @@
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "changelog": {
     "repo": "lerna/lerna-changelog",
     "labels": {

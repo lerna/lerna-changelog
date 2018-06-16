@@ -7,9 +7,9 @@ cache:
   directories:
   - node_modules
 node_js:
-  - '7'
   - '6'
-  - '4'
+  - '8'
+  - '10'
 
 env:
   - JOB=test
