@@ -86,19 +86,23 @@ describe("Configuration", function() {
 
     tests.forEach(([input, output]) => {
       it(`'${input}' -> '${output}'`, function() {
-        expect(findRepoFromPkg({
-          repository: {
-            type: "git",
-            url: input,
-          },
-        })).toEqual(output);
+        expect(
+          findRepoFromPkg({
+            repository: {
+              type: "git",
+              url: input,
+            },
+          })
+        ).toEqual(output);
       });
     });
 
     it(`works with shorthand 'repository' syntax`, function() {
-      expect(findRepoFromPkg({
-        repository: "https://github.com/babel/ember-cli-babel",
-      })).toEqual("babel/ember-cli-babel");
+      expect(
+        findRepoFromPkg({
+          repository: "https://github.com/babel/ember-cli-babel",
+        })
+      ).toEqual("babel/ember-cli-babel");
     });
   });
 });
