@@ -153,12 +153,10 @@ export default class Changelog {
   }
 
   private async downloadIssueData(commitInfos: CommitInfo[]) {
-    progressBar.init(commitInfos.length);
+    progressBar.init("Downloading issue information…", commitInfos.length);
     await pMap(
       commitInfos,
       async (commitInfo: CommitInfo) => {
-        progressBar.setTitle(commitInfo.commitSHA);
-
         if (commitInfo.issueNumber) {
           commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
         }
@@ -218,13 +216,11 @@ export default class Changelog {
   }
 
   private async fillInPackages(commits: CommitInfo[]) {
-    progressBar.init(commits.length);
+    progressBar.init("Mapping commits to packages…", commits.length);
 
     await pMap(
       commits,
       async (commit: CommitInfo) => {
-        progressBar.setTitle(commit.commitSHA);
-
         commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
 
         progressBar.tick();

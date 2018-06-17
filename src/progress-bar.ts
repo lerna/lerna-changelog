@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 const ProgressBar = require("progress");
 const padEnd = require("string.prototype.padend");
 
@@ -8,7 +10,7 @@ class ProgressBarController {
     this.bar = null;
   }
 
-  public init(total: number) {
+  public init(title: string, total: number) {
     if (this.bar) {
       this.terminate();
     }
@@ -19,23 +21,15 @@ class ProgressBarController {
       return;
     }
 
-    this.bar = new ProgressBar(":packagename ╢:bar╟", {
+    this.bar = new ProgressBar(`:bar ${title} (:percent)`, {
       total,
-      complete: "█",
-      incomplete: "░",
+      complete: chalk.hex("#0366d6")("█"),
+      incomplete: chalk.gray("█"),
       clear: true,
 
       // terminal columns - package name length - additional characters length
-      width: ((process.stdout as any).columns || 100) - 50 - 3,
+      width: 20,
     });
-  }
-
-  public setTitle(name: string) {
-    if (this.bar) {
-      this.bar.tick(0, {
-        packagename: padEnd(name.slice(0, 50), 50),
-      });
-    }
   }
 
   public tick() {
