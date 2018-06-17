@@ -48,7 +48,14 @@ export function fromPath(rootPath: string, options: Partial<Configuration> = {})
   }
 
   if (!ignoreCommitters) {
-    ignoreCommitters = [];
+    ignoreCommitters = [
+      "dependabot-bot",
+      "dependabot[bot]",
+      "greenkeeperio-bot",
+      "greenkeeper[bot]",
+      "renovate-bot",
+      "renovate[bot]",
+    ];
   }
 
   return {
