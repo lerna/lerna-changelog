@@ -47,7 +47,7 @@ export default class Changelog {
     const commits = this.getListOfCommits(from, to);
 
     // Step 2: Find tagged commits (local)
-    const commitInfos = await this.toCommitInfos(commits);
+    const commitInfos = this.toCommitInfos(commits);
 
     // Step 3: Download PR data (remote)
     await this.downloadIssueData(commitInfos);
@@ -122,16 +122,20 @@ export default class Changelog {
     return this.config.ignoreCommitters.some((c: string) => c === login || login.indexOf(c) > -1);
   }
 
-  private async toCommitInfos(commits: Git.CommitListItem[]): Promise<CommitInfo[]> {
-    const allTags = await Git.listTagNames();
+  private toCommitInfos(commits: Git.CommitListItem[]): CommitInfo[] {
     return commits.map(commit => {
       const { sha, refName, summary: message, date } = commit;
 
       let tagsInCommit;
       if (refName.length > 1) {
+        const TAG_PREFIX = "tag: ";
+
         // Since there might be multiple tags referenced by the same commit,
         // we need to treat all of them as a list.
-        tagsInCommit = allTags.filter(tag => refName.indexOf(tag) !== -1);
+        tagsInCommit = refName
+          .split(", ")
+          .filter(ref => ref.startsWith(TAG_PREFIX))
+          .map(ref => ref.substr(TAG_PREFIX.length));
       }
 
       const issueNumber = findPullRequestId(message);
