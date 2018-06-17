@@ -9,7 +9,7 @@ import ConfigurationError from "./configuration-error";
 
 export async function run() {
   const argv = require("yargs")
-    .usage("Usage: lerna-changelog [options]")
+    .usage("lerna-changelog [options]")
     .options({
       "tag-from": {
         type: "string",
@@ -25,8 +25,7 @@ export async function run() {
       "lerna-changelog --tag-from 0.1.0 --tag-to 0.3.0",
       "create a changelog for the changes in all tags within the given range"
     )
-    .version()
-    .help().argv;
+    .parse();
 
   let options = {
     tagFrom: argv["tag-from"],
