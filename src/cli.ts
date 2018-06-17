@@ -1,6 +1,8 @@
 /* tslint:disable:no-console */
 
-const chalk = require("chalk");
+import chalk from "chalk";
+
+import { highlight } from "cli-highlight";
 
 import Changelog from "./changelog";
 import ConfigurationError from "./configuration-error";
@@ -33,7 +35,17 @@ export async function run() {
 
   try {
     let result = await new Changelog().createMarkdown(options);
-    console.log(result);
+
+    let highlighted = highlight(result, {
+      language: "Markdown",
+      theme: {
+        section: chalk.bold,
+        string: chalk.hex("#0366d6"),
+        link: chalk.dim,
+      },
+    });
+
+    console.log(highlighted);
   } catch (e) {
     if (e instanceof ConfigurationError) {
       console.log(chalk.red(e.message));
