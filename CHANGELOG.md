@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.8.0-beta.2 (2018-06-17)
+
+#### :rocket: Enhancement
+* [#108](https://github.com/lerna/lerna-changelog/pull/108) Improve progress reporting ([@Turbo87](https://github.com/Turbo87))
+* [#105](https://github.com/lerna/lerna-changelog/pull/105) Ignore dependency update bots by default ([@Turbo87](https://github.com/Turbo87))
+
+#### :bug: Bug Fix
+* [#107](https://github.com/lerna/lerna-changelog/pull/107) Fix `refName` parsing ([@Turbo87](https://github.com/Turbo87))
+* [#106](https://github.com/lerna/lerna-changelog/pull/106) Remove trailing period enforcement from PR titles ([@Turbo87](https://github.com/Turbo87))
+* [#104](https://github.com/lerna/lerna-changelog/pull/104) Add `@` sign in front of contributor login ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#109](https://github.com/lerna/lerna-changelog/pull/109) Update `yargs` to v11.0.0 ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
+
 ## v0.8.0-beta.1 (2018-06-17)
 
 #### :boom: Breaking Change
