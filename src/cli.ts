@@ -1,6 +1,6 @@
 /* tslint:disable:no-console */
 
-const chalk = require("chalk");
+import chalk from "chalk";
 
 import { highlight } from "cli-highlight";
 
