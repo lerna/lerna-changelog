@@ -106,7 +106,7 @@ export default class MarkdownRenderer {
         issue.title = issue.title.replace(COMMIT_FIX_REGEX, `Closes [#$3](${this.options.baseIssueUrl}$3)`);
       }
 
-      markdown += `${issue.title}. ([@${issue.user.login}](${issue.user.html_url}))`;
+      markdown += `${issue.title} ([@${issue.user.login}](${issue.user.html_url}))`;
 
       return markdown;
     }

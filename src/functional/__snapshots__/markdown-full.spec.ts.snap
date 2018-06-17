@@ -6,7 +6,7 @@ exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
 
 #### :rocket: New Feature
 * \`a-new-hope\`
-  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you ([@luke](https://github.com/luke))
 
 #### Committers: 1
 - Luke Skywalker ([@luke](https://github.com/luke))
@@ -16,7 +16,7 @@ exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
 
 #### :rocket: New Feature
 * \`a-new-hope\`
-  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you ([@luke](https://github.com/luke))
 
 #### Committers: 1
 - Luke Skywalker ([@luke](https://github.com/luke))
@@ -26,7 +26,7 @@ exports[`createMarkdown multiple tags outputs correct changelog 1`] = `
 
 #### :rocket: New Feature
 * \`a-new-hope\`
-  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you ([@luke](https://github.com/luke))
 
 #### Committers: 1
 - Luke Skywalker ([@luke](https://github.com/luke))"
@@ -37,10 +37,10 @@ exports[`createMarkdown single project outputs correct changelog 1`] = `
 ## Unreleased (2099-01-01)
 
 #### :rocket: New Feature
-* [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works!. ([@han-solo](https://github.com/han-solo))
+* [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works! ([@han-solo](https://github.com/han-solo))
 
 #### :nail_care: Enhancement
-* [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works!. ([@han-solo](https://github.com/han-solo))
+* [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works! ([@han-solo](https://github.com/han-solo))
 
 #### Committers: 1
 - Han Solo ([@han-solo](https://github.com/han-solo))
@@ -49,16 +49,16 @@ exports[`createMarkdown single project outputs correct changelog 1`] = `
 ## v6.0.0 (1983-05-25)
 
 #### :rocket: New Feature
-* [#5](https://github.com/lerna/lerna-changelog/pull/5) feat: I am your father. ([@vader](https://github.com/vader))
+* [#5](https://github.com/lerna/lerna-changelog/pull/5) feat: I am your father ([@vader](https://github.com/vader))
 
 #### :bug: Bug Fix
-* [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR. ([@chewbacca](https://github.com/chewbacca))
+* [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR ([@chewbacca](https://github.com/chewbacca))
 
 #### :nail_care: Enhancement
-* [#6](https://github.com/lerna/lerna-changelog/pull/6) refactor: he is my brother. ([@princess-leia](https://github.com/princess-leia))
+* [#6](https://github.com/lerna/lerna-changelog/pull/6) refactor: he is my brother ([@princess-leia](https://github.com/princess-leia))
 
 #### :house: Maintenance
-* [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR. ([@chewbacca](https://github.com/chewbacca))
+* [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR ([@chewbacca](https://github.com/chewbacca))
 
 #### Committers: 3
 - Chwebacca ([@chewbacca](https://github.com/chewbacca))
@@ -69,10 +69,10 @@ exports[`createMarkdown single project outputs correct changelog 1`] = `
 ## v5.0.0 (1980-05-17)
 
 #### :boom: Breaking Change
-* [#2](https://github.com/lerna/lerna-changelog/pull/2) chore: Terminate her... immediately!. ([@gtarkin](https://github.com/gtarkin))
+* [#2](https://github.com/lerna/lerna-changelog/pull/2) chore: Terminate her... immediately! ([@gtarkin](https://github.com/gtarkin))
 
 #### :bug: Bug Fix
-* [#3](https://github.com/lerna/lerna-changelog/pull/3) fix: Get me the rebels base!. ([@vader](https://github.com/vader))
+* [#3](https://github.com/lerna/lerna-changelog/pull/3) fix: Get me the rebels base! ([@vader](https://github.com/vader))
 
 #### Committers: 2
 - Darth Vader ([@vader](https://github.com/vader))
@@ -82,7 +82,7 @@ exports[`createMarkdown single project outputs correct changelog 1`] = `
 ## v4.0.0 (1977-05-25)
 
 #### :rocket: New Feature
-* [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+* [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you ([@luke](https://github.com/luke))
 
 #### Committers: 1
 - Luke Skywalker ([@luke](https://github.com/luke))"
@@ -94,11 +94,11 @@ exports[`createMarkdown single tags outputs correct changelog 1`] = `
 
 #### :rocket: New Feature
 * \`the-force-awakens\`, \`rogue-one\`
-  * [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works!. ([@han-solo](https://github.com/han-solo))
+  * [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works! ([@han-solo](https://github.com/han-solo))
 
 #### :nail_care: Enhancement
 * \`the-force-awakens\`, \`rogue-one\`
-  * [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works!. ([@han-solo](https://github.com/han-solo))
+  * [#7](https://github.com/lerna/lerna-changelog/pull/7) feat: that is not how the Force works! ([@han-solo](https://github.com/han-solo))
 
 #### Committers: 1
 - Han Solo ([@han-solo](https://github.com/han-solo))
@@ -108,19 +108,19 @@ exports[`createMarkdown single tags outputs correct changelog 1`] = `
 
 #### :rocket: New Feature
 * \`return-of-the-jedi\`
-  * [#5](https://github.com/lerna/lerna-changelog/pull/5) feat: I am your father. ([@vader](https://github.com/vader))
+  * [#5](https://github.com/lerna/lerna-changelog/pull/5) feat: I am your father ([@vader](https://github.com/vader))
 
 #### :bug: Bug Fix
 * \`return-of-the-jedi\`
-  * [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR. ([@chewbacca](https://github.com/chewbacca))
+  * [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR ([@chewbacca](https://github.com/chewbacca))
 
 #### :nail_care: Enhancement
 * \`return-of-the-jedi\`
-  * [#6](https://github.com/lerna/lerna-changelog/pull/6) refactor: he is my brother. ([@princess-leia](https://github.com/princess-leia))
+  * [#6](https://github.com/lerna/lerna-changelog/pull/6) refactor: he is my brother ([@princess-leia](https://github.com/princess-leia))
 
 #### :house: Maintenance
 * \`return-of-the-jedi\`
-  * [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR. ([@chewbacca](https://github.com/chewbacca))
+  * [#4](https://github.com/lerna/lerna-changelog/pull/4) fix: RRRAARRWHHGWWR ([@chewbacca](https://github.com/chewbacca))
 
 #### Committers: 3
 - Chwebacca ([@chewbacca](https://github.com/chewbacca))
@@ -132,11 +132,11 @@ exports[`createMarkdown single tags outputs correct changelog 1`] = `
 
 #### :boom: Breaking Change
 * \`empire-strikes-back\`
-  * [#2](https://github.com/lerna/lerna-changelog/pull/2) chore: Terminate her... immediately!. ([@gtarkin](https://github.com/gtarkin))
+  * [#2](https://github.com/lerna/lerna-changelog/pull/2) chore: Terminate her... immediately! ([@gtarkin](https://github.com/gtarkin))
 
 #### :bug: Bug Fix
 * \`empire-strikes-back\`
-  * [#3](https://github.com/lerna/lerna-changelog/pull/3) fix: Get me the rebels base!. ([@vader](https://github.com/vader))
+  * [#3](https://github.com/lerna/lerna-changelog/pull/3) fix: Get me the rebels base! ([@vader](https://github.com/vader))
 
 #### Committers: 2
 - Darth Vader ([@vader](https://github.com/vader))
@@ -147,7 +147,7 @@ exports[`createMarkdown single tags outputs correct changelog 1`] = `
 
 #### :rocket: New Feature
 * \`a-new-hope\`
-  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you. ([@luke](https://github.com/luke))
+  * [#1](https://github.com/lerna/lerna-changelog/pull/1) feat: May the force be with you ([@luke](https://github.com/luke))
 
 #### Committers: 1
 - Luke Skywalker ([@luke](https://github.com/luke))"
