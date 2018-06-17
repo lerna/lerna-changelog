@@ -1,3 +1,31 @@
+# Changelog
+
+## v0.8.0-beta.1 (2018-06-17)
+
+#### :boom: Breaking Change
+* [#92](https://github.com/lerna/lerna-changelog/pull/92) Declare Node version support (6+). ([@Turbo87](https://github.com/Turbo87))
+
+#### :rocket: Enhancement
+* [#103](https://github.com/lerna/lerna-changelog/pull/103) Use `cli-highlight` to syntax highlight markdown output. ([@Turbo87](https://github.com/Turbo87))
+* [#102](https://github.com/lerna/lerna-changelog/pull/102) Improve automatic config detection. ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#101](https://github.com/lerna/lerna-changelog/pull/101) CI: Remove `node_modules` from cache. ([@Turbo87](https://github.com/Turbo87))
+* [#100](https://github.com/lerna/lerna-changelog/pull/100) package.json: Adjust changelog labels. ([@Turbo87](https://github.com/Turbo87))
+* [#99](https://github.com/lerna/lerna-changelog/pull/99) Use `prettier` to format code. ([@Turbo87](https://github.com/Turbo87))
+* [#98](https://github.com/lerna/lerna-changelog/pull/98) Use `jest-runner-tslint` for linting. ([@Turbo87](https://github.com/Turbo87))
+* [#97](https://github.com/lerna/lerna-changelog/pull/97) Update `make-fetch-happen` to v4.0.1. ([@Turbo87](https://github.com/Turbo87))
+* [#96](https://github.com/lerna/lerna-changelog/pull/96) Update `fs-extra` to v6.0.1. ([@Turbo87](https://github.com/Turbo87))
+* [#95](https://github.com/lerna/lerna-changelog/pull/95) Update `chalk` to v2.4.1. ([@Turbo87](https://github.com/Turbo87))
+* [#94](https://github.com/lerna/lerna-changelog/pull/94) Update to Jest 23. ([@Turbo87](https://github.com/Turbo87))
+* [#93](https://github.com/lerna/lerna-changelog/pull/93) Update `execa` to v0.10.0. ([@Turbo87](https://github.com/Turbo87))
+* [#91](https://github.com/lerna/lerna-changelog/pull/91) Update TSLint and fix issues. ([@Turbo87](https://github.com/Turbo87))
+* [#90](https://github.com/lerna/lerna-changelog/pull/90) Update `typescript` to v2.9.2. ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
+
+
 ## v0.7.0 (2017-10-22)
 
 #### :rocket: Enhancement
