@@ -134,7 +134,7 @@ describe("MarkdownRenderer", () => {
         html_url: "http://github.com/foo",
       });
 
-      expect(result).toEqual("[foo](http://github.com/foo)");
+      expect(result).toEqual("[@foo](http://github.com/foo)");
     });
 
     it(`renders GitHub user with name`, () => {
@@ -144,7 +144,7 @@ describe("MarkdownRenderer", () => {
         html_url: "http://github.com/foo",
       });
 
-      expect(result).toEqual("Foo Bar ([foo](http://github.com/foo))");
+      expect(result).toEqual("Foo Bar ([@foo](http://github.com/foo))");
     });
   });
 
