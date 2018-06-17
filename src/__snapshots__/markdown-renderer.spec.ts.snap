@@ -56,6 +56,6 @@ exports[`MarkdownRenderer renderContributionList renders a list of contributions
 
 exports[`MarkdownRenderer renderContributorList renders a list of GitHub users 1`] = `
 "#### Committers: 2
-- Tobias Bieniek ([Turbo87](https://github.com/Turbo87))
-- [hzoo](https://github.com/hzoo)"
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- [@hzoo](https://github.com/hzoo)"
 `;

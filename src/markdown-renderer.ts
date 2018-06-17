@@ -119,7 +119,7 @@ export default class MarkdownRenderer {
   }
 
   public renderContributor(contributor: GitHubUserResponse): string {
-    const userNameAndLink = `[${contributor.login}](${contributor.html_url})`;
+    const userNameAndLink = `[@${contributor.login}](${contributor.html_url})`;
     if (contributor.name) {
       return `${contributor.name} (${userNameAndLink})`;
     } else {
