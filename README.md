@@ -64,11 +64,11 @@ default are:
 - `documentation` (:memo: Documentation)
 - `internal` (:house: Internal)
 
-You can also use the `--tag-from` and `--tag-to` options to view a different
+You can also use the `--from` and `--to` options to view a different
 range of pull requests:
 
 ```bash
-lerna-changelog --tag-from=v1.0.0 --tag-to=v2.0.0
+lerna-changelog --from=v1.0.0 --to=v2.0.0
 ```
 
 ### GitHub Token
