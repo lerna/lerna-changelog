@@ -8,7 +8,9 @@ import Changelog from "./changelog";
 import ConfigurationError from "./configuration-error";
 
 export async function run() {
-  const argv = require("yargs")
+  const yargs = require("yargs");
+
+  const argv = yargs
     .usage("lerna-changelog [options]")
     .options({
       from: {
@@ -36,6 +38,8 @@ export async function run() {
       "lerna-changelog --from=0.1.0 --to=0.3.0",
       "create a changelog for the changes in all tags within the given range"
     )
+    .epilog("For more information, see https://github.com/lerna/lerna-changelog")
+    .wrap(Math.min(100, yargs.terminalWidth()))
     .parse();
 
   let options = {
