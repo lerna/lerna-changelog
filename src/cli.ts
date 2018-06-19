@@ -11,25 +11,36 @@ export async function run() {
   const argv = require("yargs")
     .usage("lerna-changelog [options]")
     .options({
+      from: {
+        type: "string",
+        desc: "A git tag or commit hash that determines the lower bound of the range of commits",
+        defaultDescription: "latest tagged commit",
+      },
+      to: {
+        type: "string",
+        desc: "A git tag or commit hash that determines the upper bound of the range of commits",
+      },
       "tag-from": {
+        hidden: true,
         type: "string",
         desc: "A git tag that determines the lower bound of the range of commits (defaults to last available)",
       },
       "tag-to": {
+        hidden: true,
         type: "string",
         desc: "A git tag that determines the upper bound of the range of commits",
       },
     })
     .example("lerna-changelog", "create a changelog for the changes after the latest available tag")
     .example(
-      "lerna-changelog --tag-from 0.1.0 --tag-to 0.3.0",
+      "lerna-changelog --from=0.1.0 --to=0.3.0",
       "create a changelog for the changes in all tags within the given range"
     )
     .parse();
 
   let options = {
-    tagFrom: argv["tag-from"],
-    tagTo: argv["tag-to"],
+    tagFrom: argv["from"] || argv["tag-from"],
+    tagTo: argv["to"] || argv["tag-to"],
   };
 
   try {
