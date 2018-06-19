@@ -1,33 +1,32 @@
 # Changelog
 
-## v0.8.0-beta.2 (2018-06-17)
-
-#### :rocket: Enhancement
-* [#108](https://github.com/lerna/lerna-changelog/pull/108) Improve progress reporting ([@Turbo87](https://github.com/Turbo87))
-* [#105](https://github.com/lerna/lerna-changelog/pull/105) Ignore dependency update bots by default ([@Turbo87](https://github.com/Turbo87))
-
-#### :bug: Bug Fix
-* [#107](https://github.com/lerna/lerna-changelog/pull/107) Fix `refName` parsing ([@Turbo87](https://github.com/Turbo87))
-* [#106](https://github.com/lerna/lerna-changelog/pull/106) Remove trailing period enforcement from PR titles ([@Turbo87](https://github.com/Turbo87))
-* [#104](https://github.com/lerna/lerna-changelog/pull/104) Add `@` sign in front of contributor login ([@Turbo87](https://github.com/Turbo87))
-
-#### :house: Internal
-* [#109](https://github.com/lerna/lerna-changelog/pull/109) Update `yargs` to v11.0.0 ([@Turbo87](https://github.com/Turbo87))
-
-#### Committers: 1
-- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
-
-
-## v0.8.0-beta.1 (2018-06-17)
+## v0.8.0 (2018-06-19)
 
 #### :boom: Breaking Change
 * [#92](https://github.com/lerna/lerna-changelog/pull/92) Declare Node version support (6+). ([@Turbo87](https://github.com/Turbo87))
 
 #### :rocket: Enhancement
+* [#115](https://github.com/lerna/lerna-changelog/pull/115) Improve CLI help output ([@Turbo87](https://github.com/Turbo87))
+* [#114](https://github.com/lerna/lerna-changelog/pull/114) Add `--from` and `--to` as replacements for `--tag-from/to` ([@Turbo87](https://github.com/Turbo87))
+* [#108](https://github.com/lerna/lerna-changelog/pull/108) Improve progress reporting ([@Turbo87](https://github.com/Turbo87))
+* [#105](https://github.com/lerna/lerna-changelog/pull/105) Ignore dependency update bots by default ([@Turbo87](https://github.com/Turbo87))
 * [#103](https://github.com/lerna/lerna-changelog/pull/103) Use `cli-highlight` to syntax highlight markdown output. ([@Turbo87](https://github.com/Turbo87))
 * [#102](https://github.com/lerna/lerna-changelog/pull/102) Improve automatic config detection. ([@Turbo87](https://github.com/Turbo87))
 
+#### :bug: Bug Fix
+* [#116](https://github.com/lerna/lerna-changelog/pull/116) Fix progress bar rendering for `--no-color` ([@Turbo87](https://github.com/Turbo87))
+* [#107](https://github.com/lerna/lerna-changelog/pull/107) Fix `refName` parsing ([@Turbo87](https://github.com/Turbo87))
+* [#106](https://github.com/lerna/lerna-changelog/pull/106) Remove trailing period enforcement from PR titles ([@Turbo87](https://github.com/Turbo87))
+* [#104](https://github.com/lerna/lerna-changelog/pull/104) Add `@` sign in front of contributor login ([@Turbo87](https://github.com/Turbo87))
+
+#### :memo: Documentation
+* [#113](https://github.com/lerna/lerna-changelog/pull/113) Update Documentation ([@Turbo87](https://github.com/Turbo87))
+
 #### :house: Internal
+* [#111](https://github.com/lerna/lerna-changelog/pull/111) Update `progress` to v2.0.0 ([@Turbo87](https://github.com/Turbo87))
+* [#112](https://github.com/lerna/lerna-changelog/pull/112) Update `rimraf` to v2.6.2 ([@Turbo87](https://github.com/Turbo87))
+* [#110](https://github.com/lerna/lerna-changelog/pull/110) Update `p-map` to v1.2.0 ([@Turbo87](https://github.com/Turbo87))
+* [#109](https://github.com/lerna/lerna-changelog/pull/109) Update `yargs` to v11.0.0 ([@Turbo87](https://github.com/Turbo87))
 * [#101](https://github.com/lerna/lerna-changelog/pull/101) CI: Remove `node_modules` from cache. ([@Turbo87](https://github.com/Turbo87))
 * [#100](https://github.com/lerna/lerna-changelog/pull/100) package.json: Adjust changelog labels. ([@Turbo87](https://github.com/Turbo87))
 * [#99](https://github.com/lerna/lerna-changelog/pull/99) Use `prettier` to format code. ([@Turbo87](https://github.com/Turbo87))
