@@ -1,6 +1,6 @@
 {
   "name": "lerna-changelog",
-  "version": "0.8.0-beta.2",
+  "version": "0.8.0",
   "description": "Generate a changelog for a lerna monorepo",
   "keywords": [
     "changelog",
