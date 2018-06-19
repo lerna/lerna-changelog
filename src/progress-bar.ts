@@ -24,7 +24,7 @@ class ProgressBarController {
     this.bar = new ProgressBar(`:bar ${title} (:percent)`, {
       total,
       complete: chalk.hex("#0366d6")("█"),
-      incomplete: chalk.gray("█"),
+      incomplete: chalk.enabled ? chalk.gray("█") : "░",
       clear: true,
 
       // terminal columns - package name length - additional characters length
