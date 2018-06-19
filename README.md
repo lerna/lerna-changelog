@@ -1,96 +1,123 @@
-# Lerna Changelog
+lerna-changelog
+==============================================================================
 
-Generate a changelog for a [lerna][lerna-homepage] monorepo.
+[![TravisCI Build Status][travis-badge]][travis-badge-url]
+[![Latest NPM release][npm-badge]][npm-badge-url]
 
-Based on [@hzoo][hzoo-profile]'s long-lived [PR][original-pr] for `lerna changelog`.
+[npm-badge]: https://img.shields.io/npm/v/lerna-changelog.svg
+[npm-badge-url]: https://www.npmjs.com/package/lerna-changelog
+[travis-badge]: https://img.shields.io/travis/lerna/lerna-changelog/master.svg
+[travis-badge-url]: https://travis-ci.org/lerna/lerna-changelog
 
-Uses github PR/Issue names categorized by labels with configurable headings.
+PR-based changelog generator with monorepo support
 
-## Usage
 
-Install:
+Install
+------------------------------------------------------------------------------
+
+Install with `yarn`:
 
 ```bash
-$ npm install -g lerna-changelog
+yarn add lerna-changelog --dev
+# or globally
+yarn global add lerna-changelog
 ```
 
-Configure:
+We're using `yarn` but you can use `npm` if you like:
 
-```diff
-$ git diff lerna.json
-...
- {
-+  "changelog": {
-+    "labels": { // default
-+      "enhancement": ":rocket: Enhancement",
-+      "bug": ":bug: Bug Fix"
-+    },
-+    "cacheDir": ".changelog"
-+  },
-   "lerna": "2.0.0-beta.9",
-   "version": "0.2.11"
- }
+```bash
+npm install --save-dev lerna-changelog
+# or globally
+npm install --global lerna-changelog
 ```
 
-Authenticate:
 
-```
-$ export GITHUB_AUTH="..."
-```
-
-You'll need a GitHub API [personal access token](https://github.com/settings/tokens) with the `repo` scope for private repositories or just `public_repo` scope for public repositories.
-
-Run:
+Usage
+------------------------------------------------------------------------------
 
 ```bash
 $ lerna-changelog
+```
 
-## Unreleased (2016-05-24)
+```md
+## Unreleased (2018-05-24)
 
-#### Bug fix
-* `my-package-a`, `my-package-b`
-  * [#198](https://github.com/my-org/my-repo/pull/198) Avoid an infinite loop. ([@helpful-hacker](https://github.com/helpful-hacker))
+#### :bug: Bug Fix
+* [#198](https://github.com/my-org/my-repo/pull/198) Avoid an infinite loop ([@helpful-hacker](https://github.com/helpful-hacker))
 
-#### Housekeeping
-* `my-package-c`
-  * [#183](https://github.com/my-org/my-repo/pull/183) Standardize error messages. ([@careful-coder](https://github.com/careful-coder))
+#### :house: Internal
+* [#183](https://github.com/my-org/my-repo/pull/183) Standardize error messages ([@careful-coder](https://github.com/careful-coder))
 
 #### Commiters: 2
-- helpful-hacker
-- careful-coder
-
+- Helpful Hacker ([@helpful-hacker](https://github.com/helpful-hacker))
+- [@careful-coder](https://github.com/careful-coder)
 ```
 
-Copypasta.  You're done!
+By default `lerna-changelog` will show all pull requests that have been merged
+since the latest tagged commit in the repository. That is however only true for
+pull requests with certain labels applied. The labels that are supported by
+default are:
 
-## Configuration
+- `breaking` (:boom: Breaking Change)
+- `enhancement` (:rocket: Enhancement)
+- `bug` (:bug: Bug Fix)
+- `documentation` (:memo: Documentation)
+- `internal` (:house: Internal)
 
-- `repo`: Your "org/repo" on GitHub (automatically inferred)
-- `cacheDir` [optional]: A place to stash GitHub API responses to avoid throttling
-- `labels`: GitHub issue/PR labels mapped to changelog section headers
-- `ignoreCommitters` [optional]: list of commiters to ignore (exact or partial match). Useful for example to ignore commits from bot agents
-
-## CLI
+You can also use the `--tag-from` and `--tag-to` options to view a different
+range of pull requests:
 
 ```bash
-$ lerna-changelog
-Usage: lerna-changelog [options]
-
-Options:
-  --tag-from  A git tag that determines the lower bound of the range of commits
-              (defaults to last available)                              [string]
-  --tag-to    A git tag that determines the upper bound of the range of commits
-                                                                        [string]
-  --version   Show version number                                      [boolean]
-  --help      Show help                                                [boolean]
-
-Examples:
-  lerna-changelog                           create a changelog for the changes
-                                            after the latest available tag
-  lerna-changelog --tag-from 0.1.0          create a changelog for the changes
-  --tag-to 0.3.0                            in all tags within the given range
+lerna-changelog --tag-from=v1.0.0 --tag-to=v2.0.0
 ```
 
-[lerna-homepage]: https://lernajs.io
-[hzoo-profile]: https://github.com/hzoo
-[original-pr]: https://github.com/lerna/lerna/pull/29
+### GitHub Token
+
+Since `lerna-changelog` interacts with the GitHub API you may run into rate
+limiting issues which can be resolved by supplying a "personal access token":
+
+```
+export GITHUB_AUTH="..."
+```
+
+You'll need a [personal access token](https://github.com/settings/tokens)
+for the GitHub API with the `repo` scope for private repositories or just
+`public_repo` scope for public repositories.
+
+
+Configuration
+------------------------------------------------------------------------------
+
+You can configure `lerna-changelog` in various ways. The easiest way is by
+adding a `changelog` key to the `package.json` file of your project:
+
+```json5
+{
+  // ...
+  "changelog": {
+    "labels": {
+      "feature": "New Feature",
+      "bug": "Bug Fix"
+    }
+  }
+}
+```
+
+The supported options are:
+
+- `repo`: Your "org/repo" on GitHub
+  (automatically inferred from the `package.json` file)
+
+- `labels`: GitHub PR labels mapped to changelog section headers
+
+- `ignoreCommitters`: List of committers to ignore (exact or partial match).
+  Useful for example to ignore commits from bots.
+
+- `cacheDir`: Path to a GitHub API response cache to avoid throttling
+  (e.g. `.changelog`)
+
+
+License
+------------------------------------------------------------------------------
+
+`lerna-changelog` is released under the [MIT License](LICENSE).
