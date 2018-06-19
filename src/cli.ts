@@ -27,6 +27,7 @@ export async function run() {
       "lerna-changelog --tag-from 0.1.0 --tag-to 0.3.0",
       "create a changelog for the changes in all tags within the given range"
     )
+    .epilog("For more information, see https://github.com/lerna/lerna-changelog")
     .wrap(Math.min(100, yargs.terminalWidth()))
     .parse();
 
