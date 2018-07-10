@@ -15,6 +15,7 @@ const defaultConfig = {
   },
   ignoreCommitters: [],
   cacheDir: ".changelog",
+  nextVersion: "Unreleased",
 };
 
 class MockedChangelog extends Changelog {

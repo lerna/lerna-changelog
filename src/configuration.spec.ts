@@ -19,19 +19,21 @@ describe("Configuration", function() {
 
     it("reads the configuration from 'lerna.json'", function() {
       fs.writeJsonSync(path.join(tmpDir, "lerna.json"), {
-        changelog: { repo: "foo/bar" },
+        changelog: { repo: "foo/bar", nextVersion: "next" },
       });
 
       const result = fromPath(tmpDir);
+      expect(result.nextVersion).toEqual("next");
       expect(result.repo).toEqual("foo/bar");
     });
 
     it("reads the configuration from 'package.json'", function() {
       fs.writeJsonSync(path.join(tmpDir, "package.json"), {
-        changelog: { repo: "foo/bar" },
+        changelog: { repo: "foo/bar", nextVersion: "next" },
       });
 
       const result = fromPath(tmpDir);
+      expect(result.nextVersion).toEqual("next");
       expect(result.repo).toEqual("foo/bar");
     });
 

@@ -1,5 +1,7 @@
-import { CommitInfo } from "./interfaces";
+import { CommitInfo, Release } from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
+
+const UNRELEASED_TAG = "___unreleased___";
 
 const BASIC_COMMIT = {
   githubIssue: {
@@ -51,6 +53,10 @@ function renderer(options: any = {}): MarkdownRenderer {
     categories: [],
     ...options,
   });
+}
+
+function getToday() {
+  return "2018-07-10";
 }
 
 describe("MarkdownRenderer", () => {
@@ -170,6 +176,45 @@ describe("MarkdownRenderer", () => {
       const commitsByCategory = r["groupByCategory"](testCommits as CommitInfo[]);
 
       expect(commitsByCategory).toMatchSnapshot();
+    });
+  });
+
+  describe("renderRelease", () => {
+    it(`renders unreleased commits`, () => {
+      const release: Release = {
+        name: UNRELEASED_TAG,
+        date: getToday(),
+        commits: [
+          {
+            ...BASIC_COMMIT,
+            categories: [":rocket: New Feature"],
+          },
+        ],
+      };
+      const options = {
+        categories: [":rocket: New Feature"],
+      };
+      const result = renderer(options).renderRelease(release);
+      expect(result).toMatchSnapshot();
+    });
+
+    it(`renders unreleased commits, with named next release`, () => {
+      const release: Release = {
+        name: UNRELEASED_TAG,
+        date: getToday(),
+        commits: [
+          {
+            ...BASIC_COMMIT,
+            categories: [":rocket: New Feature"],
+          },
+        ],
+      };
+      const options = {
+        categories: [":rocket: New Feature"],
+        unreleasedName: "v2.0.0-alpha.0",
+      };
+      const result = renderer(options).renderRelease(release);
+      expect(result).toMatchSnapshot();
     });
   });
 });

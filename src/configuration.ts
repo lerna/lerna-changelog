@@ -11,6 +11,7 @@ export interface Configuration {
   labels: { [key: string]: string };
   ignoreCommitters: string[];
   cacheDir?: string;
+  nextVersion: string;
 }
 
 export function load(options: Partial<Configuration> = {}): Configuration {
@@ -28,12 +29,12 @@ export function fromPath(rootPath: string, options: Partial<Configuration> = {})
   Object.assign(config, options);
 
   // Step 3: fill partial config with defaults
-  let { repo, labels, cacheDir, ignoreCommitters } = config;
+  let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
 
   if (!repo) {
     repo = findRepo(rootPath);
     if (!repo) {
-      throw new ConfigurationError('Could not infer "repo” from the "package.json" file.');
+      throw new ConfigurationError('Could not infer "repo" from the "package.json" file.');
     }
   }
 
@@ -60,6 +61,7 @@ export function fromPath(rootPath: string, options: Partial<Configuration> = {})
 
   return {
     repo,
+    nextVersion,
     rootPath,
     labels,
     ignoreCommitters,

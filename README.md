@@ -108,6 +108,9 @@ The supported options are:
 - `repo`: Your "org/repo" on GitHub
   (automatically inferred from the `package.json` file)
 
+- `nextVersion`: Title for unreleased commits
+  (e.g. `Unreleased`)
+
 - `labels`: GitHub PR labels mapped to changelog section headers
 
 - `ignoreCommitters`: List of committers to ignore (exact or partial match).
