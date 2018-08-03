@@ -12,6 +12,7 @@ export interface Configuration {
   ignoreCommitters: string[];
   cacheDir?: string;
   nextVersion: string;
+  nextVersionFromMetadata?: boolean;
 }
 
 export function load(options: Partial<Configuration> = {}): Configuration {
@@ -29,13 +30,21 @@ export function fromPath(rootPath: string, options: Partial<Configuration> = {})
   Object.assign(config, options);
 
   // Step 3: fill partial config with defaults
-  let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
+  let { repo, nextVersion, nextVersionFromMetadata, labels, cacheDir, ignoreCommitters } = config;
 
   if (!repo) {
     repo = findRepo(rootPath);
     if (!repo) {
       throw new ConfigurationError('Could not infer "repo" from the "package.json" file.');
     }
+  }
+
+  if (nextVersionFromMetadata) {
+    nextVersion = findNextVersion(rootPath);
+  }
+
+  if (!nextVersion) {
+    throw new ConfigurationError('Could not infer "nextVersion" from the "package.json" file.');
   }
 
   if (!labels) {
@@ -95,6 +104,16 @@ function findRepo(rootPath: string): string | undefined {
   }
 
   return findRepoFromPkg(pkg);
+}
+
+function findNextVersion(rootPath: string): string | undefined {
+  const pkgPath = path.join(rootPath, "package.json");
+  const lernaPath = path.join(rootPath, "lerna.json");
+
+  const pkg = fs.existsSync(pkgPath) ? JSON.parse(fs.readFileSync(pkgPath)) : {};
+  const lerna = fs.existsSync(lernaPath) ? JSON.parse(fs.readFileSync(lernaPath)) : {};
+
+  return pkg.version ? `v${pkg.version}` : lerna.version ? `v${lerna.version}` : undefined;
 }
 
 export function findRepoFromPkg(pkg: any): string | undefined {

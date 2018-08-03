@@ -37,6 +37,11 @@ export async function run() {
         desc: "The name of the next version",
         default: "Unreleased",
       },
+      "next-version-from-metadata": {
+        type: "boolean",
+        desc: "Infer the name of the next version from package metadata",
+        default: false,
+      },
     })
     .example(
       "lerna-changelog",
@@ -54,6 +59,7 @@ export async function run() {
     tagFrom: argv["from"] || argv["tag-from"],
     tagTo: argv["to"] || argv["tag-to"],
     nextVersion: argv["next-version"],
+    nextVersionFromMetadata: argv["next-version-from-metadata"],
   };
 
   try {
