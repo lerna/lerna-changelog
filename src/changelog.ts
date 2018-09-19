@@ -26,6 +26,7 @@ export default class Changelog {
     this.renderer = new MarkdownRenderer({
       categories: Object.keys(this.config.labels).map(key => this.config.labels[key]),
       baseIssueUrl: this.github.getBaseIssueUrl(this.config.repo),
+      unreleasedName: this.config.nextVersion,
     });
   }
 

@@ -12,13 +12,14 @@ interface CategoryInfo {
 interface Options {
   categories: string[];
   baseIssueUrl: string;
+  unreleasedName: string;
 }
 
 export default class MarkdownRenderer {
   private options: Options;
 
-  constructor(options: Options) {
-    this.options = options;
+  constructor({ unreleasedName = "Unreleased", ...options }: Options) {
+    this.options = { unreleasedName, ...options };
   }
 
   public renderMarkdown(releases: Release[]) {
@@ -36,7 +37,7 @@ export default class MarkdownRenderer {
     // Skip this iteration if there are no commits available for the release
     if (categoriesWithCommits.length === 0) return "";
 
-    const releaseTitle = release.name === UNRELEASED_TAG ? "Unreleased" : release.name;
+    const releaseTitle = release.name === UNRELEASED_TAG ? this.options.unreleasedName : release.name;
 
     let markdown = `## ${releaseTitle} (${release.date})`;
 

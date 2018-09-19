@@ -59,3 +59,17 @@ exports[`MarkdownRenderer renderContributorList renders a list of GitHub users 1
 - Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
 - [@hzoo](https://github.com/hzoo)"
 `;
+
+exports[`MarkdownRenderer renderRelease renders unreleased commits 1`] = `
+"## Unreleased (2018-07-10)
+
+#### :rocket: New Feature
+* My cool PR ([@hzoo](http://hzoo.com))"
+`;
+
+exports[`MarkdownRenderer renderRelease renders unreleased commits, with named next release 1`] = `
+"## v2.0.0-alpha.0 (2018-07-10)
+
+#### :rocket: New Feature
+* My cool PR ([@hzoo](http://hzoo.com))"
+`;

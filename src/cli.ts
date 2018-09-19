@@ -32,8 +32,21 @@ export async function run() {
         type: "string",
         desc: "A git tag that determines the upper bound of the range of commits",
       },
+      "next-version": {
+        type: "string",
+        desc: "The name of the next version",
+        default: "Unreleased",
+      },
+      "next-version-from-metadata": {
+        type: "boolean",
+        desc: "Infer the name of the next version from package metadata",
+        default: false,
+      },
     })
-    .example("lerna-changelog", "create a changelog for the changes after the latest available tag")
+    .example(
+      "lerna-changelog",
+      'create a changelog for the changes after the latest available tag, under "Unreleased" section'
+    )
     .example(
       "lerna-changelog --from=0.1.0 --to=0.3.0",
       "create a changelog for the changes in all tags within the given range"
@@ -45,6 +58,8 @@ export async function run() {
   let options = {
     tagFrom: argv["from"] || argv["tag-from"],
     tagTo: argv["to"] || argv["tag-to"],
+    nextVersion: argv["next-version"],
+    nextVersionFromMetadata: argv["next-version-from-metadata"],
   };
 
   try {
