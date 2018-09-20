@@ -71,6 +71,10 @@ range of pull requests:
 lerna-changelog --from=v1.0.0 --to=v2.0.0
 ```
 
+### Monorepo support
+
+If you have a packages folder and your projects in subfolders of that folder `lerna-changelog` will detect it and include the package names in the changelog for the relevant changes.
+
 ### GitHub Token
 
 Since `lerna-changelog` interacts with the GitHub API you may run into rate
