@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.8.1 (2018-10-10)
+
+#### :rocket: Enhancement
+* [#117](https://github.com/lerna/lerna-changelog/pull/117) Allow "Unreleased" commit group to be renamed ([@alex-pex](https://github.com/alex-pex))
+
+#### :memo: Documentation
+* [#120](https://github.com/lerna/lerna-changelog/pull/120) Add monorepo support docs ([@jonaskello](https://github.com/jonaskello))
+
+#### Committers: 2
+- Alexandre Paixao ([@alex-pex](https://github.com/alex-pex))
+- Jonas Kello ([@jonaskello](https://github.com/jonaskello))
+
+
 ## v0.8.0 (2018-06-19)
 
 #### :boom: Breaking Change
