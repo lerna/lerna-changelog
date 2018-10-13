@@ -51,6 +51,7 @@ function renderer(options: any = {}): MarkdownRenderer {
   return new MarkdownRenderer({
     baseIssueUrl: "http://foo.bar/",
     categories: [],
+    unreleasedName: "Unreleased",
     ...options,
   });
 }

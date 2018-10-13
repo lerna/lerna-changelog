@@ -5,16 +5,6 @@ jest.mock("./git");
 jest.mock("./fetch");
 
 describe("Changelog", () => {
-  describe("contructor", () => {
-    const MockedChangelog = require("./changelog").default;
-
-    it("set cli options", () => {
-      const changelog = new MockedChangelog({ tagFrom: "1", tagTo: "2" });
-      expect(changelog.config.tagFrom).toBe("1");
-      expect(changelog.config.tagTo).toBe("2");
-    });
-  });
-
   describe("packageFromPath", () => {
     const MockedChangelog = require("./changelog").default;
 

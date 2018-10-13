@@ -18,8 +18,8 @@ interface Options {
 export default class MarkdownRenderer {
   private options: Options;
 
-  constructor({ unreleasedName = "Unreleased", ...options }: Options) {
-    this.options = { unreleasedName, ...options };
+  constructor(options: Options) {
+    this.options = options;
   }
 
   public renderMarkdown(releases: Release[]) {
