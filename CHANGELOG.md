@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.8.2 (2018-10-14)
+
+#### :bug: Bug Fix
+* [#125](https://github.com/lerna/lerna-changelog/pull/125) Fix `nextVersion` config handling ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#124](https://github.com/lerna/lerna-changelog/pull/124) yarn: Add `integrity` hashes ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
+
 ## v0.8.1 (2018-10-10)
 
 #### :rocket: Enhancement
