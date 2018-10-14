@@ -1,7 +1,7 @@
 const pMap = require("p-map");
 
 import progressBar from "./progress-bar";
-import { Configuration, load as loadConfig } from "./configuration";
+import { Configuration } from "./configuration";
 import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
 import GithubAPI, { GitHubUserResponse } from "./github-api";
@@ -20,13 +20,13 @@ export default class Changelog {
   private github: GithubAPI;
   private renderer: MarkdownRenderer;
 
-  constructor(options: Partial<Configuration> = {}) {
-    this.config = this.loadConfig(options);
+  constructor(config: Configuration) {
+    this.config = config;
     this.github = new GithubAPI(this.config);
     this.renderer = new MarkdownRenderer({
       categories: Object.keys(this.config.labels).map(key => this.config.labels[key]),
       baseIssueUrl: this.github.getBaseIssueUrl(this.config.repo),
-      unreleasedName: this.config.nextVersion,
+      unreleasedName: this.config.nextVersion || "Unreleased",
     });
   }
 
@@ -37,10 +37,6 @@ export default class Changelog {
     const releases = await this.listReleases(from, to);
 
     return this.renderer.renderMarkdown(releases);
-  }
-
-  private loadConfig(options: Partial<Configuration>): Configuration {
-    return loadConfig(options);
   }
 
   private async getCommitInfos(from: string, to: string): Promise<CommitInfo[]> {

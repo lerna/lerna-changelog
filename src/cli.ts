@@ -5,6 +5,7 @@ import chalk from "chalk";
 import { highlight } from "cli-highlight";
 
 import Changelog from "./changelog";
+import { load as loadConfig } from "./configuration";
 import ConfigurationError from "./configuration-error";
 
 export async function run() {
@@ -58,12 +59,18 @@ export async function run() {
   let options = {
     tagFrom: argv["from"] || argv["tag-from"],
     tagTo: argv["to"] || argv["tag-to"],
-    nextVersion: argv["next-version"],
-    nextVersionFromMetadata: argv["next-version-from-metadata"],
   };
 
   try {
-    let result = await new Changelog().createMarkdown(options);
+    let config = loadConfig({
+      nextVersionFromMetadata: argv["next-version-from-metadata"],
+    });
+
+    if (argv["next-version"]) {
+      config.nextVersion = argv["next-version"];
+    }
+
+    let result = await new Changelog(config).createMarkdown(options);
 
     let highlighted = highlight(result, {
       language: "Markdown",

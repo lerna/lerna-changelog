@@ -11,26 +11,27 @@ export interface Configuration {
   labels: { [key: string]: string };
   ignoreCommitters: string[];
   cacheDir?: string;
-  nextVersion: string;
+  nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
 }
 
-export function load(options: Partial<Configuration> = {}): Configuration {
+export interface ConfigLoaderOptions {
+  nextVersionFromMetadata?: boolean;
+}
+
+export function load(options: ConfigLoaderOptions = {}): Configuration {
   let cwd = process.cwd();
   let rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
 
   return fromPath(rootPath, options);
 }
 
-export function fromPath(rootPath: string, options: Partial<Configuration> = {}): Configuration {
+export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
   // Step 1: load partial config from `package.json` or `lerna.json`
   let config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || {};
 
-  // Step 2: override partial config with passed in options
-  Object.assign(config, options);
-
-  // Step 3: fill partial config with defaults
-  let { repo, nextVersion, nextVersionFromMetadata, labels, cacheDir, ignoreCommitters } = config;
+  // Step 2: fill partial config with defaults
+  let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
 
   if (!repo) {
     repo = findRepo(rootPath);
@@ -39,12 +40,12 @@ export function fromPath(rootPath: string, options: Partial<Configuration> = {})
     }
   }
 
-  if (nextVersionFromMetadata) {
+  if (options.nextVersionFromMetadata || config.nextVersionFromMetadata) {
     nextVersion = findNextVersion(rootPath);
-  }
 
-  if (!nextVersion) {
-    throw new ConfigurationError('Could not infer "nextVersion" from the "package.json" file.');
+    if (!nextVersion) {
+      throw new ConfigurationError('Could not infer "nextVersion" from the "package.json" file.');
+    }
   }
 
   if (!labels) {
