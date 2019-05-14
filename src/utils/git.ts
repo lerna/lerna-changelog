@@ -35,8 +35,8 @@ export function listCommits(from: string, to: string = ""): CommitListItem[] {
       const parts = commit.split(";");
       const sha = parts[0];
       const refName = parts[1];
-      const summary = parts[2];
-      const date = parts[3];
+      const summary = parts.slice(2, parts.length - 1).join(";");
+      const date = parts[parts.length - 1];
       return { sha, refName, summary, date };
     });
 }
