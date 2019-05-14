@@ -80,7 +80,7 @@ If you have a packages folder and your projects in subfolders of that folder `le
 Since `lerna-changelog` interacts with the GitHub API you may run into rate
 limiting issues which can be resolved by supplying a "personal access token":
 
-```
+```shell
 export GITHUB_AUTH="..."
 // or
 export GITLAB_AUTH="..."
@@ -91,6 +91,15 @@ for the GitHub API with the `repo` scope for private repositories or just
 `public_repo` scope for public repositories.
 
 [personal access token for gitlab](https://gitlab.com/profile/personal_access_tokens)
+
+### use Gitlab
+
+```shell
+# if you use self host gitlab. you need set env for GITLAB_SERVER, default is https://gitlab.com
+export GITLAB_SERVER="https://mygitlab.com"
+export GITLAB_AUTH="..."
+lerna-changelog --git-provider=gitlab
+```
 
 Configuration
 ------------------------------------------------------------------------------
@@ -113,7 +122,7 @@ adding a `changelog` key to the `package.json` file of your project:
 The supported options are:
 
 - `repo`: Your "org/repo" on GitHub
-  (automatically inferred from the `package.json` file)
+  (automatically inferred from the `package.json` file, automate only support `2` levels, more than `2` levels, you should configure it manmually.)
 
 - `nextVersion`: Title for unreleased commits
   (e.g. `Unreleased`)
