@@ -51,11 +51,10 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
     const createAfert = new Date(commit.date);
     const createBefore = new Date(createAfert.valueOf() + ONE_DAY);
     const mrs: GitLabMergeRequestResponse[] = await this._fetch(
-      `${this.gitApiUrl}/projects/${
-        this.projectId
-      }/merge_requests?created_after=${createAfert.toISOString()}&created_before=${createBefore.toISOString()}`
+      `${this.gitApiUrl}/projects/${await this
+        .projectId}/merge_requests?created_after=${createAfert.toISOString()}&created_before=${createBefore.toISOString()}`
     );
-    const mr = mrs.find(r => r.merge_commit_sha === commit.commitSHA);
+    const mr = mrs.find(r => new RegExp("^" + commit.commitSHA).test(r.merge_commit_sha));
     if (mr) {
       return String(mr.iid);
     }
@@ -79,8 +78,8 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
     };
   }
 
-  protected getIssueData(issue: string): Promise<GitLabMergeRequestResponse> {
-    return this._fetch(`${this.gitApiUrl}/projects/${this.projectId}/merge_requests/${issue}`);
+  protected async getIssueData(issue: string): Promise<GitLabMergeRequestResponse> {
+    return this._fetch(`${this.gitApiUrl}/projects/${await this.projectId}/merge_requests/${issue}`);
   }
 
   protected getAuthToken(): string {
@@ -95,7 +94,7 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
   }
 
   private getGitlabApiServer(): string {
-    return process.env.GITLAB_API_SERVER || `${this.getGitlabServer()}/api/v4`;
+    return process.env.GITLAB_API_SERVER || `${this.getGitlabServer() || "https://gitlab.com"}/api/v4`;
   }
 
   private async getProjectId(): Promise<number> {
