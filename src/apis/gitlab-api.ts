@@ -13,6 +13,7 @@ export interface GitLabUserResponse {
 export interface GitLabMergeRequestResponse {
   iid: number;
   title: string;
+  description: string;
   web_url: string;
   labels: string[];
   merge_commit_sha: string;
@@ -62,11 +63,11 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
   }
 
   protected async IssueTransformer(IssueData: GitLabMergeRequestResponse): Promise<Issue> {
-    const { iid: id, title, web_url: pullRequest, labels, author } = IssueData;
+    const { iid: id, title, description, web_url: pullRequest, labels, author } = IssueData;
     const shouldKeepCommiter = !!author.username && !this.ignoreCommitter(author.username);
     return {
       id,
-      title,
+      title: title + "\n" + description,
       pullRequest,
       labels,
       user: {
