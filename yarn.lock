@@ -18,6 +18,13 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@types/execa@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.npm.taobao.org/@types/execa/download/@types/execa-0.9.0.tgz#9b025d2755f17e80beaf9368c3f4f319d8b0fb93"
+  integrity sha1-mwJdJ1XxfoC+r5Now/TzGdiw+5M=
+  dependencies:
+    "@types/node" "*"
+
 "@types/jest@^23.1.0":
   version "23.1.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.1.0.tgz#8054dd838ba23dc331794d26456b86c7e50bf0f6"
@@ -32,6 +39,13 @@
   version "7.0.22"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.22.tgz#4593f4d828bdd612929478ea40c67b4f403ca255"
   integrity sha1-RZP02Ci91hKSlHjqQMZ7T0A8olU=
+
+"@types/progress@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/@types/progress/download/@types/progress-2.0.3.tgz#7ccbd9c6d4d601319126c469e73b5bb90dfc8ccc"
+  integrity sha1-fMvZxtTWATGRJsRp5ztbuQ38jMw=
+  dependencies:
+    "@types/node" "*"
 
 abab@^1.0.4:
   version "1.0.4"

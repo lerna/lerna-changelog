@@ -26,7 +26,6 @@
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
     "lint": "tslint --project . --format stylish",
-    "prepublish": "npm run build",
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "jest",
     "test-ci": "npm run build && jest",
@@ -46,6 +45,7 @@
   "devDependencies": {
     "@types/jest": "^23.1.0",
     "@types/node": "^7.0.22",
+    "@types/progress": "^2.0.3",
     "fs-extra": "^6.0.1",
     "jest": "^23.1.0",
     "jest-runner-tslint": "^1.0.5",

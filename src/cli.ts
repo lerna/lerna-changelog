@@ -1,12 +1,11 @@
 /* tslint:disable:no-console */
-
 import chalk from "chalk";
 
 import { highlight } from "cli-highlight";
 
 import Changelog from "./changelog";
 import { load as loadConfig } from "./configuration";
-import ConfigurationError from "./configuration-error";
+import ConfigurationError from "./utils/configuration-error";
 
 export async function run() {
   const yargs = require("yargs");
@@ -43,6 +42,11 @@ export async function run() {
         desc: "Infer the name of the next version from package metadata",
         default: false,
       },
+      "git-provider": {
+        type: "string",
+        desc: "Infer the git service provider",
+        default: "github",
+      },
     })
     .example(
       "lerna-changelog",
@@ -64,6 +68,7 @@ export async function run() {
   try {
     let config = loadConfig({
       nextVersionFromMetadata: argv["next-version-from-metadata"],
+      gitProvider: argv["git-provider"] || "github",
     });
 
     if (argv["next-version"]) {

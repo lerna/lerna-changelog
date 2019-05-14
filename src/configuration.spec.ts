@@ -2,8 +2,9 @@ const os = require("os");
 const fs = require("fs-extra");
 const path = require("path");
 
-import { findRepoFromPkg, fromPath } from "./configuration";
-import ConfigurationError from "./configuration-error";
+import { findRepoFromPkg } from "./apis/abstract-api";
+import { fromPath } from "./configuration";
+import ConfigurationError from "./utils/configuration-error";
 
 describe("Configuration", function() {
   describe("fromPath", function() {
@@ -65,8 +66,9 @@ describe("Configuration", function() {
       ["https://github.com/babel/ember-cli-babel", "babel/ember-cli-babel"],
       ["https://github.com/babel/ember-cli-babel.git", "babel/ember-cli-babel"],
       ["git@github.com:babel/ember-cli-babel.git", "babel/ember-cli-babel"],
-      ["https://gitlab.com/gnachman/iterm2.git", undefined],
-      ["git@gitlab.com:gnachman/iterm2.git", undefined],
+      // NOTE I don't know why should it be undefined
+      ["https://gitlab.com/gnachman/iterm2.git", "gnachman/iterm2"],
+      ["git@gitlab.com:gnachman/iterm2.git", "gnachman/iterm2"],
     ];
 
     tests.forEach(([input, output]) => {

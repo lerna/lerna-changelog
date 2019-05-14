@@ -1,10 +1,9 @@
 import chalk from "chalk";
-
-const ProgressBar = require("progress");
-const padEnd = require("string.prototype.padend");
+import * as ProgressBar from "progress";
+// const padEnd = require("string.prototype.padend");
 
 class ProgressBarController {
-  private bar: any;
+  private bar: ProgressBar | null;
 
   constructor() {
     this.bar = null;

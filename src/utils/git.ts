@@ -1,3 +1,5 @@
+import { CommitListItem } from "../interfaces";
+
 const execa = require("execa");
 
 export async function changedPaths(sha: string): Promise<string[]> {
@@ -20,13 +22,6 @@ export function listTagNames(): string[] {
  */
 export function lastTag(): string {
   return execa.sync("git", ["describe", "--abbrev=0", "--tags"]).stdout;
-}
-
-export interface CommitListItem {
-  sha: string;
-  refName: string;
-  summary: string;
-  date: string;
 }
 
 export function listCommits(from: string, to: string = ""): CommitListItem[] {

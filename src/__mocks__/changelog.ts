@@ -1,4 +1,4 @@
-import { Configuration } from "../configuration";
+import { Configuration } from "../interfaces";
 
 const Changelog = require.requireActual("../changelog").default;
 
@@ -16,15 +16,17 @@ const defaultConfig = {
   ignoreCommitters: [],
   cacheDir: ".changelog",
   nextVersion: "Unreleased",
+  pkg: {
+    repository: {
+      type: "git",
+      url: "git+https://github.com/lerna/lerna-changelog.git",
+    },
+  },
 };
 
 class MockedChangelog extends Changelog {
   constructor(config: Partial<Configuration>) {
     super(Object.assign({}, defaultConfig, config));
-  }
-
-  private getToday() {
-    return "2099-01-01";
   }
 }
 

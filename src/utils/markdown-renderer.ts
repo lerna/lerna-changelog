@@ -1,5 +1,4 @@
-import { GitHubUserResponse } from "./github-api";
-import { CommitInfo, Release } from "./interfaces";
+import { CommitInfo, IRelease, User } from "../interfaces";
 
 const UNRELEASED_TAG = "___unreleased___";
 const COMMIT_FIX_REGEX = /(fix|close|resolve)(e?s|e?d)? [T#](\d+)/i;
@@ -22,14 +21,14 @@ export default class MarkdownRenderer {
     this.options = options;
   }
 
-  public renderMarkdown(releases: Release[]) {
+  public renderMarkdown(releases: IRelease[]) {
     return `\n${releases
       .map(release => this.renderRelease(release))
       .filter(Boolean)
       .join("\n\n\n")}`;
   }
 
-  public renderRelease(release: Release): string | undefined {
+  public renderRelease(release: IRelease): string | undefined {
     // Group commits in release by category
     const categories = this.groupByCategory(release.commits);
     const categoriesWithCommits = categories.filter(category => category.commits.length > 0);
@@ -94,33 +93,32 @@ export default class MarkdownRenderer {
   }
 
   public renderContribution(commit: CommitInfo): string | undefined {
-    const issue = commit.githubIssue;
+    const issue = commit.issue;
     if (issue) {
       let markdown = "";
 
-      if (issue.number && issue.pull_request && issue.pull_request.html_url) {
-        const prUrl = issue.pull_request.html_url;
-        markdown += `[#${issue.number}](${prUrl}) `;
+      if (issue.id && issue.pullRequest) {
+        markdown += `[#${issue.id}](${issue.pullRequest}) `;
       }
 
       if (issue.title && issue.title.match(COMMIT_FIX_REGEX)) {
         issue.title = issue.title.replace(COMMIT_FIX_REGEX, `Closes [#$3](${this.options.baseIssueUrl}$3)`);
       }
 
-      markdown += `${issue.title} ([@${issue.user.login}](${issue.user.html_url}))`;
+      markdown += `${issue.title} ([@${issue.user.login}](${issue.user.url}))`;
 
       return markdown;
     }
   }
 
-  public renderContributorList(contributors: GitHubUserResponse[]) {
+  public renderContributorList(contributors: User[]) {
     const renderedContributors = contributors.map(contributor => `- ${this.renderContributor(contributor)}`).sort();
 
     return `#### Committers: ${contributors.length}\n${renderedContributors.join("\n")}`;
   }
 
-  public renderContributor(contributor: GitHubUserResponse): string {
-    const userNameAndLink = `[@${contributor.login}](${contributor.html_url})`;
+  public renderContributor(contributor: User): string {
+    const userNameAndLink = `[@${contributor.login}](${contributor.url})`;
     if (contributor.name) {
       return `${contributor.name} (${userNameAndLink})`;
     } else {

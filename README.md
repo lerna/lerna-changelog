@@ -75,19 +75,22 @@ lerna-changelog --from=v1.0.0 --to=v2.0.0
 
 If you have a packages folder and your projects in subfolders of that folder `lerna-changelog` will detect it and include the package names in the changelog for the relevant changes.
 
-### GitHub Token
+### GitHub/Gitlab Token
 
 Since `lerna-changelog` interacts with the GitHub API you may run into rate
 limiting issues which can be resolved by supplying a "personal access token":
 
 ```
 export GITHUB_AUTH="..."
+// or
+export GITLAB_AUTH="..."
 ```
 
 You'll need a [personal access token](https://github.com/settings/tokens)
 for the GitHub API with the `repo` scope for private repositories or just
 `public_repo` scope for public repositories.
 
+[personal access token for gitlab](https://gitlab.com/profile/personal_access_tokens)
 
 Configuration
 ------------------------------------------------------------------------------

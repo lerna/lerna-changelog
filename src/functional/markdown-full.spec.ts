@@ -1,12 +1,14 @@
 /* tslint:disable:max-line-length */
 
-import { CommitListItem } from "../git";
+import { CommitListItem } from "../interfaces";
+import { GitHubUserResponse, GitHubIssueResponse } from "../apis/github-api";
 
-jest.mock("../../src/progress-bar");
+jest.mock("../../src/utils/progress-bar");
 jest.mock("../../src/changelog");
-jest.mock("../../src/github-api");
-jest.mock("../git");
-jest.mock("../fetch");
+jest.mock("../../src/release");
+jest.mock("../../src/apis/github-api");
+jest.mock("../utils/git");
+jest.mock("../utils/fetch");
 
 const listOfCommits: CommitListItem[] = [
   {
@@ -139,7 +141,7 @@ const listOfFileForEachCommit: { [id: string]: string[] } = {
   a0000015: ["untitled/script.md"],
 };
 
-const usersCache = {
+const usersCache: Record<string, GitHubUserResponse> = {
   "https://api.github.com/users/luke": {
     login: "luke",
     html_url: "https://github.com/luke",
@@ -181,7 +183,7 @@ const usersCache = {
     name: "C-3PO",
   },
 };
-const issuesCache = {
+const issuesCache: Record<string, GitHubIssueResponse> = {
   "https://api.github.com/repos/lerna/lerna-changelog/issues/1": {
     number: 1,
     title: "feat: May the force be with you",
@@ -249,7 +251,7 @@ const issuesCache = {
 
 describe("createMarkdown", () => {
   beforeEach(() => {
-    require("../fetch").__resetMockResponses();
+    require("../utils/fetch").__resetMockResponses();
   });
 
   afterEach(() => {
@@ -258,12 +260,11 @@ describe("createMarkdown", () => {
 
   describe("single tags", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
-
-      require("../fetch").__setMockResponses({
+      require("../utils/git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
+      require("../utils/git").lastTag.mockImplementation(() => "v8.0.0");
+      require("../utils/git").listCommits.mockImplementation(() => listOfCommits);
+      require("../utils/git").listTagNames.mockImplementation(() => listOfTags);
+      require("../utils/fetch").__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
@@ -279,9 +280,9 @@ describe("createMarkdown", () => {
 
   describe("multiple tags", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => [
+      require("../utils/git").changedPaths.mockImplementation((sha: string) => listOfPackagesForEachCommit[sha]);
+      require("../utils/git").lastTag.mockImplementation(() => "v8.0.0");
+      require("../utils/git").listCommits.mockImplementation(() => [
         {
           sha: "a0000004",
           refName: "tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, tag: return-of-the-jedi@6.0.0",
@@ -307,7 +308,7 @@ describe("createMarkdown", () => {
           date: "1966-01-01",
         },
       ]);
-      require("../git").listTagNames.mockImplementation(() => [
+      require("../utils/git").listTagNames.mockImplementation(() => [
         "a-new-hope@4.0.0",
         "attack-of-the-clones@3.1.0",
         "empire-strikes-back@5.0.0",
@@ -317,7 +318,7 @@ describe("createMarkdown", () => {
         "the-phantom-menace@1.0.0",
       ]);
 
-      require("../fetch").__setMockResponses({
+      require("../utils/fetch").__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });
@@ -333,12 +334,12 @@ describe("createMarkdown", () => {
 
   describe("single project", () => {
     it("outputs correct changelog", async () => {
-      require("../git").changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
-      require("../git").lastTag.mockImplementation(() => "v8.0.0");
-      require("../git").listCommits.mockImplementation(() => listOfCommits);
-      require("../git").listTagNames.mockImplementation(() => listOfTags);
+      require("../utils/git").changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
+      require("../utils/git").lastTag.mockImplementation(() => "v8.0.0");
+      require("../utils/git").listCommits.mockImplementation(() => listOfCommits);
+      require("../utils/git").listTagNames.mockImplementation(() => listOfTags);
 
-      require("../fetch").__setMockResponses({
+      require("../utils/fetch").__setMockResponses({
         ...usersCache,
         ...issuesCache,
       });

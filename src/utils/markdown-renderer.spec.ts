@@ -1,48 +1,46 @@
-import { CommitInfo, Release } from "./interfaces";
+import { CommitInfo, IRelease } from "../interfaces";
 import MarkdownRenderer from "./markdown-renderer";
 
 const UNRELEASED_TAG = "___unreleased___";
 
 const BASIC_COMMIT = {
-  githubIssue: {
+  issue: {
     title: "My cool PR",
     user: {
       login: "hzoo",
-      html_url: "http://hzoo.com",
+      url: "http://hzoo.com",
     },
   },
 } as CommitInfo;
 
 const COMMIT_WITH_NUMBER = {
-  githubIssue: {
+  issue: {
     title: "My cool PR",
     user: {
       login: "hzoo",
-      html_url: "http://hzoo.com",
+      url: "http://hzoo.com",
     },
-    number: 42,
-    pull_request: {
-      html_url: "http://github.com/42",
-    },
+    id: 42,
+    pullRequest: "http://github.com/42",
   },
 } as CommitInfo;
 
 const COMMIT_WITH_GH_ISSUE_REF = {
-  githubIssue: {
+  issue: {
     title: "My cool PR (resolved #123)",
     user: {
       login: "hzoo",
-      html_url: "http://hzoo.com",
+      url: "http://hzoo.com",
     },
   },
 } as CommitInfo;
 
 const COMMIT_WITH_PHAB_ISSUE_REF = {
-  githubIssue: {
+  issue: {
     title: "My cool PR (resolved T42)",
     user: {
       login: "hzoo",
-      html_url: "http://hzoo.com",
+      url: "http://hzoo.com",
     },
   },
 } as CommitInfo;
@@ -118,13 +116,15 @@ describe("MarkdownRenderer", () => {
       const user1 = {
         login: "hzoo",
         name: "",
-        html_url: "https://github.com/hzoo",
+        url: "https://github.com/hzoo",
+        shouldKeepCommiter: false,
       };
 
       const user2 = {
         login: "Turbo87",
         name: "Tobias Bieniek",
-        html_url: "https://github.com/Turbo87",
+        url: "https://github.com/Turbo87",
+        shouldKeepCommiter: false,
       };
 
       const result = renderer().renderContributorList([user1, user2]);
@@ -138,7 +138,8 @@ describe("MarkdownRenderer", () => {
       const result = renderer().renderContributor({
         login: "foo",
         name: "",
-        html_url: "http://github.com/foo",
+        url: "http://github.com/foo",
+        shouldKeepCommiter: false,
       });
 
       expect(result).toEqual("[@foo](http://github.com/foo)");
@@ -148,7 +149,8 @@ describe("MarkdownRenderer", () => {
       const result = renderer().renderContributor({
         login: "foo",
         name: "Foo Bar",
-        html_url: "http://github.com/foo",
+        url: "http://github.com/foo",
+        shouldKeepCommiter: false,
       });
 
       expect(result).toEqual("Foo Bar ([@foo](http://github.com/foo))");
@@ -182,7 +184,7 @@ describe("MarkdownRenderer", () => {
 
   describe("renderRelease", () => {
     it(`renders unreleased commits`, () => {
-      const release: Release = {
+      const release: IRelease = {
         name: UNRELEASED_TAG,
         date: getToday(),
         commits: [
@@ -200,7 +202,7 @@ describe("MarkdownRenderer", () => {
     });
 
     it(`renders unreleased commits, with named next release`, () => {
-      const release: Release = {
+      const release: IRelease = {
         name: UNRELEASED_TAG,
         date: getToday(),
         commits: [

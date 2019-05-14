@@ -1,21 +1,11 @@
-const fs = require("fs");
-const path = require("path");
 const execa = require("execa");
-const normalize = require("normalize-git-url");
 
-import ConfigurationError from "./configuration-error";
-
-export interface Configuration {
-  repo: string;
-  rootPath: string;
-  labels: { [key: string]: string };
-  ignoreCommitters: string[];
-  cacheDir?: string;
-  nextVersion: string | undefined;
-  nextVersionFromMetadata?: boolean;
-}
+import { Configuration, GitProvider } from "./interfaces";
+import ConfigurationError from "./utils/configuration-error";
+import { readLernaJSON, readPackageJSON } from "./utils/load-json";
 
 export interface ConfigLoaderOptions {
+  gitProvider?: GitProvider;
   nextVersionFromMetadata?: boolean;
 }
 
@@ -27,21 +17,21 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
 }
 
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
+  const lernaJSON = readLernaJSON(rootPath);
+  const packageJSON = readPackageJSON(rootPath);
+
   // Step 1: load partial config from `package.json` or `lerna.json`
-  let config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || {};
+  let config: Partial<Configuration> = (packageJSON || {}).changelog || (lernaJSON || {}).changelog || {};
+
+  if (!config.repo && !(packageJSON || {}).repository) {
+    throw new ConfigurationError('Could not infer "repo" from the "package.json" file.');
+  }
 
   // Step 2: fill partial config with defaults
   let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
 
-  if (!repo) {
-    repo = findRepo(rootPath);
-    if (!repo) {
-      throw new ConfigurationError('Could not infer "repo" from the "package.json" file.');
-    }
-  }
-
   if (options.nextVersionFromMetadata || config.nextVersionFromMetadata) {
-    nextVersion = findNextVersion(rootPath);
+    nextVersion = findNextVersion(packageJSON, lernaJSON);
 
     if (!nextVersion) {
       throw new ConfigurationError('Could not infer "nextVersion" from the "package.json" file.');
@@ -69,61 +59,20 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     ];
   }
 
+  const gitProvider = options.gitProvider || config.gitProvider || "github";
+
   return {
-    repo,
+    repo: repo!,
+    gitProvider,
     nextVersion,
     rootPath,
     labels,
     ignoreCommitters,
     cacheDir,
+    pkg: packageJSON,
   };
 }
 
-function fromLernaConfig(rootPath: string): Partial<Configuration> | undefined {
-  const lernaPath = path.join(rootPath, "lerna.json");
-  if (fs.existsSync(lernaPath)) {
-    return JSON.parse(fs.readFileSync(lernaPath)).changelog;
-  }
-}
-
-function fromPackageConfig(rootPath: string): Partial<Configuration> | undefined {
-  const pkgPath = path.join(rootPath, "package.json");
-  if (fs.existsSync(pkgPath)) {
-    return JSON.parse(fs.readFileSync(pkgPath)).changelog;
-  }
-}
-
-function findRepo(rootPath: string): string | undefined {
-  const pkgPath = path.join(rootPath, "package.json");
-  if (!fs.existsSync(pkgPath)) {
-    return;
-  }
-
-  const pkg = JSON.parse(fs.readFileSync(pkgPath));
-  if (!pkg.repository) {
-    return;
-  }
-
-  return findRepoFromPkg(pkg);
-}
-
-function findNextVersion(rootPath: string): string | undefined {
-  const pkgPath = path.join(rootPath, "package.json");
-  const lernaPath = path.join(rootPath, "lerna.json");
-
-  const pkg = fs.existsSync(pkgPath) ? JSON.parse(fs.readFileSync(pkgPath)) : {};
-  const lerna = fs.existsSync(lernaPath) ? JSON.parse(fs.readFileSync(lernaPath)) : {};
-
-  return pkg.version ? `v${pkg.version}` : lerna.version ? `v${lerna.version}` : undefined;
-}
-
-export function findRepoFromPkg(pkg: any): string | undefined {
-  const url = pkg.repository.url || pkg.repository;
-  const normalized = normalize(url).url;
-  const match = normalized.match(/github\.com[:/]([^./]+\/[^./]+)(?:\.git)?/);
-  if (!match) {
-    return;
-  }
-
-  return match[1];
+function findNextVersion(packageJSON: any = {}, lernaJSON: any = {}): string | undefined {
+  return packageJSON.version ? `v${packageJSON.version}` : lernaJSON.version ? `v${lernaJSON.version}` : undefined;
 }
