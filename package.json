@@ -26,6 +26,7 @@
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
     "lint": "tslint --project . --format stylish",
+    "prepublish": "npm run build",
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "jest",
     "test-ci": "npm run build && jest",
