@@ -14,6 +14,8 @@ export interface GitLabMergeRequestResponse {
   iid: number;
   title: string;
   description: string;
+  state: string;
+  updated_at: string;
   web_url: string;
   labels: string[];
   merge_commit_sha: string;
@@ -23,8 +25,6 @@ export interface GitLabMergeRequestResponse {
     web_url: string;
   };
 }
-
-const ONE_DAY = 24 * 60 * 60 * 1000;
 
 export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse> {
   public readonly gitServer: string = "https://gitlab.com";
@@ -48,16 +48,16 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
   }
 
   public async getIssueNumber(commit: Commit): Promise<string | null> {
-    // NOTE maybe it has better solution?
-    const createAfert = new Date(commit.date);
-    const createBefore = new Date(createAfert.valueOf() + ONE_DAY);
     const mrs: GitLabMergeRequestResponse[] = await this._fetch(
-      `${this.gitApiUrl}/projects/${await this
-        .projectId}/merge_requests?created_after=${createAfert.toISOString()}&created_before=${createBefore.toISOString()}`
+      `${this.gitApiUrl}/projects/${await this.projectId}/repository/commits/${commit.commitSHA}/merge_requests`
     );
-    const mr = mrs.find(r => new RegExp("^" + commit.commitSHA).test(r.merge_commit_sha));
-    if (mr) {
-      return String(mr.iid);
+    if (mrs) {
+      const mr = mrs
+        .filter(r => r.state === "merged")
+        .sort((a, b) => new Date(a.updated_at).valueOf() - new Date(b.updated_at).valueOf())[0];
+      if (mr) {
+        return String(mr.iid);
+      }
     }
     return null;
   }
