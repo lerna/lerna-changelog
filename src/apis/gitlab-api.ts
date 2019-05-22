@@ -51,7 +51,7 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
     const mrs: GitLabMergeRequestResponse[] = await this._fetch(
       `${this.gitApiUrl}/projects/${await this.projectId}/repository/commits/${commit.commitSHA}/merge_requests`
     );
-    if (mrs) {
+    if (mrs && Array.isArray(mrs)) {
       const mr = mrs
         .filter(r => r.state === "merged")
         .sort((a, b) => new Date(a.updated_at).valueOf() - new Date(b.updated_at).valueOf())[0];
