@@ -30,7 +30,7 @@ export default class GitlabAPI extends AbstractGitApi<GitLabMergeRequestResponse
   public readonly gitServer: string = "https://gitlab.com";
   public readonly gitApiUrl: string = "https://gitlab.com/api/v4";
   public get baseIssueUrl(): string {
-    return `${this.gitServer}/${this.repo}/merge_requests/`;
+    return `${this.gitServer}/${this.repo}/issues/`;
   }
   private PROJECT_ID!: Promise<number>;
   public get projectId(): Promise<number> {
