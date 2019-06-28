@@ -207,13 +207,12 @@ export default class Changelog {
       const labels = commit.githubIssue.labels.map(label => label.name.toLowerCase());
 
       if (this.config.wildcardLabel) {
-        // check whether the commit has any of the labels from the learna.json config. 
+        // check whether the commit has any of the labels from the learna.json config.
         // If not, label this commit with the provided label
 
-        let foundLabel = Object.keys(this.config.labels)
-        .some(label => labels.indexOf(label.toLowerCase()) !== -1);
+        let foundLabel = Object.keys(this.config.labels).some(label => labels.indexOf(label.toLowerCase()) !== -1);
 
-       if (!foundLabel) {
+        if (!foundLabel) {
           labels.push(this.config.wildcardLabel);
         }
       }

@@ -13,7 +13,7 @@ export interface Configuration {
   cacheDir?: string;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
-  wildcardLabel? : string;
+  wildcardLabel?: string;
 }
 
 export interface ConfigLoaderOptions {
@@ -60,7 +60,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   if (wildcardLabel && !labels[wildcardLabel]) {
-    labels[wildcardLabel] = "️:present: Additional updates"
+    labels[wildcardLabel] = "️:present: Additional updates";
   }
 
   if (!ignoreCommitters) {
@@ -81,7 +81,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     labels,
     ignoreCommitters,
     cacheDir,
-    wildcardLabel
+    wildcardLabel,
   };
 }
 
