@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "fs-extra": "^6.0.1",
     "jest": "^24.9.0",
-    "jest-runner-tslint": "^1.0.5",
+    "jest-runner-eslint": "^0.7.4",
     "prettier": "1.13.5",
     "rimraf": "^2.6.2",
     "ts-jest": "^24.1.0",
@@ -82,8 +82,8 @@
         "preset": "ts-jest"
       },
       {
-        "runner": "jest-runner-tslint",
         "displayName": "lint",
+        "runner": "jest-runner-eslint",
         "moduleFileExtensions": [
           "ts"
         ],
