@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "target": "ES5",
+    "target": "es2015",
     "module": "CommonJS",
     "removeComments": true,
     "allowJs": true,
     "strict": true,
-    "lib": ["es2015.promise", "es2015.core", "es5"]
+    "lib": ["es2015"]
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }
