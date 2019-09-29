@@ -65,6 +65,6 @@ export default class GithubAPI {
   }
 
   private getAuthToken(): string {
-    return process.env.GITHUB_AUTH;
+    return process.env.GITHUB_AUTH || "";
   }
 }
