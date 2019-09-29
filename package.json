@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
-    "@types/node": "^7.0.22",
+    "@types/node": "^10.14.19",
     "fs-extra": "^6.0.1",
     "jest": "^24.9.0",
     "jest-runner-tslint": "^1.0.5",
