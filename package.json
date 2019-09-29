@@ -40,7 +40,6 @@
     "normalize-git-url": "^3.0.2",
     "p-map": "^1.2.0",
     "progress": "^2.0.0",
-    "string.prototype.padend": "^3.0.0",
     "yargs": "^11.0.0"
   },
   "devDependencies": {
