@@ -157,6 +157,7 @@ export default class Changelog {
         if (commitInfo.issueNumber) {
           commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
         }
+
         progressBar.tick();
       },
       { concurrency: 5 }
