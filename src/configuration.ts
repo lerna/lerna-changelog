@@ -120,10 +120,9 @@ function findNextVersion(rootPath: string): string | undefined {
 export function findRepoFromPkg(pkg: any): string | undefined {
   const url = pkg.repository.url || pkg.repository;
   const normalized = normalize(url).url;
-  const match = normalized.match(/github\.com[:/]([^./]+\/[^./]+)(?:\.git)?/);
+  const match = normalized.match(/github\.com[:/]([^/]+\/[^/]+?)(?:\.git)?$/);
   if (!match) {
     return;
   }
-
   return match[1];
 }
