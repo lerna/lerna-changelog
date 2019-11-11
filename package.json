@@ -40,7 +40,7 @@
     "normalize-git-url": "^3.0.2",
     "p-map": "^2.1.0",
     "progress": "^2.0.0",
-    "yargs": "^11.0.0"
+    "yargs": "^13.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
