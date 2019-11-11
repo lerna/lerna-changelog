@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.8.3 (2019-11-11)
+
+#### :rocket: Enhancement
+* [#142](https://github.com/lerna/lerna-changelog/pull/142) Upgrade `make-fetch-happen` to v5.0.0 ([@trivikr](https://github.com/trivikr))
+
+#### :bug: Bug Fix
+* [#155](https://github.com/lerna/lerna-changelog/pull/155) Fix incorrect repo parsing for project names with `.` characters ([@shrikanthkr](https://github.com/shrikanthkr))
+
+#### :house: Internal
+* [#151](https://github.com/lerna/lerna-changelog/pull/151) Add dependabot config ([@Turbo87](https://github.com/Turbo87))
+* [#149](https://github.com/lerna/lerna-changelog/pull/149) Update locked dependencies ([@trivikr](https://github.com/trivikr))
+* [#146](https://github.com/lerna/lerna-changelog/pull/146) Update `jest` to v24.x ([@trivikr](https://github.com/trivikr))
+* [#143](https://github.com/lerna/lerna-changelog/pull/143) Upgrade `p-map` to v2.1.0 ([@trivikr](https://github.com/trivikr))
+* [#144](https://github.com/lerna/lerna-changelog/pull/144) Remove unused `string.prototype.padend` dependency ([@trivikr](https://github.com/trivikr))
+* [#137](https://github.com/lerna/lerna-changelog/pull/137) Update `execa` to v1.0.0 ([@trivikr](https://github.com/trivikr))
+* [#139](https://github.com/lerna/lerna-changelog/pull/139) Upgrade `typescript` to v3.6.3 ([@trivikr](https://github.com/trivikr))
+* [#127](https://github.com/lerna/lerna-changelog/pull/127) TravisCI: Remove deprecated `sudo: false` option ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 3
+- Shrikanth ([@shrikanthkr](https://github.com/shrikanthkr))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- Trivikram Kamat ([@trivikr](https://github.com/trivikr))
+
+
 ## v0.8.2 (2018-10-14)
 
 #### :bug: Bug Fix
