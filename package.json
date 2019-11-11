@@ -57,7 +57,7 @@
     "typescript": "^3.6.3"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "changelog": {
     "repo": "lerna/lerna-changelog",
