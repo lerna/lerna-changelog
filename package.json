@@ -38,7 +38,7 @@
     "execa": "^1.0.0",
     "make-fetch-happen": "^5.0.0",
     "normalize-git-url": "^3.0.2",
-    "p-map": "^2.1.0",
+    "p-map": "^3.0.0",
     "progress": "^2.0.0",
     "yargs": "^13.0.0"
   },
