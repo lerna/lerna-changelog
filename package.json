@@ -54,7 +54,7 @@
     "jest": "^24.9.0",
     "jest-runner-eslint": "^0.7.5",
     "prettier": "1.19.1",
-    "rimraf": "^2.6.2",
+    "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   },
