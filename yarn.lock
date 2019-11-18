@@ -4773,7 +4773,7 @@ yargs-parser@^16.1.0:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs@^13.0.0, yargs@^13.3.0:
+yargs@^13.3.0:
   version "13.3.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.3.0.tgz#4c657a55e07e5f2cf947f8a366567c04a0dedc83"
   integrity sha512-2eehun/8ALW8TLoIl7MVaRUrg+yCnenu8B4kBlRxj3GJGDKU1Og7sMXPNm1BYyM1DOJmTZ4YeN/Nwxv+8XJsUA==
@@ -4789,7 +4789,7 @@ yargs@^13.0.0, yargs@^13.3.0:
     y18n "^4.0.0"
     yargs-parser "^13.1.1"
 
-yargs@^15.0.0:
+yargs@^15.0.0, yargs@^15.0.1:
   version "15.0.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.0.1.tgz#558d03c3e5d873431d500f871168967ef673620e"
   integrity sha512-47i2DJb+gkLpioPBdMmnvb4QkAuyz7tLes9nCgYDXEdPf05tqjCQpUELea3MfmoomS9NKAZlZEifstKIXiASMw==
