@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createMarkdown single project outputs correct changelog 1`] = `""`;
+
+exports[`createMarkdown single tags outputs correct changelog 1`] = `""`;
+
+exports[`multiple tags outputs correct changelog 1`] = `""`;

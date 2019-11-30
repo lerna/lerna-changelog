@@ -23,10 +23,11 @@ export default class MarkdownRenderer {
   }
 
   public renderMarkdown(releases: Release[]) {
-    return `\n${releases
+    let output = releases
       .map(release => this.renderRelease(release))
       .filter(Boolean)
-      .join("\n\n\n")}`;
+      .join("\n\n\n");
+    return output ? `\n${output}` : "";
   }
 
   public renderRelease(release: Release): string | undefined {
