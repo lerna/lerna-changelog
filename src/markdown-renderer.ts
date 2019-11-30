@@ -23,21 +23,12 @@ export default class MarkdownRenderer {
   }
 
   public renderMarkdown(releases: Release[]) {
-    let renderedString = releases
+    let output = releases
       .map(release => this.renderRelease(release))
       .filter(Boolean)
-      .reduce((previousValue, currentValue, index, array) => {
-        let finalValue = "";
-        finalValue = finalValue.concat(previousValue || "");
-        finalValue = finalValue.concat("\n");
-        finalValue = finalValue.concat(currentValue || "");
-        if (index !== array.length - 1) {
-          finalValue = finalValue.concat("\n\n");
-        }
-        return finalValue;
-      }, "");
+      .join("\n\n\n");
 
-    return `${renderedString}`;
+    return output ? `\n${output}` : '';
   }
 
   public renderRelease(release: Release): string | undefined {
