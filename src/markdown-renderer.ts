@@ -27,8 +27,7 @@ export default class MarkdownRenderer {
       .map(release => this.renderRelease(release))
       .filter(Boolean)
       .join("\n\n\n");
-
-    return output ? `\n${output}` : '';
+    return output ? `\n${output}` : "";
   }
 
   public renderRelease(release: Release): string | undefined {
