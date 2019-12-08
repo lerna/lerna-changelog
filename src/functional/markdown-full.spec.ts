@@ -381,4 +381,54 @@ describe("createMarkdown", () => {
       expect(markdown).toMatchSnapshot();
     });
   });
+
+  describe("authentication", () => {
+    describe("when github token is not valid", () => {
+      const badCredentials = {
+        message: "Bad credentials",
+        documentation_url: "https://developer.github.com/v3",
+      };
+      beforeEach(() => {
+        require("../git").changedPaths.mockImplementation((sha: string) => listOfFileForEachCommit[sha]);
+        require("../git").lastTag.mockImplementation(() => "v8.0.0");
+        require("../git").listCommits.mockImplementation(() => listOfCommits);
+        require("../git").listTagNames.mockImplementation(() => listOfTags);
+
+        const unauthorized = {
+          status: 401,
+          statusText: "Unauthorized",
+          ok: false,
+          body: badCredentials,
+        };
+        require("../fetch").__setMockResponses({
+          ...usersCache,
+          ...Object.keys(issuesCache).reduce(
+            (unauthorizedIssues, issue) => ({
+              ...unauthorizedIssues,
+              [issue]: unauthorized,
+            }),
+            {}
+          ),
+        });
+      });
+      afterEach(() => {
+        jest.resetAllMocks();
+      });
+      it("should abort with a proper error message", async () => {
+        const MockedChangelog = require("../changelog").default;
+        const changelog = new MockedChangelog();
+        expect.assertions(2);
+        try {
+          await changelog.createMarkdown();
+        } catch (error) {
+          expect(error).toEqual(
+            expect.objectContaining({ message: expect.stringContaining("Fetch error: Unauthorized") })
+          );
+          expect(error).toEqual(
+            expect.objectContaining({ message: expect.stringContaining(JSON.stringify(badCredentials)) })
+          );
+        }
+      });
+    });
+  });
 });
