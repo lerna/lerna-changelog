@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.0.0 (2019-12-16)
+
+#### :boom: Breaking Change
+* [#198](https://github.com/lerna/lerna-changelog/pull/198) Drop support for Node 8 ([@Turbo87](https://github.com/Turbo87))
+* [#160](https://github.com/lerna/lerna-changelog/pull/160) Drop support for Node 6 ([@Turbo87](https://github.com/Turbo87))
+
+#### :rocket: Enhancement
+* [#153](https://github.com/lerna/lerna-changelog/pull/153) enhancement: Update string renderer to add empty lines only when commits are present.  ([@shrikanthkr](https://github.com/shrikanthkr))
+* [#158](https://github.com/lerna/lerna-changelog/pull/158) Upgrade `yargs` to v13 ([@dcyriller](https://github.com/dcyriller))
+
+#### :bug: Bug Fix
+* [#189](https://github.com/lerna/lerna-changelog/pull/189) Abort process when github response is not OK ([@emmenko](https://github.com/emmenko))
+
+#### :house: Internal
+* [#147](https://github.com/lerna/lerna-changelog/pull/147) Switch from TSLint to ESLint ([@trivikr](https://github.com/trivikr))
+* [#161](https://github.com/lerna/lerna-changelog/pull/161) CI: Add Node.js 12 to the test matrix ([@trivikr](https://github.com/trivikr))
+* [#159](https://github.com/lerna/lerna-changelog/pull/159) Adjust `.npmignore` file ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 5
+- Cyrille David ([@dcyriller](https://github.com/dcyriller))
+- Nicola Molinari ([@emmenko](https://github.com/emmenko))
+- Shrikanth ([@shrikanthkr](https://github.com/shrikanthkr))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- Trivikram Kamat ([@trivikr](https://github.com/trivikr))
+
+
 ## v0.8.3 (2019-11-11)
 
 #### :rocket: Enhancement
