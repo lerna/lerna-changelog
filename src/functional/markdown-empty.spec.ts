@@ -50,48 +50,60 @@ const listOfFileForEachCommit: { [id: string]: string[] } = {
 
 const usersCache = {
   "https://api.github.com/users/luke": {
-    login: "luke",
-    html_url: "https://github.com/luke",
-    name: "Luke Skywalker",
+    body: {
+      login: "luke",
+      html_url: "https://github.com/luke",
+      name: "Luke Skywalker",
+    },
   },
   "https://api.github.com/users/vader": {
-    login: "vader",
-    html_url: "https://github.com/vader",
-    name: "Darth Vader",
+    body: {
+      login: "vader",
+      html_url: "https://github.com/vader",
+      name: "Darth Vader",
+    },
   },
   "https://api.github.com/users/gtarkin": {
-    login: "gtarkin",
-    html_url: "https://github.com/gtarkin",
-    name: "Governor Tarkin",
+    body: {
+      login: "gtarkin",
+      html_url: "https://github.com/gtarkin",
+      name: "Governor Tarkin",
+    },
   },
 };
 const issuesCache = {
   "https://api.github.com/repos/lerna/lerna-changelog/issues/1": {
-    number: 1,
-    title: "feat: May the force be with you",
-    labels: [{ name: "Type: New Feature" }],
-    pull_request: {
-      html_url: "https://github.com/lerna/lerna-changelog/pull/1",
+    body: {
+      number: 1,
+      title: "feat: May the force be with you",
+      labels: [{ name: "Type: New Feature" }],
+      pull_request: {
+        html_url: "https://github.com/lerna/lerna-changelog/pull/1",
+      },
+      user: usersCache["https://api.github.com/users/luke"],
     },
-    user: usersCache["https://api.github.com/users/luke"],
   },
   "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
-    number: 2,
-    title: "chore: Terminate her... immediately!",
-    labels: [{ name: "Type: Breaking Change" }],
-    pull_request: {
-      html_url: "https://github.com/lerna/lerna-changelog/pull/2",
+    body: {
+      number: 2,
+      title: "chore: Terminate her... immediately!",
+      labels: [{ name: "Type: Breaking Change" }],
+      pull_request: {
+        html_url: "https://github.com/lerna/lerna-changelog/pull/2",
+      },
+      user: usersCache["https://api.github.com/users/gtarkin"],
     },
-    user: usersCache["https://api.github.com/users/gtarkin"],
   },
   "https://api.github.com/repos/lerna/lerna-changelog/issues/3": {
-    number: 3,
-    title: "fix: Get me the rebels base!",
-    labels: [{ name: "Type: Bug" }],
-    pull_request: {
-      html_url: "https://github.com/lerna/lerna-changelog/pull/3",
+    body: {
+      number: 3,
+      title: "fix: Get me the rebels base!",
+      labels: [{ name: "Type: Bug" }],
+      pull_request: {
+        html_url: "https://github.com/lerna/lerna-changelog/pull/3",
+      },
+      user: usersCache["https://api.github.com/users/vader"],
     },
-    user: usersCache["https://api.github.com/users/vader"],
   },
 };
 

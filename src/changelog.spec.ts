@@ -69,17 +69,21 @@ describe("Changelog", () => {
 
       const usersCache = {
         "https://api.github.com/users/test-user": {
-          login: "test-user",
-          html_url: "https://github.com/test-user",
-          name: "Test User",
+          body: {
+            login: "test-user",
+            html_url: "https://github.com/test-user",
+            name: "Test User",
+          },
         },
       };
       const issuesCache = {
         "https://api.github.com/repos/lerna/lerna-changelog/issues/2": {
-          number: 2,
-          title: "This is the commit title for the issue (#2)",
-          labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
-          user: usersCache["https://api.github.com/users/test-user"],
+          body: {
+            number: 2,
+            title: "This is the commit title for the issue (#2)",
+            labels: [{ name: "Type: New Feature" }, { name: "Status: In Progress" }],
+            user: usersCache["https://api.github.com/users/test-user"].body,
+          },
         },
       };
       require("./fetch").__setMockResponses({
@@ -107,24 +111,32 @@ describe("Changelog", () => {
 
       const usersCache = {
         "https://api.github.com/users/test-user": {
-          login: "test-user",
-          html_url: "https://github.com/test-user",
-          name: "Test User",
+          body: {
+            login: "test-user",
+            html_url: "https://github.com/test-user",
+            name: "Test User",
+          },
         },
         "https://api.github.com/users/test-user-1": {
-          login: "test-user-1",
-          html_url: "https://github.com/test-user-1",
-          name: "Test User 1",
+          body: {
+            login: "test-user-1",
+            html_url: "https://github.com/test-user-1",
+            name: "Test User 1",
+          },
         },
         "https://api.github.com/users/test-user-2": {
-          login: "test-user-2",
-          html_url: "https://github.com/test-user-2",
-          name: "Test User 2",
+          body: {
+            login: "test-user-2",
+            html_url: "https://github.com/test-user-2",
+            name: "Test User 2",
+          },
         },
         "https://api.github.com/users/user-bot": {
-          login: "user-bot",
-          html_url: "https://github.com/user-bot",
-          name: "User Bot",
+          body: {
+            login: "user-bot",
+            html_url: "https://github.com/user-bot",
+            name: "User Bot",
+          },
         },
       };
       require("./fetch").__setMockResponses(usersCache);

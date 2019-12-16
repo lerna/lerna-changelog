@@ -215,17 +215,19 @@ export default class Changelog {
   private async fillInPackages(commits: CommitInfo[]) {
     progressBar.init("Mapping commits to packages…", commits.length);
 
-    await pMap(
-      commits,
-      async (commit: CommitInfo) => {
-        commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
+    try {
+      await pMap(
+        commits,
+        async (commit: CommitInfo) => {
+          commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
 
-        progressBar.tick();
-      },
-      { concurrency: 5 }
-    );
-
-    progressBar.terminate();
+          progressBar.tick();
+        },
+        { concurrency: 5 }
+      );
+    } finally {
+      progressBar.terminate();
+    }
   }
 
   private async fillInContributors(releases: Release[]) {
