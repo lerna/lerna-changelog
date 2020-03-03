@@ -7,7 +7,7 @@ import ConfigurationError from "./configuration-error";
 
 describe("Configuration", function() {
   describe("fromPath", function() {
-    const tmpDir = `${os.tmpDir()}/changelog-test`;
+    const tmpDir = `${os.tmpdir()}/changelog-test`;
 
     beforeEach(function() {
       fs.ensureDirSync(tmpDir);
