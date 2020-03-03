@@ -29,6 +29,21 @@ export interface CommitListItem {
   date: string;
 }
 
+export function parseLogMessage(commit: string): CommitListItem | null {
+  const parts = commit.match(/hash<(.+)> ref<(.*)> message<(.*)> date<(.*)>/) || [];
+
+  if (!parts || parts.length === 0) {
+    return null;
+  }
+
+  return {
+    sha: parts[1],
+    refName: parts[2],
+    summary: parts[3],
+    date: parts[4],
+  };
+}
+
 export function listCommits(from: string, to: string = ""): CommitListItem[] {
   // Prints "hash<short-hash> ref<ref-name> message<summary> date<date>"
   // This format is used in `getCommitInfos` for easily analize the commit.
@@ -42,19 +57,6 @@ export function listCommits(from: string, to: string = ""): CommitListItem[] {
     ])
     .stdout.split("\n")
     .filter(Boolean)
-    .map((commit: string) => {
-      const parts = commit.match(/hash<(.+)> ref<(.*)> message<(.*)> date<(.*)>/) || [];
-
-      if (!parts) {
-        return null;
-      }
-
-      const sha = parts[1];
-      const refName = parts[2];
-      const summary = parts[3];
-      const date = parts[4];
-
-      return { sha, refName, summary, date };
-    })
+    .map(parseLogMessage)
     .filter(Boolean);
 }
