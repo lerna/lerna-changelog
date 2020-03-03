@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseLogMessage should parse message 0 1`] = `
+Object {
+  "date": "1966-01-01",
+  "refName": "",
+  "sha": "a0000000",
+  "summary": "fix: some random fix which will be ignored",
+}
+`;
+
+exports[`parseLogMessage should parse message 1 1`] = `
+Object {
+  "date": "1966-01-01",
+  "refName": "tag: a-new-hope@4.0.0, tag: empire-strikes-back@5.0.0, tag: return-of-the-jedi@6.0.0",
+  "sha": "a0000001",
+  "summary": "fix: some random fix which will be ignored",
+}
+`;
+
+exports[`parseLogMessage should parse message 2 1`] = `
+Object {
+  "date": "1977-01-01",
+  "refName": "tag: v0.1.0",
+  "sha": "a0000002",
+  "summary": "Merge pull request #1 from star-wars",
+}
+`;
+
+exports[`parseLogMessage should parse message 3 1`] = `
+Object {
+  "date": "20001-01-01",
+  "refName": "RC;.;0.1",
+  "sha": "a0000003",
+  "summary": ";;fix;;;",
+}
+`;
+
+exports[`parseLogMessage should parse message 4 1`] = `
+Object {
+  "date": "20001-01-01",
+  "refName": "RC;.;0.1",
+  "sha": "a0000004",
+  "summary": "feat: add <App/>",
+}
+`;
+
+exports[`parseLogMessage should parse message 5 1`] = `
+Object {
+  "date": "2020-01-01",
+  "refName": "a-new-rc<1>",
+  "sha": "a0000005",
+  "summary": "feat(app): dev -> rc1",
+}
+`;
+
+exports[`parseLogMessage should parse message 6 1`] = `
+Object {
+  "date": "2020-01-01",
+  "refName": "a-new-rc<1>",
+  "sha": "a0000006",
+  "summary": "feat(app): dev > rc1",
+}
+`;
+
+exports[`parseLogMessage should parse message 7 1`] = `
+Object {
+  "date": "<>",
+  "refName": "<>",
+  "sha": "a0000007",
+  "summary": "<>",
+}
+`;
+
+exports[`parseLogMessage should parse message 8 1`] = `
+Object {
+  "date": ">",
+  "refName": ">",
+  "sha": "a0000008",
+  "summary": ">",
+}
+`;
+
+exports[`parseLogMessage should parse message 9 1`] = `null`;
+
+exports[`parseLogMessage should parse message 10 1`] = `null`;
+
+exports[`parseLogMessage should parse message 11 1`] = `null`;
+
+exports[`parseLogMessage should parse message 12 1`] = `null`;
