@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.1 (2020-03-04)
+
+#### :bug: Bug Fix
+* [#259](https://github.com/lerna/lerna-changelog/pull/259) Allow `;` characters in merge commit messages ([@tuchk4](https://github.com/tuchk4))
+
+#### :house: Internal
+* [#260](https://github.com/lerna/lerna-changelog/pull/260) Remove `os.tmpDir` deprecation warning ([@tuchk4](https://github.com/tuchk4))
+
+#### Committers: 2
+- Valerii Sorokobatko ([@tuchk4](https://github.com/tuchk4))
+
+
 ## v1.0.0 (2019-12-16)
 
 #### :boom: Breaking Change
