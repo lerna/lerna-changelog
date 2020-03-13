@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const execa = require("execa");
-const normalize = require("normalize-git-url");
+const hostedGitInfo = require("hosted-git-info");
 
 import ConfigurationError from "./configuration-error";
 
@@ -119,10 +119,8 @@ function findNextVersion(rootPath: string): string | undefined {
 
 export function findRepoFromPkg(pkg: any): string | undefined {
   const url = pkg.repository.url || pkg.repository;
-  const normalized = normalize(url).url;
-  const match = normalized.match(/github\.com[:/]([^/]+\/[^/]+?)(?:\.git)?$/);
-  if (!match) {
-    return;
+  const info = hostedGitInfo.fromUrl(url);
+  if (info && info.type === "github") {
+    return `${info.user}/${info.project}`;
   }
-  return match[1];
 }
