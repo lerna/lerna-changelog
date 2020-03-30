@@ -33,7 +33,7 @@
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^3.0.0",
     "cli-highlight": "^2.1.4",
     "execa": "^1.0.0",
     "hosted-git-info": "^3.0.4",
