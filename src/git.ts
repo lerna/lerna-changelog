@@ -1,5 +1,10 @@
 const execa = require("execa");
 
+export function getRootPath() {
+  const cwd = process.cwd();
+  return execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
+}
+
 export async function changedPaths(sha: string): Promise<string[]> {
   const result = await execa("git", ["show", "-m", "--name-only", "--pretty=format:", "--first-parent", sha]);
   return result.stdout.split("\n");
