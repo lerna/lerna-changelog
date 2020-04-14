@@ -3,7 +3,7 @@ import { Configuration } from "../configuration";
 const Changelog = require.requireActual("../changelog").default;
 
 const defaultConfig = {
-  rootPath: "../",
+  rootPath: "/path/to/project",
   repo: "lerna/lerna-changelog",
   labels: {
     "Type: New Feature": ":rocket: New Feature",
