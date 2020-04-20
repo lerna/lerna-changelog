@@ -37,7 +37,7 @@
     "cli-highlight": "^2.1.4",
     "execa": "^1.0.0",
     "hosted-git-info": "^3.0.4",
-    "make-fetch-happen": "^7.1.1",
+    "make-fetch-happen": "^8.0.4",
     "p-map": "^3.0.0",
     "progress": "^2.0.0",
     "yargs": "^13.0.0"
