@@ -4,6 +4,7 @@
     "target": "es2015",
     "module": "CommonJS",
     "removeComments": true,
+    "esModuleInterop": true,
     "allowJs": true,
     "strict": true,
     "lib": ["es2015"]

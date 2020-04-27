@@ -3,29 +3,9 @@ jest.mock("../src/changelog");
 jest.mock("../src/github-api");
 jest.mock("./git");
 jest.mock("./fetch");
+jest.mock("./packages");
 
 describe("Changelog", () => {
-  describe("packageFromPath", () => {
-    const MockedChangelog = require("./changelog").default;
-
-    const TESTS = [
-      ["", ""],
-      ["foo.js", ""],
-      ["packages/foo.js", ""],
-      ["packages/foo/bar.js", "foo"],
-      ["packages/foo/bar/baz.js", "foo"],
-      ["packages/@foo/bar.js", "@foo"],
-      ["packages/@foo/bar/baz.js", "@foo/bar"],
-    ];
-
-    for (let [input, expected] of TESTS) {
-      it(`${input} -> ${expected}`, () => {
-        const changelog = new MockedChangelog();
-        expect(changelog.packageFromPath(input)).toEqual(expected);
-      });
-    }
-  });
-
   describe("getCommitInfos", () => {
     beforeEach(() => {
       require("./fetch").__resetMockResponses();

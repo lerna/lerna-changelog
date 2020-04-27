@@ -1,3 +1,4 @@
+const path = require("path");
 const pMap = require("p-map");
 
 import progressBar from "./progress-bar";
@@ -6,6 +7,7 @@ import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
 import GithubAPI, { GitHubUserResponse } from "./github-api";
 import { CommitInfo, Release } from "./interfaces";
+import { getPackages, PackageInfo } from "./packages";
 import MarkdownRenderer from "./markdown-renderer";
 
 const UNRELEASED_TAG = "___unreleased___";
@@ -71,24 +73,18 @@ export default class Changelog {
     return releases;
   }
 
-  private async getListOfUniquePackages(sha: string): Promise<string[]> {
+  private async getListOfUniquePackages(sha: string, workspacePackages: PackageInfo[]): Promise<string[]> {
     return (await Git.changedPaths(sha))
-      .map(path => this.packageFromPath(path))
+      .map(filePath => {
+        const fullFilePath = path.join(this.config.rootPath, filePath);
+        const matchingPackageFromPath = workspacePackages.find(packageInfo => {
+          return fullFilePath.startsWith(packageInfo.location);
+        });
+        if (matchingPackageFromPath) return matchingPackageFromPath.name;
+        return "";
+      })
       .filter(Boolean)
       .filter(onlyUnique);
-  }
-
-  private packageFromPath(path: string): string {
-    const parts = path.split("/");
-    if (parts[0] !== "packages" || parts.length < 3) {
-      return "";
-    }
-
-    if (parts.length >= 4 && parts[1][0] === "@") {
-      return `${parts[1]}/${parts[2]}`;
-    }
-
-    return parts[1];
   }
 
   private getListOfCommits(from: string, to: string): Git.CommitListItem[] {
@@ -214,12 +210,13 @@ export default class Changelog {
 
   private async fillInPackages(commits: CommitInfo[]) {
     progressBar.init("Mapping commits to packages…", commits.length);
+    const workspacePackages = await getPackages(this.config);
 
     try {
       await pMap(
         commits,
         async (commit: CommitInfo) => {
-          commit.packages = await this.getListOfUniquePackages(commit.commitSHA);
+          commit.packages = await this.getListOfUniquePackages(commit.commitSHA, workspacePackages);
 
           progressBar.tick();
         },
