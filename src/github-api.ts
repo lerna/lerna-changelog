@@ -1,7 +1,4 @@
-const path = require("path");
-
-import ConfigurationError from "./configuration-error";
-import fetch from "./fetch";
+import API from "./API";
 
 export interface GitHubUserResponse {
   login: string;
@@ -24,24 +21,7 @@ export interface GitHubIssueResponse {
   };
 }
 
-export interface Options {
-  repo: string;
-  rootPath: string;
-  cacheDir?: string;
-}
-
-export default class GithubAPI {
-  private cacheDir: string | undefined;
-  private auth: string;
-
-  constructor(config: Options) {
-    this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
-    this.auth = this.getAuthToken();
-    if (!this.auth) {
-      throw new ConfigurationError("Must provide GITHUB_AUTH");
-    }
-  }
-
+export default class GithubAPI extends API {
   public getBaseIssueUrl(repo: string): string {
     return `https://github.com/${repo}/issues/`;
   }
@@ -52,23 +32,5 @@ export default class GithubAPI {
 
   public async getUserData(login: string): Promise<GitHubUserResponse> {
     return this._fetch(`https://api.github.com/users/${login}`);
-  }
-
-  private async _fetch(url: string): Promise<any> {
-    const res = await fetch(url, {
-      cacheManager: this.cacheDir,
-      headers: {
-        Authorization: `token ${this.auth}`,
-      },
-    });
-    const parsedResponse = await res.json();
-    if (res.ok) {
-      return parsedResponse;
-    }
-    throw new ConfigurationError(`Fetch error: ${res.statusText}.\n${JSON.stringify(parsedResponse)}`);
-  }
-
-  private getAuthToken(): string {
-    return process.env.GITHUB_AUTH || "";
   }
 }
