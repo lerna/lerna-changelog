@@ -21,16 +21,16 @@
     "url": "git+https://github.com/lerna/lerna-changelog.git"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "yarn clean && tsc",
     "changelog": "node ./bin/cli.js",
     "clean": "rimraf lib",
-    "fix": "npm run lint -- --fix",
+    "fix": "yarn lint -- --fix",
     "lint": "eslint src --ext ts --format stylish",
-    "prepublish": "npm run build",
+    "prepublish": "yarn build",
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "jest",
-    "test-ci": "npm run build && jest",
-    "watch": "npm run build -- --watch"
+    "test-ci": "yarn build && yarn test",
+    "watch": "yarn build -- --watch"
   },
   "dependencies": {
     "chalk": "^2.4.1",
