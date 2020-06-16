@@ -9,4 +9,4 @@ node_js:
   - '12'
 
 script:
-  - npm run test-ci
+  - yarn test-ci
