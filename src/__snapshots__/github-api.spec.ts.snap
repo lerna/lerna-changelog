@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GithubAPI getIssueData get an issue data 1`] = `
+Object {
+  "labels": Array [
+    Object {
+      "name": "Type: New Feature",
+    },
+    Object {
+      "name": "Status: In Progress",
+    },
+  ],
+  "number": 2,
+  "title": "This is the commit title for the issue (#2)",
+  "user": Object {
+    "https://api.github.com/users/test-user": Object {
+      "html_url": "https://github.com/test-user",
+      "login": "test-user",
+      "name": "Test User",
+    },
+  },
+}
+`;
+
+exports[`GithubAPI getUserData get an user data 1`] = `
+Object {
+  "html_url": "https://github.com/test-user",
+  "login": "test-user",
+  "name": "Test User",
+}
+`;
