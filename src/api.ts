@@ -17,7 +17,7 @@ export default class API {
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
     this.auth = this.getAuthToken();
     if (!this.auth) {
-      throw new ConfigurationError("Must provide GITHUB_AUTH");
+      throw new ConfigurationError("Must provide an authentication token through process.env.GITHUB_AUTH");
     }
   }
 
