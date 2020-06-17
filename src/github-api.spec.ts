@@ -1,7 +1,6 @@
-jest.mock("../src/github-api");
-jest.mock("./fetch");
+import GithubAPI from "./github-api";
 
-const MockedGithubAPI = require("./github-api").default;
+jest.mock("./fetch");
 
 const repo = "lerna/lerna-changelog";
 const issue = "2";
@@ -10,7 +9,7 @@ const login = "test-user";
 describe("GithubAPI", () => {
   describe("getBaseIssueUrl", () => {
     it("get base issue URL", async () => {
-      const github = new MockedGithubAPI({ repo, rootPath: "" });
+      const github = new GithubAPI({ repo, rootPath: "" });
       const url = github.getBaseIssueUrl(repo);
 
       expect(url).toEqual(`https://github.com/${repo}/issues/`);
@@ -44,7 +43,7 @@ describe("GithubAPI", () => {
     });
 
     it("get an issue data", async () => {
-      const github = new MockedGithubAPI({ repo, rootPath: "" });
+      const github = new GithubAPI({ repo, rootPath: "" });
       const issueData = await github.getIssueData(repo, issue);
 
       expect(issueData).toMatchSnapshot();
@@ -71,7 +70,7 @@ describe("GithubAPI", () => {
     });
 
     it("get an user data", async () => {
-      const github = new MockedGithubAPI({ repo, rootPath: "" });
+      const github = new GithubAPI({ repo, rootPath: "" });
       const issueData = await github.getUserData(login);
 
       expect(issueData).toMatchSnapshot();
