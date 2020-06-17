@@ -7,6 +7,21 @@ const issue = "2";
 const login = "test-user";
 
 describe("GithubAPI", () => {
+  let oldEnvVar: string | null | undefined;
+
+  beforeEach(() => {
+    oldEnvVar = "GITHUB_AUTH" in process.env ? process.env.GITHUB_AUTH : null;
+    process.env.GITHUB_AUTH = "123";
+  });
+
+  afterEach(() => {
+    if (oldEnvVar === null) {
+      delete process.env.GITHUB_AUTH;
+    } else {
+      process.env.GITHUB_AUTH = oldEnvVar;
+    }
+  });
+
   describe("getBaseIssueUrl", () => {
     it("get base issue URL", async () => {
       const github = new GithubAPI({ repo, rootPath: "" });
