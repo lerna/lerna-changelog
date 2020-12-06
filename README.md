@@ -9,8 +9,11 @@ lerna-changelog
 [travis-badge]: https://img.shields.io/travis/lerna/lerna-changelog/master.svg
 [travis-badge-url]: https://travis-ci.org/lerna/lerna-changelog
 
-PR-based changelog generator with monorepo support
+PR-based changelog generator with monorepo support.
 
+This library requires labels to be assigned to each PR to autogenerate a visual
+changelog, otherwise your commits/PRs/merges will be ignored by the changelog
+generator.
 
 Install
 ------------------------------------------------------------------------------
