@@ -66,7 +66,7 @@ export async function run() {
       nextVersionFromMetadata: argv["next-version-from-metadata"],
     });
 
-    if (argv["next-version"]) {
+    if (argv["next-version"] !== NEXT_VERSION_DEFAULT) {
       config.nextVersion = argv["next-version"];
     }
 
