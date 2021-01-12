@@ -47,7 +47,7 @@ export function parseLogMessage(commit: string): CommitListItem | null {
 export function listCommits(from: string, to: string = ""): CommitListItem[] {
   // Prints "hash<short-hash> ref<ref-name> message<summary> date<date>"
   // This format is used in `getCommitInfos` for easily analize the commit.
-  return execa
+  let listCommits = execa
     .sync("git", [
       "log",
       "--oneline",
@@ -59,4 +59,27 @@ export function listCommits(from: string, to: string = ""): CommitListItem[] {
     .filter(Boolean)
     .map(parseLogMessage)
     .filter(Boolean);
+
+  const existsBranch = !!execa
+    .sync("git", ["branch", "--list", `release/${from}`])
+    .stdout;
+
+  if (existsBranch) {
+    const cherryPickedCommitTitles = execa
+      .sync("git", ["reflog", `release/${from}`])
+      .stdout.split("\n")
+      .filter((commit: string) => commit.match(/cherry-pick: Merge pull request/))
+      .map((commit: { match: (arg0: RegExp) => any[]; }) => commit.match(/Merge pull request [^\s]+/)[0]);
+
+    listCommits = listCommits.filter((commit: { summary: string; }) => {
+      for (var title of cherryPickedCommitTitles) {
+          if (commit.summary.includes(title)) {
+            return false;
+          }
+      }
+      return true;
+    })
+  }
+
+  return listCommits;
 }
