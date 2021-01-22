@@ -68,11 +68,11 @@ export function listCommits(from: string, to: string = ""): CommitListItem[] {
     const cherryPickedCommitTitles = execa
       .sync("git", ["reflog", `release/${from}`])
       .stdout.split("\n")
-      .filter((commit: string) => commit.match(/cherry-pick: Merge pull request/))
+      .filter((commit: string) => commit.match(/cherry-pick: Merge pull request/) || commit.match(/\(cherry-pick\): Merge pull request/))
       .map((commit: { match: (arg0: RegExp) => any[]; }) => commit.match(/Merge pull request [^\s]+/)[0]);
 
     listCommits = listCommits.filter((commit: { summary: string; }) => {
-      for (var title of cherryPickedCommitTitles) {
+      for (let title of cherryPickedCommitTitles) {
           if (commit.summary.includes(title)) {
             return false;
           }
