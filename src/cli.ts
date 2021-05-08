@@ -66,9 +66,7 @@ export async function run() {
       nextVersionFromMetadata: argv["next-version-from-metadata"],
     });
 
-    if (argv["next-version"]) {
-      config.nextVersion = argv["next-version"];
-    }
+    config.nextVersion = config.nextVersion || argv["next-version"];
 
     let result = await new Changelog(config).createMarkdown(options);
 
