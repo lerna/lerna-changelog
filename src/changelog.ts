@@ -15,6 +15,8 @@ interface Options {
   tagTo?: string;
 }
 
+type ReleaseMap = { [id: string]: Release };
+
 export default class Changelog {
   private readonly config: Configuration;
   private github: GithubAPI;
@@ -72,10 +74,11 @@ export default class Changelog {
   }
 
   private async getListOfUniquePackages(sha: string): Promise<string[]> {
-    return (await Git.changedPaths(sha))
+    const packages = (await Git.changedPaths(sha))
       .map(path => this.packageFromPath(path))
       .filter(Boolean)
       .filter(onlyUnique);
+    return !this.config.package ? packages : packages.filter(pkg => pkg === this.config.package);
   }
 
   private packageFromPath(path: string): string {
@@ -169,30 +172,41 @@ export default class Changelog {
     // Analyze the commits and group them by tag.
     // This is useful to generate multiple release logs in case there are
     // multiple release tags.
-    let releaseMap: { [id: string]: Release } = {};
+    let releaseMap: ReleaseMap = {};
 
     let currentTags = [UNRELEASED_TAG];
     for (const commit of commits) {
       if (commit.tags && commit.tags.length > 0) {
         currentTags = commit.tags;
       }
-
-      // Tags referenced by commits are treated as a list. When grouping them,
-      // we split the commits referenced by multiple tags in their own group.
-      // This results in having one group of commits for each tag, even if
-      // the same commits are "duplicated" across the different tags
-      // referencing them.
-      for (const currentTag of currentTags) {
-        if (!releaseMap[currentTag]) {
-          let date = currentTag === UNRELEASED_TAG ? this.getToday() : commit.date;
-          releaseMap[currentTag] = { name: currentTag, date, commits: [] };
+      if (!this.config.package) {
+        this._groupByRelease(currentTags, commit, releaseMap);
+      } else {
+        for (const pkg of commit.packages || []) {
+          if (pkg === this.config.package) {
+            this._groupByRelease(currentTags, commit, releaseMap);
+          }
         }
-
-        releaseMap[currentTag].commits.push(commit);
       }
     }
 
     return Object.keys(releaseMap).map(tag => releaseMap[tag]);
+  }
+
+  private _groupByRelease(tags: string[], commit: CommitInfo, releaseMap: ReleaseMap): void {
+    // Tags referenced by commits are treated as a list. When grouping them,
+    // we split the commits referenced by multiple tags in their own group.
+    // This results in having one group of commits for each tag, even if
+    // the same commits are "duplicated" across the different tags
+    // referencing them.
+    for (const currentTag of tags) {
+      if (!releaseMap[currentTag]) {
+        let date = currentTag === UNRELEASED_TAG ? this.getToday() : commit.date;
+        releaseMap[currentTag] = { name: currentTag, date, commits: [] };
+      }
+
+      releaseMap[currentTag].commits.push(commit);
+    }
   }
 
   private getToday() {

@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.1",
-    "cli-highlight": "^2.1.4",
+    "cli-highlight": "^2.1.11",
     "execa": "^1.0.0",
     "hosted-git-info": "^3.0.8",
     "make-fetch-happen": "^7.1.1",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
-    "@types/node": "^13.13.4",
+    "@types/node": "^15.12.4",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "eslint": "^6.8.0",
@@ -62,15 +62,18 @@
     "node": "10.* || >= 12"
   },
   "changelog": {
-    "repo": "lerna/lerna-changelog",
     "labels": {
-      "breaking": ":boom: Breaking Change",
-      "enhancement": ":rocket: Enhancement",
-      "bug": ":bug: Bug Fix",
-      "documentation": ":memo: Documentation",
-      "internal": ":house: Internal"
-    },
-    "cacheDir": ".changelog"
+      "Type: Feature": ":star: Features",
+      "Type: Bug": ":bug: Bug Fixes",
+      "Type: Security": ":lock: Security Fixes",
+      "Type: Performance": ":chart_with_upwards_trend: Performance Fixes",
+      "Type: Improvement": ":zap: Improvement Features",
+      "Type: Breaking": ":boom: Breaking Change",
+      "Type: Deprecated": ":warning: Deprecated Features",
+      "Type: I18n": ":globe_with_meridians: Internationalization",
+      "Type: A11y": ":wheelchair: Accessibility",
+      "Type: Documentation": ":pencil: Documentation"
+    }
   },
   "jest": {
     "projects": [
