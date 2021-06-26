@@ -13,6 +13,7 @@ export interface Configuration {
   cacheDir?: string;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
+  package?: string;
 }
 
 export interface ConfigLoaderOptions {

@@ -43,6 +43,11 @@ export async function run() {
         desc: "Infer the name of the next version from package metadata",
         default: false,
       },
+      package: {
+        type: "string",
+        desc: "The name of the package to generate a changelog for monorepo",
+        default: "",
+      },
     })
     .example(
       "lerna-changelog",
@@ -68,6 +73,10 @@ export async function run() {
 
     if (argv["next-version"]) {
       config.nextVersion = argv["next-version"];
+    }
+
+    if (argv["package"]) {
+      config.package = argv["package"];
     }
 
     let result = await new Changelog(config).createMarkdown(options);
