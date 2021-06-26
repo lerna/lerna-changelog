@@ -59,7 +59,7 @@
     "typescript": "^3.9.2"
   },
   "engines": {
-    "node": "10.* || >= 12"
+    "node": ">= 12"
   },
   "changelog": {
     "labels": {
