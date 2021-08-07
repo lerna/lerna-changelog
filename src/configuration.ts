@@ -4,6 +4,7 @@ const execa = require("execa");
 const hostedGitInfo = require("hosted-git-info");
 
 import ConfigurationError from "./configuration-error";
+import { getRootPath } from "./git";
 
 export interface Configuration {
   repo: string;
@@ -20,9 +21,7 @@ export interface ConfigLoaderOptions {
 }
 
 export function load(options: ConfigLoaderOptions = {}): Configuration {
-  let cwd = process.cwd();
-  let rootPath = execa.sync("git", ["rev-parse", "--show-toplevel"], { cwd }).stdout;
-
+  let rootPath = getRootPath();
   return fromPath(rootPath, options);
 }
 
