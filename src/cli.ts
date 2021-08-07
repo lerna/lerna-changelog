@@ -6,6 +6,8 @@ import Changelog from "./changelog";
 import { load as loadConfig } from "./configuration";
 import ConfigurationError from "./configuration-error";
 
+const NEXT_VERSION_DEFAULT = "Unreleased";
+
 export async function run() {
   const yargs = require("yargs");
 
@@ -34,7 +36,7 @@ export async function run() {
       "next-version": {
         type: "string",
         desc: "The name of the next version",
-        default: "Unreleased",
+        default: NEXT_VERSION_DEFAULT,
       },
       "next-version-from-metadata": {
         type: "boolean",
@@ -64,7 +66,7 @@ export async function run() {
       nextVersionFromMetadata: argv["next-version-from-metadata"],
     });
 
-    if (argv["next-version"]) {
+    if (argv["next-version"] !== NEXT_VERSION_DEFAULT) {
       config.nextVersion = argv["next-version"];
     }
 
