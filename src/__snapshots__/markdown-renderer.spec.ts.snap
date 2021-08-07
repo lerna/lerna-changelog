@@ -60,6 +60,16 @@ exports[`MarkdownRenderer renderContributorList renders a list of GitHub users 1
 - [@hzoo](https://github.com/hzoo)"
 `;
 
+exports[`MarkdownRenderer renderRelease includes contributors list 1`] = `
+"## v1.0.0 (2021-05-02)
+
+#### :rocket: New Feature
+* My cool PR ([@hzoo](http://hzoo.com))
+
+#### Committers: 1
+- Henry ([@hzoo](http://hzoo.com))"
+`;
+
 exports[`MarkdownRenderer renderRelease renders unreleased commits 1`] = `
 "## Unreleased (2018-07-10)
 
@@ -69,6 +79,13 @@ exports[`MarkdownRenderer renderRelease renders unreleased commits 1`] = `
 
 exports[`MarkdownRenderer renderRelease renders unreleased commits, with named next release 1`] = `
 "## v2.0.0-alpha.0 (2018-07-10)
+
+#### :rocket: New Feature
+* My cool PR ([@hzoo](http://hzoo.com))"
+`;
+
+exports[`MarkdownRenderer renderRelease skips contributors list if empty 1`] = `
+"## v1.0.0 (2021-05-02)
 
 #### :rocket: New Feature
 * My cool PR ([@hzoo](http://hzoo.com))"

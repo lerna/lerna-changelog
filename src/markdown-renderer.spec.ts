@@ -217,5 +217,43 @@ describe("MarkdownRenderer", () => {
       const result = renderer(options).renderRelease(release);
       expect(result).toMatchSnapshot();
     });
+
+    it(`includes contributors list`, () => {
+      const release: Release = {
+        name: "v1.0.0",
+        date: "2021-05-02",
+        commits: [
+          {
+            ...BASIC_COMMIT,
+            categories: [":rocket: New Feature"],
+          },
+        ],
+        contributors: [{ name: "Henry", login: "hzoo", html_url: "http://hzoo.com" }],
+      };
+      const options = {
+        categories: [":rocket: New Feature"],
+      };
+      const result = renderer(options).renderRelease(release);
+      expect(result).toMatchSnapshot();
+    });
+
+    it(`skips contributors list if empty`, () => {
+      const release: Release = {
+        name: "v1.0.0",
+        date: "2021-05-02",
+        commits: [
+          {
+            ...BASIC_COMMIT,
+            categories: [":rocket: New Feature"],
+          },
+        ],
+        contributors: [],
+      };
+      const options = {
+        categories: [":rocket: New Feature"],
+      };
+      const result = renderer(options).renderRelease(release);
+      expect(result).toMatchSnapshot();
+    });
   });
 });
