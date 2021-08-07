@@ -1,5 +1,22 @@
 # Changelog
 
+
+## v2.0.1 (2021-08-07)
+
+#### :bug: Bug Fix
+* [#296](https://github.com/lerna/lerna-changelog/pull/296) Omit commiters line when all are filtered out ([@petrch87](https://github.com/petrch87))
+* [#398](https://github.com/lerna/lerna-changelog/pull/398) Fix handling of --next-version-from-metadata option ([@contolini](https://github.com/contolini))
+
+#### :house: Internal
+* [#494](https://github.com/lerna/lerna-changelog/pull/494) Update yargs to v17.x ([@Turbo87](https://github.com/Turbo87))
+* [#493](https://github.com/lerna/lerna-changelog/pull/493) CI: Run `pnpm install` before `npm publish` ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 3
+- Chris Contolini ([@contolini](https://github.com/contolini))
+- Petr Chňoupek ([@petrch87](https://github.com/petrch87))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
+
 ## v2.0.0 (2021-08-07)
 
 #### :boom: Breaking Change
@@ -24,7 +41,7 @@
 * [#335](https://github.com/lerna/lerna-changelog/pull/335) Use yarn in scripts ([@dcyriller](https://github.com/dcyriller))
 * [#268](https://github.com/lerna/lerna-changelog/pull/268) Migrate from normalize-git-info to hosted-git-info. ([@rwjblue](https://github.com/rwjblue))
 
-#### Committers: 4
+#### Committers: 3
 - Cyrille David ([@dcyriller](https://github.com/dcyriller))
 - Robert Jackson ([@rwjblue](https://github.com/rwjblue))
 - Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
