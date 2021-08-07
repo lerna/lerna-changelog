@@ -3,10 +3,10 @@
 *.spec.js
 *.tgz
 .changelog/
-.dependabot/
 .editorconfig
+.eslintrc.js
+.github/
 .idea/
-.travis.yml
 src
 tsconfig.json
-yarn.lock
+pnpm-lock.yaml
