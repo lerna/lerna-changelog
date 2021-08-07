@@ -1,6 +1,15 @@
 # Changelog
 
 
+
+## v2.1.0 (2021-08-07)
+
+#### :rocket: Enhancement
+* [#495](https://github.com/lerna/lerna-changelog/pull/495) Add support for `--repo` option ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
 ## v2.0.1 (2021-08-07)
 
 #### :bug: Bug Fix
