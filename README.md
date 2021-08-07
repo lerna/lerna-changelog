@@ -12,31 +12,11 @@ lerna-changelog
 PR-based changelog generator with monorepo support
 
 
-Install
-------------------------------------------------------------------------------
-
-Install with `yarn`:
-
-```bash
-yarn add lerna-changelog --dev
-# or globally
-yarn global add lerna-changelog
-```
-
-We're using `yarn` but you can use `npm` if you like:
-
-```bash
-npm install --save-dev lerna-changelog
-# or globally
-npm install --global lerna-changelog
-```
-
-
 Usage
 ------------------------------------------------------------------------------
 
 ```bash
-$ lerna-changelog
+npx lerna-changelog
 ```
 
 ```md
@@ -68,7 +48,7 @@ You can also use the `--from` and `--to` options to view a different
 range of pull requests:
 
 ```bash
-lerna-changelog --from=v1.0.0 --to=v2.0.0
+npx lerna-changelog --from=v1.0.0 --to=v2.0.0
 ```
 
 ### Monorepo support
