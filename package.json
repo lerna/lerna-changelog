@@ -26,7 +26,7 @@
     "clean": "rimraf lib",
     "fix": "yarn lint -- --fix",
     "lint": "eslint src --ext ts --format stylish",
-    "prepublish": "yarn build",
+    "prepack": "yarn build",
     "prettier": "prettier --write 'src/**/*.ts'",
     "test": "jest",
     "test-ci": "yarn build && yarn test",
