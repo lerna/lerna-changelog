@@ -39,7 +39,7 @@
     "hosted-git-info": "^3.0.8",
     "make-fetch-happen": "^7.1.1",
     "p-map": "^3.0.0",
-    "progress": "^2.0.0",
+    "progress": "^2.0.3",
     "yargs": "^13.0.0"
   },
   "devDependencies": {
