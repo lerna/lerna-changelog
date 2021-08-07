@@ -41,7 +41,7 @@
     "make-fetch-happen": "^7.1.1",
     "p-map": "^3.0.0",
     "progress": "^2.0.0",
-    "yargs": "^14.2.3"
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
