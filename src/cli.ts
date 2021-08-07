@@ -43,6 +43,11 @@ export async function run() {
         desc: "Infer the name of the next version from package metadata",
         default: false,
       },
+      repo: {
+        type: "string",
+        desc: "`<USER|ORG>/<PROJECT>` of the GitHub project",
+        defaultDescription: "inferred from the `package.json` file",
+      },
     })
     .example(
       "lerna-changelog",
@@ -64,6 +69,7 @@ export async function run() {
   try {
     let config = loadConfig({
       nextVersionFromMetadata: argv["next-version-from-metadata"],
+      repo: argv.repo,
     });
 
     if (argv["next-version"] !== NEXT_VERSION_DEFAULT) {
