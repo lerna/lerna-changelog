@@ -28,6 +28,7 @@
     "lint": "eslint src --ext ts --format stylish",
     "prepack": "yarn build",
     "prettier": "prettier --write 'src/**/*.ts'",
+    "release": "release-it",
     "test": "jest",
     "test-ci": "yarn build && yarn test",
     "watch": "yarn build -- --watch"
@@ -54,6 +55,8 @@
     "jest": "^25.5.4",
     "jest-runner-eslint": "^0.7.6",
     "prettier": "1.19.1",
+    "release-it": "14.10.1",
+    "release-it-lerna-changelog": "3.1.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^25.5.1",
     "typescript": "^3.9.2"
