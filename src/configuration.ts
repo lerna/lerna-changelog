@@ -17,6 +17,7 @@ export interface Configuration {
 }
 
 export interface ConfigLoaderOptions {
+  repo?: string;
   nextVersionFromMetadata?: boolean;
 }
 
@@ -28,6 +29,10 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
   // Step 1: load partial config from `package.json` or `lerna.json`
   let config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || {};
+
+  if (options.repo) {
+    config.repo = options.repo;
+  }
 
   // Step 2: fill partial config with defaults
   let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
