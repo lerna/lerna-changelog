@@ -9,5 +9,4 @@
 .travis.yml
 src
 tsconfig.json
-tslint.json
 yarn.lock

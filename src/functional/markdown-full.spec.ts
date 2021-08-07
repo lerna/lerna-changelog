@@ -1,5 +1,3 @@
-/* tslint:disable:max-line-length */
-
 import { CommitListItem } from "../git";
 
 jest.mock("../../src/progress-bar");
