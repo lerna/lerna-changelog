@@ -25,6 +25,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 5.18.9
+
+      - run: pnpm install
+      - run: pnpm build
+      - run: pnpm test
