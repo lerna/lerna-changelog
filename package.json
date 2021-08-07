@@ -1,6 +1,6 @@
 {
   "name": "lerna-changelog",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Generate a changelog for a lerna monorepo",
   "keywords": [
     "changelog",
@@ -14,7 +14,7 @@
   "author": "Bo Borgerson <gigabo@gmail.com>",
   "main": "index.js",
   "bin": {
-    "lerna-changelog": "./bin/cli.js"
+    "lerna-changelog": "bin/cli.js"
   },
   "repository": {
     "type": "git",

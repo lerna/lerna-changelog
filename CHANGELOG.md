@@ -1,5 +1,35 @@
 # Changelog
 
+## v2.0.0 (2021-08-07)
+
+#### :boom: Breaking Change
+* [#486](https://github.com/lerna/lerna-changelog/pull/486) Drop support for Node.js 10 ([@Turbo87](https://github.com/Turbo87))
+
+#### :rocket: Enhancement
+* [#492](https://github.com/lerna/lerna-changelog/pull/492) Add `dependabot-preview` to default list of ignored committers ([@Turbo87](https://github.com/Turbo87))
+
+#### :memo: Documentation
+* [#472](https://github.com/lerna/lerna-changelog/pull/472) README: Recommend `npx` usage instead of global install ([@Turbo87](https://github.com/Turbo87))
+
+#### :house: Internal
+* [#491](https://github.com/lerna/lerna-changelog/pull/491) Add `release-it` to simplify the release process ([@Turbo87](https://github.com/Turbo87))
+* [#490](https://github.com/lerna/lerna-changelog/pull/490) CI: Release tags automatically ([@Turbo87](https://github.com/Turbo87))
+* [#489](https://github.com/lerna/lerna-changelog/pull/489) Update `.npmignore` file ([@Turbo87](https://github.com/Turbo87))
+* [#488](https://github.com/lerna/lerna-changelog/pull/488) Disable dependabot ([@Turbo87](https://github.com/Turbo87))
+* [#487](https://github.com/lerna/lerna-changelog/pull/487) CI: Update `pnpm` version ([@Turbo87](https://github.com/Turbo87))
+* [#475](https://github.com/lerna/lerna-changelog/pull/475) git: Extract `getRootPath()` function ([@Turbo87](https://github.com/Turbo87))
+* [#474](https://github.com/lerna/lerna-changelog/pull/474) Remove obsolete TSLint references ([@Turbo87](https://github.com/Turbo87))
+* [#473](https://github.com/lerna/lerna-changelog/pull/473) Use `pnpm` instead of `yarn` for development ([@Turbo87](https://github.com/Turbo87))
+* [#469](https://github.com/lerna/lerna-changelog/pull/469) Replace TravisCI with GitHub Actions ([@Turbo87](https://github.com/Turbo87))
+* [#335](https://github.com/lerna/lerna-changelog/pull/335) Use yarn in scripts ([@dcyriller](https://github.com/dcyriller))
+* [#268](https://github.com/lerna/lerna-changelog/pull/268) Migrate from normalize-git-info to hosted-git-info. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 4
+- Cyrille David ([@dcyriller](https://github.com/dcyriller))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
+
 ## v1.0.1 (2020-03-04)
 
 #### :bug: Bug Fix
