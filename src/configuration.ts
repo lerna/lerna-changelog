@@ -61,6 +61,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     ignoreCommitters = [
       "dependabot-bot",
       "dependabot[bot]",
+      "dependabot-preview[bot]",
       "greenkeeperio-bot",
       "greenkeeper[bot]",
       "renovate-bot",
