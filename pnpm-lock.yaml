@@ -12,7 +12,7 @@ specifiers:
   eslint-plugin-prettier: 3.4.1
   execa: ^1.0.0
   fs-extra: 10.0.0
-  hosted-git-info: ^3.0.8
+  hosted-git-info: ^4.0.0
   jest: 25.5.4
   jest-runner-eslint: 0.10.1
   make-fetch-happen: ^7.1.1
@@ -30,7 +30,7 @@ dependencies:
   chalk: 2.4.2
   cli-highlight: 2.1.11
   execa: 1.0.0
-  hosted-git-info: 3.0.8
+  hosted-git-info: 4.0.2
   make-fetch-happen: 7.1.1
   p-map: 3.0.0
   progress: 2.0.3
@@ -2779,8 +2779,8 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
 
-  /hosted-git-info/3.0.8:
-    resolution: {integrity: sha512-aXpmwoOhRBrw6X3j0h5RloK4x1OzsxMPyxqIHyNfSe2pypkVTZFpEiRoSipPEPlMrh0HW/XsjkJ5WgnCirpNUw==}
+  /hosted-git-info/4.0.2:
+    resolution: {integrity: sha512-c9OGXbZ3guC/xOlCg1Ci/VgWlwsqDv1yMQL1CWqXDL0hDjXuNcq0zuR4xqPSuasI3kqFDhqSyTjREz5gzq0fXg==}
     engines: {node: '>=10'}
     dependencies:
       lru-cache: 6.0.0
