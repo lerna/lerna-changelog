@@ -56,7 +56,7 @@ export default class GithubAPI {
 
   private async _fetch(url: string): Promise<any> {
     const res = await fetch(url, {
-      cacheManager: this.cacheDir,
+      cachePath: this.cacheDir,
       headers: {
         Authorization: `token ${this.auth}`,
       },
