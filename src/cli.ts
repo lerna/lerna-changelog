@@ -92,7 +92,7 @@ export async function run() {
     if (e instanceof ConfigurationError) {
       console.log(chalk.red(e.message));
     } else {
-      console.log(chalk.red(e.stack));
+      console.log(chalk.red((e as any).stack));
     }
 
     process.exitCode = 1;
