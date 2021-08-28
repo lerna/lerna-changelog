@@ -4,6 +4,7 @@ export default class ConfigurationError {
 
   constructor(message: string) {
     // @ts-ignore
+    // eslint-disable-next-line prefer-rest-params
     Error.apply(this, arguments);
     this.message = message;
   }
