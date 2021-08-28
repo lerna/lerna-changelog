@@ -1,4 +1,4 @@
-const GithubAPI = require.requireActual("../github-api").default;
+const GithubAPI = jest.requireActual("../github-api").default;
 
 class MockedGithubAPI extends GithubAPI {
   private getAuthToken() {
