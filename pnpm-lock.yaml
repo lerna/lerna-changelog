@@ -1,29 +1,29 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@types/jest': ^25.2.3
-  '@types/node': ^13.13.4
+  '@types/jest': 25.2.3
+  '@types/node': 13.13.52
   '@typescript-eslint/eslint-plugin': ^2.34.0
   '@typescript-eslint/parser': ^2.34.0
   chalk: ^2.4.1
   cli-highlight: ^2.1.4
-  eslint: ^6.8.0
-  eslint-config-prettier: ^6.11.0
-  eslint-plugin-prettier: ^3.1.4
+  eslint: 6.8.0
+  eslint-config-prettier: 6.15.0
+  eslint-plugin-prettier: 3.4.1
   execa: ^1.0.0
-  fs-extra: ^8.1.0
+  fs-extra: 8.1.0
   hosted-git-info: ^3.0.8
   jest: ^25.5.4
-  jest-runner-eslint: ^0.7.6
+  jest-runner-eslint: 0.7.7
   make-fetch-happen: ^7.1.1
   p-map: ^3.0.0
   prettier: 1.19.1
   progress: ^2.0.0
   release-it: 14.10.1
   release-it-lerna-changelog: 3.1.0
-  rimraf: ^3.0.2
-  ts-jest: ^25.5.1
-  typescript: ^3.9.2
+  rimraf: 3.0.2
+  ts-jest: 25.5.1
+  typescript: 3.9.10
   yargs: ^17.1.0
 
 dependencies:
@@ -43,7 +43,7 @@ devDependencies:
   '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.10
   eslint: 6.8.0
   eslint-config-prettier: 6.15.0_eslint@6.8.0
-  eslint-plugin-prettier: 3.4.0_b77cd85fda941e232840dc83bf6b7690
+  eslint-plugin-prettier: 3.4.1_b77cd85fda941e232840dc83bf6b7690
   fs-extra: 8.1.0
   jest: 25.5.4
   jest-runner-eslint: 0.7.7_jest@25.5.4
@@ -2037,8 +2037,8 @@ packages:
       get-stdin: 6.0.0
     dev: true
 
-  /eslint-plugin-prettier/3.4.0_b77cd85fda941e232840dc83bf6b7690:
-    resolution: {integrity: sha512-UDK6rJT6INSfcOo545jiaOwB701uAIt2/dR7WnFQoGCVl1/EMqdANBmwUaqqQ45aXprsTGzSa39LI1PyuRBxxw==}
+  /eslint-plugin-prettier/3.4.1_b77cd85fda941e232840dc83bf6b7690:
+    resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
       eslint: '>=5.0.0'
