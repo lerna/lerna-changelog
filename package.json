@@ -52,7 +52,7 @@
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-prettier": "3.4.1",
     "fs-extra": "8.1.0",
-    "jest": "^25.5.4",
+    "jest": "25.5.4",
     "jest-runner-eslint": "0.7.7",
     "prettier": "1.19.1",
     "release-it": "14.10.1",

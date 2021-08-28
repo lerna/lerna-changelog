@@ -13,7 +13,7 @@ specifiers:
   execa: ^1.0.0
   fs-extra: 8.1.0
   hosted-git-info: ^3.0.8
-  jest: ^25.5.4
+  jest: 25.5.4
   jest-runner-eslint: 0.7.7
   make-fetch-happen: ^7.1.1
   p-map: ^3.0.0
