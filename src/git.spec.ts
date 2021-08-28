@@ -17,17 +17,17 @@ const messages = [
   "hash<a0000012> date<2020-01-01>",
 ];
 
-describe("parseLogMessage", function() {
-  it("should return null for empty message", function() {
+describe("parseLogMessage", function () {
+  it("should return null for empty message", function () {
     expect(parseLogMessage("")).toEqual(null);
   });
 
-  it("should return null for message with invalid format", function() {
+  it("should return null for message with invalid format", function () {
     expect(parseLogMessage("hash<a000002 ref<%>")).toEqual(null);
   });
 
   messages.forEach((message, i) => {
-    it("should parse message " + i, function() {
+    it("should parse message " + i, function () {
       expect(parseLogMessage(message)).toMatchSnapshot();
     });
   });

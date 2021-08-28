@@ -54,7 +54,7 @@
     "fs-extra": "10.0.0",
     "jest": "25.5.4",
     "jest-runner-eslint": "0.10.1",
-    "prettier": "1.19.1",
+    "prettier": "2.3.2",
     "release-it": "14.11.5",
     "release-it-lerna-changelog": "3.1.0",
     "rimraf": "3.0.2",
@@ -97,6 +97,7 @@
     ]
   },
   "prettier": {
+    "arrowParens": "avoid",
     "printWidth": 120,
     "tabWidth": 2,
     "singleQuote": false,

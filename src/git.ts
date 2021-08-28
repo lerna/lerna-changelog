@@ -14,10 +14,7 @@ export async function changedPaths(sha: string): Promise<string[]> {
  * All existing tags in the repository
  */
 export function listTagNames(): string[] {
-  return execa
-    .sync("git", ["tag"])
-    .stdout.split("\n")
-    .filter(Boolean);
+  return execa.sync("git", ["tag"]).stdout.split("\n").filter(Boolean);
 }
 
 /**
