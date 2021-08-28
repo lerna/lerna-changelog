@@ -1,6 +1,6 @@
 import { Configuration } from "../configuration";
 
-const Changelog = require.requireActual("../changelog").default;
+const Changelog = jest.requireActual("../changelog").default;
 
 const defaultConfig = {
   rootPath: "../",
