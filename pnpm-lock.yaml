@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@types/jest': 27.0.1
+  '@types/jest': 27.0.2
   '@types/node': 14.17.17
   '@typescript-eslint/eslint-plugin': 4.31.2
   '@typescript-eslint/parser': 4.31.2
@@ -37,7 +37,7 @@ dependencies:
   yargs: 17.1.1
 
 devDependencies:
-  '@types/jest': 27.0.1
+  '@types/jest': 27.0.2
   '@types/node': 14.17.17
   '@typescript-eslint/eslint-plugin': 4.31.2_3815fab247b4312be6d1f55eb1f81298
   '@typescript-eslint/parser': 4.31.2_eslint@7.32.0+typescript@4.4.3
@@ -51,7 +51,7 @@ devDependencies:
   release-it: 14.11.5
   release-it-lerna-changelog: 3.1.0_release-it@14.11.5
   rimraf: 3.0.2
-  ts-jest: 27.0.5_a3830dc85c792fbb18bedbcc872cb0f9
+  ts-jest: 27.0.5_4983e9b3d1f913260771a36e4b65b206
   typescript: 4.4.3
 
 packages:
@@ -889,8 +889,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/27.0.1:
-    resolution: {integrity: sha512-HTLpVXHrY69556ozYkcq47TtQJXpcWAWfkoqz+ZGz2JnmZhzlRjprCIyFnetSy8gpDWwTTGBcRVv1J1I1vBrHw==}
+  /@types/jest/27.0.2:
+    resolution: {integrity: sha512-4dRxkS/AFX0c5XW6IPMNOydLn2tEhNhJV7DnYK+0bjoJZ+QTmfucBlihX7aoEsh/ocYtkLC73UbnBXBXIxsULA==}
     dependencies:
       jest-diff: 27.2.0
       pretty-format: 27.2.0
@@ -5059,7 +5059,7 @@ packages:
       punycode: 2.1.1
     dev: true
 
-  /ts-jest/27.0.5_a3830dc85c792fbb18bedbcc872cb0f9:
+  /ts-jest/27.0.5_4983e9b3d1f913260771a36e4b65b206:
     resolution: {integrity: sha512-lIJApzfTaSSbtlksfFNHkWOzLJuuSm4faFAfo5kvzOiRAuoN4/eKxVJ2zEAho8aecE04qX6K1pAzfH5QHL1/8w==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -5077,7 +5077,7 @@ packages:
       babel-jest:
         optional: true
     dependencies:
-      '@types/jest': 27.0.1
+      '@types/jest': 27.0.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
       jest: 27.2.1
