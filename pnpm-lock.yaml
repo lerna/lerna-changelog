@@ -19,7 +19,7 @@ specifiers:
   p-map: ^3.0.0
   prettier: 2.4.1
   progress: ^2.0.0
-  release-it: 14.11.5
+  release-it: 14.11.6
   release-it-lerna-changelog: 3.1.0
   rimraf: 3.0.2
   ts-jest: 27.0.5
@@ -48,8 +48,8 @@ devDependencies:
   jest: 27.2.1
   jest-runner-eslint: 0.10.1_eslint@7.32.0+jest@27.2.1
   prettier: 2.4.1
-  release-it: 14.11.5
-  release-it-lerna-changelog: 3.1.0_release-it@14.11.5
+  release-it: 14.11.6
+  release-it-lerna-changelog: 3.1.0_release-it@14.11.6
   rimraf: 3.0.2
   ts-jest: 27.0.5_4983e9b3d1f913260771a36e4b65b206
   typescript: 4.4.3
@@ -741,8 +741,8 @@ packages:
       '@octokit/core': 3.5.1
     dev: true
 
-  /@octokit/plugin-rest-endpoint-methods/5.7.0_@octokit+core@3.5.1:
-    resolution: {integrity: sha512-G7sgccWRYQMwcHJXkDY/sDxbXeKiZkFQqUtzBCwmrzCNj2GQf3VygQ4T/BFL2crLVpIbenkE/c0ErhYOte2MPw==}
+  /@octokit/plugin-rest-endpoint-methods/5.10.4_@octokit+core@3.5.1:
+    resolution: {integrity: sha512-Dh+EAMCYR9RUHwQChH94Skl0lM8Fh99auT8ggck/xTzjJrwVzvsd0YH68oRPqp/HxICzmUjLfaQ9sy1o1sfIiA==}
     peerDependencies:
       '@octokit/core': '>=3'
     dependencies:
@@ -770,13 +770,13 @@ packages:
       universal-user-agent: 6.0.0
     dev: true
 
-  /@octokit/rest/18.9.0:
-    resolution: {integrity: sha512-VrmrE8gjpuOoDAGjrQq2j9ZhOE6LxaqxaQg0yMrrEnnQZy2ZcAnr5qbVfKsMF0up/48PRV/VFS/2GSMhA7nTdA==}
+  /@octokit/rest/18.10.0:
+    resolution: {integrity: sha512-esHR5OKy38bccL/sajHqZudZCvmv4yjovMJzyXlphaUo7xykmtOdILGJ3aAm0mFHmMLmPFmDMJXf39cAjNJsrw==}
     dependencies:
       '@octokit/core': 3.5.1
       '@octokit/plugin-paginate-rest': 2.16.3_@octokit+core@3.5.1
       '@octokit/plugin-request-log': 1.0.4_@octokit+core@3.5.1
-      '@octokit/plugin-rest-endpoint-methods': 5.7.0_@octokit+core@3.5.1
+      '@octokit/plugin-rest-endpoint-methods': 5.10.4_@octokit+core@3.5.1
     dev: true
 
   /@octokit/types/6.28.1:
@@ -859,7 +859,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.3
-      '@types/node': 14.17.17
+      '@types/node': 14.17.18
       '@types/responselike': 1.0.0
     dev: true
 
@@ -903,7 +903,7 @@ packages:
   /@types/keyv/3.1.3:
     resolution: {integrity: sha512-FXCJgyyN3ivVgRoml4h94G/p3kY+u/B86La+QptcqJaWtBWtmc6TtkNfS40n9bIvyLteHh7zXOtgbobORKPbDg==}
     dependencies:
-      '@types/node': 14.17.17
+      '@types/node': 14.17.18
     dev: true
 
   /@types/mdast/3.0.10:
@@ -931,7 +931,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 14.17.17
+      '@types/node': 14.17.18
     dev: true
 
   /@types/stack-utils/2.0.1:
@@ -1224,10 +1224,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /async-retry/1.3.1:
-    resolution: {integrity: sha512-aiieFW/7h3hY0Bq5d+ktDBejxuwR78vRu9hDUdR8rNhSaQ29VzPL4AoIRG7D/c7tdenwOcKvgPM6tIxB3cB6HA==}
+  /async-retry/1.3.3:
+    resolution: {integrity: sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==}
     dependencies:
-      retry: 0.12.0
+      retry: 0.13.1
     dev: true
 
   /asynckit/0.4.0:
@@ -1714,8 +1714,8 @@ packages:
       yaml: 1.10.2
     dev: true
 
-  /cosmiconfig/7.0.0:
-    resolution: {integrity: sha512-pondGvTuVYDk++upghXJabWzL6Kxu6f26ljFw64Swq9v6sQPUL3EUlVDV56diOjpCayKihL6hVe8exIACU4XcA==}
+  /cosmiconfig/7.0.1:
+    resolution: {integrity: sha512-a1YWNUV2HwGimB7dU2s1wUMurNKjpx60HxBB6xUM8Re+2s1g1IIfJvFR0/iCF+XHdE0GMTKTuLR32UQff4TEyQ==}
     engines: {node: '>=10'}
     dependencies:
       '@types/parse-json': 4.0.0
@@ -2445,8 +2445,8 @@ packages:
       parse-url: 6.0.0
     dev: true
 
-  /git-url-parse/11.5.0:
-    resolution: {integrity: sha512-TZYSMDeM37r71Lqg1mbnMlOqlHd7BSij9qN7XwTkRqSAYFMihGLGhfHwgqQob3GUhEneKnV4nskN9rbQw2KGxA==}
+  /git-url-parse/11.6.0:
+    resolution: {integrity: sha512-WWUxvJs5HsyHL6L08wOusa/IXYtMuCAhrMmnTjQPpBU0TTHyDhnOATNH3xNQz7YOQUsqIIPTGr4xiVti1Hsk5g==}
     dependencies:
       git-up: 4.0.5
     dev: true
@@ -2745,8 +2745,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /inquirer/8.1.2:
-    resolution: {integrity: sha512-DHLKJwLPNgkfwNmsuEUKSejJFbkv0FMO9SMiQbjI3n5NQuCrSIBqP66ggqyz2a6t2qEolKrMjhQ3+W/xXgUQ+Q==}
+  /inquirer/8.1.5:
+    resolution: {integrity: sha512-G6/9xUqmt/r+UvufSyrPpt84NYwhKZ9jLsgMbQzlx804XErNupor8WQdBnBRrXmBfTPpuwf1sV+ss2ovjgdXIg==}
     engines: {node: '>=8.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
@@ -4462,7 +4462,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog/3.1.0_release-it@14.11.5:
+  /release-it-lerna-changelog/3.1.0_release-it@14.11.6:
     resolution: {integrity: sha512-VehiRVpIB37XfggFcwMwDZ3ncXmD4npgM2tGGTfa3CN8MFCCJPPIRvaqHySDC/YV8mN7oLZeGSI/exrKXeybmA==}
     engines: {node: 10.* || 12.* || >= 14}
     peerDependencies:
@@ -4471,7 +4471,7 @@ packages:
       execa: 4.1.0
       lerna-changelog: 1.0.1
       mdast-util-from-markdown: 0.8.5
-      release-it: 14.11.5
+      release-it: 14.11.6
       tmp: 0.2.1
       validate-peer-dependencies: 1.2.0
       which: 2.0.2
@@ -4479,25 +4479,25 @@ packages:
       - supports-color
     dev: true
 
-  /release-it/14.11.5:
-    resolution: {integrity: sha512-9BaPdq7ZKOwtzz3p1mRhg/tOH/cT/y2tUnPYzUwQiVdj42JaGI1Vo2l3WbgK8ICsbFyrhc0tri1+iqI8OvkI1A==}
+  /release-it/14.11.6:
+    resolution: {integrity: sha512-6BNcuzFZHThBUBJ/xYw/bxZ+58CAwrwf1zgmjq2Ibl3nlDZbjphHG6iqxkJu7mZ8TIWs6NjloEAhqpjeXoN//Q==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
       '@iarna/toml': 2.2.5
-      '@octokit/rest': 18.9.0
-      async-retry: 1.3.1
+      '@octokit/rest': 18.10.0
+      async-retry: 1.3.3
       chalk: 4.1.2
-      cosmiconfig: 7.0.0
+      cosmiconfig: 7.0.1
       debug: 4.3.2
       deprecated-obj: 2.0.0
       execa: 5.1.1
       form-data: 4.0.0
-      git-url-parse: 11.5.0
+      git-url-parse: 11.6.0
       globby: 11.0.4
       got: 11.8.2
       import-cwd: 3.0.0
-      inquirer: 8.1.2
+      inquirer: 8.1.5
       is-ci: 3.0.0
       lodash: 4.17.21
       mime-types: 2.1.32
@@ -4593,6 +4593,12 @@ packages:
   /retry/0.12.0:
     resolution: {integrity: sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=}
     engines: {node: '>= 4'}
+    dev: false
+
+  /retry/0.13.1:
+    resolution: {integrity: sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==}
+    engines: {node: '>= 4'}
+    dev: true
 
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
