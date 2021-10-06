@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@types/jest': 27.0.2
-  '@types/node': 14.17.20
+  '@types/node': 14.17.21
   '@typescript-eslint/eslint-plugin': 4.33.0
   '@typescript-eslint/parser': 4.33.0
   chalk: ^4.0.0
@@ -38,7 +38,7 @@ dependencies:
 
 devDependencies:
   '@types/jest': 27.0.2
-  '@types/node': 14.17.20
+  '@types/node': 14.17.21
   '@typescript-eslint/eslint-plugin': 4.33.0_d753869925cce96d3eb2141eeedafe57
   '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.4.3
   eslint: 7.32.0
@@ -913,6 +913,10 @@ packages:
 
   /@types/node/14.17.20:
     resolution: {integrity: sha512-gI5Sl30tmhXsqkNvopFydP7ASc4c2cLfGNQrVKN3X90ADFWFsPEsotm/8JHSUJQKTHbwowAHtcJPeyVhtKv0TQ==}
+    dev: true
+
+  /@types/node/14.17.21:
+    resolution: {integrity: sha512-zv8ukKci1mrILYiQOwGSV4FpkZhyxQtuFWGya2GujWg+zVAeRQ4qbaMmWp9vb9889CFA8JECH7lkwCL6Ygg8kA==}
     dev: true
 
   /@types/parse-json/4.0.0:
