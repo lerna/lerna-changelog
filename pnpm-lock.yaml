@@ -6,7 +6,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': 4.33.0
   '@typescript-eslint/parser': 4.33.0
   chalk: ^4.0.0
-  cli-highlight: ^2.1.4
+  cli-highlight: ^2.1.11
   eslint: 7.32.0
   eslint-config-prettier: 8.3.0
   eslint-plugin-prettier: 4.0.0
