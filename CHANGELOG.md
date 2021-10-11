@@ -2,6 +2,15 @@
 
 
 
+
+## v2.2.0 (2021-10-11)
+
+#### :rocket: Enhancement
+* [#560](https://github.com/lerna/lerna-changelog/pull/560) Update `cli-highlight` to v2.1.11 ([@elwayman02](https://github.com/elwayman02))
+
+#### Committers: 1
+- Jordan Hawker ([@elwayman02](https://github.com/elwayman02))
+
 ## v2.1.0 (2021-08-07)
 
 #### :rocket: Enhancement
