@@ -11,7 +11,8 @@ module.exports = {
   github: {
     release: true,
     releaseName: 'v${version}',
-    tokenRef: 'GITHUB_AUTH',
+    skipChecks: true,
+    tokenRef: 'GITHUB_AUTH'
   },
   npm: {
     publish: false,
