@@ -20,7 +20,7 @@ specifiers:
   prettier: 2.4.1
   progress: ^2.0.0
   release-it: 14.11.6
-  release-it-lerna-changelog: 4.0.0
+  release-it-lerna-changelog: 4.0.1
   rimraf: 3.0.2
   ts-jest: 27.0.7
   typescript: 4.4.4
@@ -49,7 +49,7 @@ devDependencies:
   jest-runner-eslint: 1.0.0_eslint@8.1.0+jest@27.3.1
   prettier: 2.4.1
   release-it: 14.11.6
-  release-it-lerna-changelog: 4.0.0_release-it@14.11.6
+  release-it-lerna-changelog: 4.0.1_release-it@14.11.6
   rimraf: 3.0.2
   ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
   typescript: 4.4.4
@@ -4394,8 +4394,8 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog/4.0.0_release-it@14.11.6:
-    resolution: {integrity: sha512-B7cORodnr5ZNMwSF+hrhrgrzQTkuazTpBhgVOENtuTRFxsitx3HmzQQ0nTJEcPrIKRSdNZEyejf2tqckc6Zx2w==}
+  /release-it-lerna-changelog/4.0.1_release-it@14.11.6:
+    resolution: {integrity: sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >= 16}
     peerDependencies:
       release-it: ^14.0.0
