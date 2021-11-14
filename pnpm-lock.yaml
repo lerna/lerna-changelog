@@ -19,7 +19,7 @@ specifiers:
   p-map: ^3.0.0
   prettier: 2.4.1
   progress: ^2.0.0
-  release-it: 14.11.6
+  release-it: 14.11.7
   release-it-lerna-changelog: 4.0.1
   rimraf: 3.0.2
   ts-jest: 27.0.7
@@ -48,8 +48,8 @@ devDependencies:
   jest: 27.3.1
   jest-runner-eslint: 1.0.0_eslint@8.2.0+jest@27.3.1
   prettier: 2.4.1
-  release-it: 14.11.6
-  release-it-lerna-changelog: 4.0.1_release-it@14.11.6
+  release-it: 14.11.7
+  release-it-lerna-changelog: 4.0.1_release-it@14.11.7
   rimraf: 3.0.2
   ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
   typescript: 4.4.4
@@ -2212,7 +2212,7 @@ packages:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.32
+      mime-types: 2.1.33
     dev: true
 
   /fs-extra/10.0.0:
@@ -4371,7 +4371,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog/4.0.1_release-it@14.11.6:
+  /release-it-lerna-changelog/4.0.1_release-it@14.11.7:
     resolution: {integrity: sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >= 16}
     peerDependencies:
@@ -4380,7 +4380,7 @@ packages:
       execa: 5.1.1
       lerna-changelog: 2.2.0
       mdast-util-from-markdown: 1.0.4
-      release-it: 14.11.6
+      release-it: 14.11.7
       tmp: 0.2.1
       validate-peer-dependencies: 2.0.0
       which: 2.0.2
@@ -4388,8 +4388,8 @@ packages:
       - supports-color
     dev: true
 
-  /release-it/14.11.6:
-    resolution: {integrity: sha512-6BNcuzFZHThBUBJ/xYw/bxZ+58CAwrwf1zgmjq2Ibl3nlDZbjphHG6iqxkJu7mZ8TIWs6NjloEAhqpjeXoN//Q==}
+  /release-it/14.11.7:
+    resolution: {integrity: sha512-m4p9+x6AEQPczc96Jyg6dGFeovpJVgRCtA1lxeIgTmQVt9dutYPkkjZeJngZgUJ17/Lb1bx6ZzW2qsKmopKnbQ==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
