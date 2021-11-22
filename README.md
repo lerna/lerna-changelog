@@ -62,6 +62,9 @@ limiting issues which can be resolved by supplying a "personal access token":
 
 ```
 export GITHUB_AUTH="..."
+
+// If you're using Github Enterprise
+export GITHUB_ENTERPRISE_AUTH="..."
 ```
 
 You'll need a [personal access token](https://github.com/settings/tokens)
@@ -102,6 +105,9 @@ The supported options are:
 
 - `cacheDir`: Path to a GitHub API response cache to avoid throttling
   (e.g. `.changelog`)
+
+- `gitHostingServerURL`: Your Github Enterprise Hosting Server URL (Only for Github Enterprise user. If you're using Github, Don't need it.)
+  (e.g. `https://github.mycompany.com`)
 
 
 License
