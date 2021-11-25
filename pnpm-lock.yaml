@@ -17,7 +17,7 @@ specifiers:
   jest-runner-eslint: 1.0.0
   make-fetch-happen: ^9.0.0
   p-map: ^3.0.0
-  prettier: 2.4.1
+  prettier: 2.5.0
   progress: ^2.0.0
   release-it: 14.11.8
   release-it-lerna-changelog: 4.0.1
@@ -43,11 +43,11 @@ devDependencies:
   '@typescript-eslint/parser': 5.4.0_eslint@8.3.0+typescript@4.5.2
   eslint: 8.3.0
   eslint-config-prettier: 8.3.0_eslint@8.3.0
-  eslint-plugin-prettier: 4.0.0_6c1acfc8d9d3a8dba99beef4e8bcebae
+  eslint-plugin-prettier: 4.0.0_d8c6a2a4ba8850181fffb74d8e835cec
   fs-extra: 10.0.0
   jest: 27.3.1
   jest-runner-eslint: 1.0.0_eslint@8.3.0+jest@27.3.1
-  prettier: 2.4.1
+  prettier: 2.5.0
   release-it: 14.11.8
   release-it-lerna-changelog: 4.0.1_release-it@14.11.8
   rimraf: 3.0.2
@@ -1908,7 +1908,7 @@ packages:
       eslint: 8.3.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_6c1acfc8d9d3a8dba99beef4e8bcebae:
+  /eslint-plugin-prettier/4.0.0_d8c6a2a4ba8850181fffb74d8e835cec:
     resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -1921,7 +1921,7 @@ packages:
     dependencies:
       eslint: 8.3.0
       eslint-config-prettier: 8.3.0_eslint@8.3.0
-      prettier: 2.4.1
+      prettier: 2.5.0
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -4219,8 +4219,8 @@ packages:
       fast-diff: 1.2.0
     dev: true
 
-  /prettier/2.4.1:
-    resolution: {integrity: sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==}
+  /prettier/2.5.0:
+    resolution: {integrity: sha512-FM/zAKgWTxj40rH03VxzIPdXmj39SwSjwG0heUcNFwI+EMZJnY93yAiKXM3dObIKAM5TA88werc8T/EwhB45eg==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
