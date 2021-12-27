@@ -34,7 +34,7 @@ dependencies:
   make-fetch-happen: 9.1.0
   p-map: 3.0.0
   progress: 2.0.3
-  yargs: 17.3.0
+  yargs: 17.3.1
 
 devDependencies:
   '@types/jest': 27.0.3
@@ -546,7 +546,7 @@ packages:
       istanbul-lib-instrument: 4.0.3
       istanbul-lib-report: 3.0.0
       istanbul-lib-source-maps: 4.0.1
-      istanbul-reports: 3.1.1
+      istanbul-reports: 3.1.2
       jest-haste-map: 27.4.5
       jest-resolve: 27.4.5
       jest-util: 27.4.2
@@ -575,7 +575,7 @@ packages:
     dependencies:
       '@jest/console': 27.4.2
       '@jest/types': 27.4.2
-      '@types/istanbul-lib-coverage': 2.0.3
+      '@types/istanbul-lib-coverage': 2.0.4
       collect-v8-coverage: 1.0.1
     dev: true
 
@@ -618,7 +618,7 @@ packages:
     resolution: {integrity: sha512-j35yw0PMTPpZsUoOBiuHzr1zTYoad1cVIE0ajEjcrJONxxrko/IRGKkXx3os0Nsi4Hu3+5VmDbVfq5WhG/pWAg==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      '@types/istanbul-lib-coverage': 2.0.3
+      '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
       '@types/node': 16.11.17
       '@types/yargs': 16.0.4
@@ -804,13 +804,13 @@ packages:
     dependencies:
       '@babel/parser': 7.16.6
       '@babel/types': 7.16.0
-      '@types/babel__generator': 7.6.3
+      '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
       '@types/babel__traverse': 7.14.2
     dev: true
 
-  /@types/babel__generator/7.6.3:
-    resolution: {integrity: sha512-/GWCmzJWqV7diQW54smJZzWbSFf4QYtF71WCKhcx6Ru/tFyQIY2eiiITcCAeuPbNSvT9YCGkVMqqvSk2Z0mXiA==}
+  /@types/babel__generator/7.6.4:
+    resolution: {integrity: sha512-tFkciB9j2K755yrTALxD44McOrk+gfpIpvC3sxHjRawj6PfnQxrse4Clq5y/Rq+G3mrBurMax/lG8Qn2t9mSsg==}
     dependencies:
       '@babel/types': 7.16.0
     dev: true
@@ -853,14 +853,14 @@ packages:
     resolution: {integrity: sha512-SZs7ekbP8CN0txVG2xVRH6EgKmEm31BOxA07vkFaETzZz1xh+cbt8BcI0slpymvwhx5dlFnQG2rTlPVQn+iRPQ==}
     dev: true
 
-  /@types/istanbul-lib-coverage/2.0.3:
-    resolution: {integrity: sha512-sz7iLqvVUg1gIedBOvlkxPlc8/uVzyS5OwGz1cKjXzkl3FpL3al0crU8YGU1WoHkxn0Wxbw5tyi6hvzJKNzFsw==}
+  /@types/istanbul-lib-coverage/2.0.4:
+    resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
     dev: true
 
   /@types/istanbul-lib-report/3.0.0:
     resolution: {integrity: sha512-plGgXAPfVKFoYfa9NpYDAkseG+g6Jr294RqeqcqDixSbU34MZVJRi/P+7Y8GDpzkEwLaGZZOpKIEmeVZNtKsrg==}
     dependencies:
-      '@types/istanbul-lib-coverage': 2.0.3
+      '@types/istanbul-lib-coverage': 2.0.4
     dev: true
 
   /@types/istanbul-reports/3.0.1:
@@ -1312,8 +1312,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001291
-      electron-to-chromium: 1.4.24
+      caniuse-lite: 1.0.30001292
+      electron-to-chromium: 1.4.28
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -1419,8 +1419,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /caniuse-lite/1.0.30001291:
-    resolution: {integrity: sha512-roMV5V0HNGgJ88s42eE70sstqGW/gwFndosYrikHthw98N5tLnOTxFqMLQjZVRxTWFlJ4rn+MsgXrR7MDPY4jA==}
+  /caniuse-lite/1.0.30001292:
+    resolution: {integrity: sha512-jnT4Tq0Q4ma+6nncYQVe7d73kmDmE9C3OGTx3MvW7lBM/eY1S1DZTMBON7dqV481RhNiS5OxD7k9JQvmDOTirw==}
     dev: true
 
   /chalk/2.4.2:
@@ -1814,8 +1814,8 @@ packages:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}
     dev: true
 
-  /electron-to-chromium/1.4.24:
-    resolution: {integrity: sha512-erwx5r69B/WFfFuF2jcNN0817BfDBdC4765kQ6WltOMuwsimlQo3JTEq0Cle+wpHralwdeX3OfAtw/mHxPK0Wg==}
+  /electron-to-chromium/1.4.28:
+    resolution: {integrity: sha512-Gzbf0wUtKfyPaqf0Plz+Ctinf9eQIzxEqBHwSvbGfeOm9GMNdLxyu1dNiCUfM+x6r4BE0xUJNh3Nmg9gfAtTmg==}
     dev: true
 
   /emittery/0.8.1:
@@ -2778,8 +2778,8 @@ packages:
       - supports-color
     dev: true
 
-  /istanbul-reports/3.1.1:
-    resolution: {integrity: sha512-q1kvhAXWSsXfMjCdNHNPKZZv94OlspKnoGv+R9RGbnqOOQ0VbNfLFgQDVgi7hHenKsndGq3/o0OBdzDXthWcNw==}
+  /istanbul-reports/3.1.2:
+    resolution: {integrity: sha512-0gHxuT1NNC0aEIL1zbJ+MTgPbbHhU77eJPuU35WKA7TgXiSNlCAx4PENoMrH0Or6M2H80TaZcWKhM0IK6V8gRw==}
     engines: {node: '>=8'}
     dependencies:
       html-escaper: 2.0.2
@@ -3425,7 +3425,7 @@ packages:
       make-fetch-happen: 9.1.0
       p-map: 3.0.0
       progress: 2.0.3
-      yargs: 17.3.0
+      yargs: 17.3.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5020,7 +5020,7 @@ packages:
     resolution: {integrity: sha512-/PRhfd8aTNp9Ggr62HPzXg2XasNFGy5PBt0Rp04du7/8GNNSgxFL6WBTkgMKSL9bFjH+8kKEG3f37FmxiTqUUA==}
     engines: {node: '>=10.12.0'}
     dependencies:
-      '@types/istanbul-lib-coverage': 2.0.3
+      '@types/istanbul-lib-coverage': 2.0.4
       convert-source-map: 1.8.0
       source-map: 0.7.3
     dev: true
@@ -5202,8 +5202,8 @@ packages:
       y18n: 5.0.8
       yargs-parser: 20.2.9
 
-  /yargs/17.3.0:
-    resolution: {integrity: sha512-GQl1pWyDoGptFPJx9b9L6kmR33TGusZvXIZUT+BOz9f7X2L94oeAskFYLEg/FkhV06zZPBYLvLZRWeYId29lew==}
+  /yargs/17.3.1:
+    resolution: {integrity: sha512-WUANQeVgjLbNsEmGk20f+nlHgOqzRFpiGWVaBrYGYIGANIIu3lWjoyi0fNlFmJkvfhCZ6BXINe7/W2O2bV4iaA==}
     engines: {node: '>=12'}
     dependencies:
       cliui: 7.0.4
