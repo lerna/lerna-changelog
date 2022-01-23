@@ -19,7 +19,7 @@ specifiers:
   p-map: ^3.0.0
   prettier: 2.5.1
   progress: ^2.0.0
-  release-it: 14.12.3
+  release-it: 14.12.4
   release-it-lerna-changelog: 4.0.1
   rimraf: 3.0.2
   ts-jest: 27.1.3
@@ -48,8 +48,8 @@ devDependencies:
   jest: 27.4.7
   jest-runner-eslint: 1.0.0_eslint@8.7.0+jest@27.4.7
   prettier: 2.5.1
-  release-it: 14.12.3
-  release-it-lerna-changelog: 4.0.1_release-it@14.12.3
+  release-it: 14.12.4
+  release-it-lerna-changelog: 4.0.1_release-it@14.12.4
   rimraf: 3.0.2
   ts-jest: 27.1.3_a7e53b5e5b59e71a0fd4d8cf128393d5
   typescript: 4.5.5
@@ -1761,14 +1761,6 @@ packages:
     resolution: {integrity: sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=}
     engines: {node: '>= 0.6'}
 
-  /deprecated-obj/2.0.0:
-    resolution: {integrity: sha512-CkdywZC2rJ8RGh+y3MM1fw1EJ4oO/oNExGbRFv0AQoMS+faTd3nO7slYjkj/6t8OnIMUE+wxh6G97YHhK1ytrw==}
-    engines: {node: '>=10'}
-    dependencies:
-      flat: 5.0.2
-      lodash: 4.17.21
-    dev: true
-
   /deprecation/2.3.1:
     resolution: {integrity: sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==}
     dev: true
@@ -2178,11 +2170,6 @@ packages:
     dependencies:
       flatted: 3.2.4
       rimraf: 3.0.2
-    dev: true
-
-  /flat/5.0.2:
-    resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
-    hasBin: true
     dev: true
 
   /flatted/3.2.4:
@@ -4311,7 +4298,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog/4.0.1_release-it@14.12.3:
+  /release-it-lerna-changelog/4.0.1_release-it@14.12.4:
     resolution: {integrity: sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >= 16}
     peerDependencies:
@@ -4320,7 +4307,7 @@ packages:
       execa: 5.1.1
       lerna-changelog: 2.2.0
       mdast-util-from-markdown: 1.2.0
-      release-it: 14.12.3
+      release-it: 14.12.4
       tmp: 0.2.1
       validate-peer-dependencies: 2.0.0
       which: 2.0.2
@@ -4328,8 +4315,8 @@ packages:
       - supports-color
     dev: true
 
-  /release-it/14.12.3:
-    resolution: {integrity: sha512-qek7ml9WaxpXSjLpU4UGCF9nWpDgOODL1gZTuydafs1HdQPAeYOd2od8I8lUL4NlEKW2TirDhH4aFTVIpP3/cQ==}
+  /release-it/14.12.4:
+    resolution: {integrity: sha512-lqf9PMsj7ycCqFHGag8Uv7cE1hNsKa+yKUMe+Fkh9fdOfxu2F01On+YUefRCP0DuQthmr/WyLCYdrjThMEkWFQ==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -4339,7 +4326,6 @@ packages:
       chalk: 4.1.2
       cosmiconfig: 7.0.1
       debug: 4.3.3
-      deprecated-obj: 2.0.0
       execa: 5.1.1
       form-data: 4.0.0
       git-url-parse: 11.6.0
