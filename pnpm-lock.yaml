@@ -11,7 +11,7 @@ specifiers:
   eslint-config-prettier: 8.4.0
   eslint-plugin-prettier: 4.0.0
   execa: ^5.0.0
-  fs-extra: 10.0.0
+  fs-extra: 10.0.1
   hosted-git-info: ^4.0.0
   jest: 27.5.1
   jest-runner-eslint: 1.0.0
@@ -44,7 +44,7 @@ devDependencies:
   eslint: 8.9.0
   eslint-config-prettier: 8.4.0_eslint@8.9.0
   eslint-plugin-prettier: 4.0.0_9f62b85ce3ce02949dbd2ccffcebe95f
-  fs-extra: 10.0.0
+  fs-extra: 10.0.1
   jest: 27.5.1
   jest-runner-eslint: 1.0.0_eslint@8.9.0+jest@27.5.1
   prettier: 2.5.1
@@ -2216,8 +2216,8 @@ packages:
       mime-types: 2.1.34
     dev: true
 
-  /fs-extra/10.0.0:
-    resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
+  /fs-extra/10.0.1:
+    resolution: {integrity: sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==}
     engines: {node: '>=12'}
     dependencies:
       graceful-fs: 4.2.9
