@@ -36,7 +36,7 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "cli-highlight": "^2.1.11",
-    "execa": "^5.0.0",
+    "execa": "^6.0.0",
     "hosted-git-info": "^4.0.0",
     "make-fetch-happen": "^9.0.0",
     "p-map": "^3.0.0",
