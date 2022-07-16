@@ -22,7 +22,7 @@ specifiers:
   release-it: 15.1.2
   release-it-lerna-changelog: 4.0.1
   rimraf: 3.0.2
-  ts-jest: 28.0.6
+  ts-jest: 28.0.7
   typescript: 4.7.4
   yargs: ^17.1.0
 
@@ -51,7 +51,7 @@ devDependencies:
   release-it: 15.1.2
   release-it-lerna-changelog: 4.0.1_release-it@15.1.2
   rimraf: 3.0.2
-  ts-jest: 28.0.6_jest@28.1.3+typescript@4.7.4
+  ts-jest: 28.0.7_jest@28.1.3+typescript@4.7.4
   typescript: 4.7.4
 
 packages:
@@ -5167,8 +5167,8 @@ packages:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
     dev: true
 
-  /ts-jest/28.0.6_jest@28.1.3+typescript@4.7.4:
-    resolution: {integrity: sha512-yLAWoaSJ6c9o+IT7+nyutp5uvwGzhMYb/LD5WEQAi2tBq4ZSAPay4Lf69pP/IU+GFYg87pdg5eADSzuNAFSK4g==}
+  /ts-jest/28.0.7_jest@28.1.3+typescript@4.7.4:
+    resolution: {integrity: sha512-wWXCSmTwBVmdvWrOpYhal79bDpioDy4rTT+0vyUnE3ZzM7LOAAGG9NXwzkEL/a516rQEgnMmS/WKP9jBPCVJyA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
     peerDependencies:
@@ -5180,6 +5180,8 @@ packages:
       typescript: '>=4.3'
     peerDependenciesMeta:
       '@babel/core':
+        optional: true
+      '@jest/types':
         optional: true
       babel-jest:
         optional: true
