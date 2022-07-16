@@ -55,7 +55,7 @@
     "jest": "28.1.3",
     "jest-runner-eslint": "1.0.1",
     "prettier": "2.7.1",
-    "release-it": "15.1.1",
+    "release-it": "15.1.2",
     "release-it-lerna-changelog": "4.0.1",
     "rimraf": "3.0.2",
     "ts-jest": "28.0.6",
