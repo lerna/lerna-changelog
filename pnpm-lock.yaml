@@ -19,7 +19,7 @@ specifiers:
   p-map: ^3.0.0
   prettier: 2.7.1
   progress: ^2.0.0
-  release-it: 15.1.2
+  release-it: 15.1.3
   release-it-lerna-changelog: 4.0.1
   rimraf: 3.0.2
   ts-jest: 28.0.7
@@ -48,8 +48,8 @@ devDependencies:
   jest: 28.1.3_@types+node@16.11.45
   jest-runner-eslint: 1.0.1_eslint@8.20.0+jest@28.1.3
   prettier: 2.7.1
-  release-it: 15.1.2
-  release-it-lerna-changelog: 4.0.1_release-it@15.1.2
+  release-it: 15.1.3
+  release-it-lerna-changelog: 4.0.1_release-it@15.1.3
   rimraf: 3.0.2
   ts-jest: 28.0.7_jest@28.1.3+typescript@4.7.4
   typescript: 4.7.4
@@ -714,7 +714,7 @@ packages:
       '@octokit/graphql': 5.0.0
       '@octokit/request': 6.2.0
       '@octokit/request-error': 3.0.0
-      '@octokit/types': 6.34.0
+      '@octokit/types': 6.40.0
       before-after-hook: 2.2.2
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
@@ -739,10 +739,6 @@ packages:
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
       - encoding
-    dev: true
-
-  /@octokit/openapi-types/11.2.0:
-    resolution: {integrity: sha512-PBsVO+15KSlGmiI8QAzaqvsNlZlrDlyAJYcrXBCvVUxCp7VnXjkwPoFHgjEJXx3WF9BAwkA6nfCUA7i9sODzKA==}
     dev: true
 
   /@octokit/openapi-types/12.10.0:
@@ -811,12 +807,6 @@ packages:
       '@octokit/plugin-rest-endpoint-methods': 6.1.0_@octokit+core@4.0.4
     transitivePeerDependencies:
       - encoding
-    dev: true
-
-  /@octokit/types/6.34.0:
-    resolution: {integrity: sha512-s1zLBjWhdEI2zwaoSgyOFoKSl109CUcVBCc7biPJ3aAf6LGLU6szDvi31JPU7bxfla2lqfhjbbg/5DdFNxOwHw==}
-    dependencies:
-      '@octokit/openapi-types': 11.2.0
     dev: true
 
   /@octokit/types/6.40.0:
@@ -2766,8 +2756,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /inquirer/9.0.1:
-    resolution: {integrity: sha512-NO601wvGO4Zm25ctJUhuglRBShQKJSGKGQlgbeyjs3cvXqq4Ud1jhwR36zf3pTC9mmfH3uHJHb/sL3/YJPqMzw==}
+  /inquirer/9.0.2:
+    resolution: {integrity: sha512-AqmDHmz3bIe573OiM4svTZzajBzff1xpuzYAimW8gjzW5ncuPllWB8t/GKl+NSuKRJaKyIF2bU2RCx8H1dwqyQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 5.0.0
@@ -4099,8 +4089,8 @@ packages:
       whatwg-url: 5.0.0
     dev: true
 
-  /node-fetch/3.2.8:
-    resolution: {integrity: sha512-KtpD1YhGszhntMpBDyp5lyagk8KIMopC1LEb7cQUAh7zcosaX5uK8HnbNb2i3NTQK3sIawCItS0uFC3QzcLHdg==}
+  /node-fetch/3.2.9:
+    resolution: {integrity: sha512-/2lI+DBecVvVm9tDhjziTVjo2wmTsSxSk58saUYP0P/fRJ3xxtfMDY24+CKTkfm0Dlhyn3CSXNL0SoRiCZ8Rzg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       data-uri-to-buffer: 4.0.0
@@ -4639,7 +4629,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog/4.0.1_release-it@15.1.2:
+  /release-it-lerna-changelog/4.0.1_release-it@15.1.3:
     resolution: {integrity: sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >= 16}
     peerDependencies:
@@ -4648,7 +4638,7 @@ packages:
       execa: 5.1.1
       lerna-changelog: 2.2.0
       mdast-util-from-markdown: 1.2.0
-      release-it: 15.1.2
+      release-it: 15.1.3
       tmp: 0.2.1
       validate-peer-dependencies: 2.0.0
       which: 2.0.2
@@ -4657,8 +4647,8 @@ packages:
       - supports-color
     dev: true
 
-  /release-it/15.1.2:
-    resolution: {integrity: sha512-GLNFI4oDpxSCAOJyzmaWyel8JwZTr2eD276TivTHaUaUvP0wer2qtUYzF+Ot1V+rLGM25bE+AZwR0UFzQNgC1A==}
+  /release-it/15.1.3:
+    resolution: {integrity: sha512-pdW9Ua59S3upm2wwzrWiQK8N5vXazNBBYk/UhpVf0faHV6mmY8GunS1ZzawSNi4fOOx55zSQFj2IHkOgfBxNUg==}
     engines: {node: '>=14.9'}
     hasBin: true
     dependencies:
@@ -4672,12 +4662,12 @@ packages:
       git-url-parse: 11.6.0
       globby: 13.1.2
       got: 12.1.0
-      inquirer: 9.0.1
+      inquirer: 9.0.2
       is-ci: 3.0.1
       lodash: 4.17.21
       mime-types: 2.1.35
       new-github-release-url: 2.0.0
-      node-fetch: 3.2.8
+      node-fetch: 3.2.9
       open: 8.4.0
       ora: 6.1.2
       os-name: 5.0.1
