@@ -14,7 +14,7 @@ specifiers:
   fs-extra: 10.1.0
   hosted-git-info: ^4.0.0
   jest: 28.1.3
-  jest-runner-eslint: 1.0.1
+  jest-runner-eslint: 1.1.0
   make-fetch-happen: ^9.0.0
   p-map: ^3.0.0
   prettier: 2.7.1
@@ -46,7 +46,7 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_i2cojdczqdiurzgttlwdgf764e
   fs-extra: 10.1.0
   jest: 28.1.3_@types+node@16.11.56
-  jest-runner-eslint: 1.0.1_eslint@8.22.0+jest@28.1.3
+  jest-runner-eslint: 1.1.0_eslint@8.22.0+jest@28.1.3
   prettier: 2.7.1
   release-it: 15.4.0
   release-it-lerna-changelog: 5.0.0_release-it@15.4.0
@@ -3388,12 +3388,12 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /jest-runner-eslint/1.0.1_eslint@8.22.0+jest@28.1.3:
-    resolution: {integrity: sha512-jK3lfLY3yNg58plTZUnOTrf32IXVwlSm8x89VxuK0EyeHrsa3F0rQ6nqaLrbm6hbtQJyt+v97SPVKvGJ36s1HA==}
+  /jest-runner-eslint/1.1.0_eslint@8.22.0+jest@28.1.3:
+    resolution: {integrity: sha512-XAQnEIuaZ/wHU8YVR4AEka5FBg3P+fnKd/upk8D9lxhejsclgai5gle7Ay4eLQ1+mlh2y5Ya3/AmfYz8FFZKJQ==}
     engines: {node: '>=8.10.0'}
     peerDependencies:
       eslint: ^6 || ^7 || ^8
-      jest: ^25.1 || ^26 || ^27 || ^28
+      jest: ^25.1 || ^26 || ^27 || ^28 || ^29
     dependencies:
       chalk: 3.0.0
       cosmiconfig: 6.0.0
