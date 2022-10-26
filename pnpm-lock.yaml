@@ -12,7 +12,7 @@ specifiers:
   eslint-plugin-prettier: 4.2.1
   execa: ^5.0.0
   fs-extra: 10.1.0
-  hosted-git-info: ^4.0.0
+  hosted-git-info: ^5.0.0
   jest: 28.1.3
   jest-runner-eslint: 1.1.0
   make-fetch-happen: ^9.0.0
@@ -30,7 +30,7 @@ dependencies:
   chalk: 4.1.2
   cli-highlight: 2.1.11
   execa: 5.1.1
-  hosted-git-info: 4.1.0
+  hosted-git-info: 5.2.0
   make-fetch-happen: 9.1.0
   p-map: 3.0.0
   progress: 2.0.3
@@ -2642,6 +2642,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       lru-cache: 6.0.0
+    dev: true
+
+  /hosted-git-info/5.2.0:
+    resolution: {integrity: sha512-y5aljBDICf0OFQecausUdWGZbLxSaFc012tdP4xe4GcFMeYUrOptSGaTZ21gvIsPUSe1/K9EVKLYwBOSEOPirw==}
+    engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+    dependencies:
+      lru-cache: 7.14.0
+    dev: false
 
   /html-escaper/2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -3722,6 +3730,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lru-cache/7.14.0:
+    resolution: {integrity: sha512-EIRtP1GrSJny0dqb50QXRUNBxHJhcpxHC++M5tD7RYbvLLn5KVWKsbyswSSqDuU15UFi3bgTQIY8nhDMeF6aDQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /macos-release/3.1.0:
     resolution: {integrity: sha512-/M/R0gCDgM+Cv1IuBG1XGdfTFnMEG6PZeT+KGWHO/OG+imqmaD9CH5vHBTycEM3+Kc4uG2Il+tFAuUWLqQOeUA==}
