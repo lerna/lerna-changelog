@@ -19,7 +19,7 @@ specifiers:
   p-map: ^3.0.0
   prettier: 2.8.1
   progress: ^2.0.0
-  release-it: 15.5.1
+  release-it: 15.6.0
   release-it-lerna-changelog: 5.0.0
   rimraf: 3.0.2
   ts-jest: 28.0.8
@@ -48,8 +48,8 @@ devDependencies:
   jest: 28.1.3_@types+node@18.11.18
   jest-runner-eslint: 1.1.0_eslint@8.30.0+jest@28.1.3
   prettier: 2.8.1
-  release-it: 15.5.1
-  release-it-lerna-changelog: 5.0.0_release-it@15.5.1
+  release-it: 15.6.0
+  release-it-lerna-changelog: 5.0.0_release-it@15.6.0
   rimraf: 3.0.2
   ts-jest: 28.0.8_ra2f52bqkg4l5hhftg6v7qm6jm
   typescript: 4.9.4
@@ -1292,10 +1292,6 @@ packages:
       retry: 0.13.1
     dev: true
 
-  /asynckit/0.4.0:
-    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
-    dev: true
-
   /babel-jest/28.1.3_@babel+core@7.20.7:
     resolution: {integrity: sha512-epUaPOEWMk3cWX0M/sPvCHHCe9fMFAa/9hXEgKP8nFfNl/jlGkE9ucq9NqkZGXLDduCJYS0UvSlPUwC0S+rH6Q==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -1668,13 +1664,6 @@ packages:
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
-  /combined-stream/1.0.8:
-    resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      delayed-stream: 1.0.0
-    dev: true
-
   /concat-map/0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
@@ -1833,11 +1822,6 @@ packages:
       escodegen: 1.14.3
       esprima: 4.0.1
       vm2: 3.9.13
-    dev: true
-
-  /delayed-stream/1.0.0:
-    resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
-    engines: {node: '>=0.4.0'}
     dev: true
 
   /depd/1.1.2:
@@ -2349,15 +2333,6 @@ packages:
   /form-data-encoder/2.1.4:
     resolution: {integrity: sha512-yDYSgNMraqvnxiEXO4hi88+YZxaHC6QKzb5N84iRCTDeRO7ZALpir/lVmf/uXUhnwUr2O4HU8s/n6x+yNjQkHw==}
     engines: {node: '>= 14.17'}
-    dev: true
-
-  /form-data/4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
     dev: true
 
   /formdata-polyfill/4.0.10:
@@ -4666,7 +4641,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog/5.0.0_release-it@15.5.1:
+  /release-it-lerna-changelog/5.0.0_release-it@15.6.0:
     resolution: {integrity: sha512-s/rHzwAwp878bivWKsJKNya9SRVKYZjgpyyGzg5ddBKZY5u5lhTWhxHtld7mHTRg4azIN7YypPH3rGaOfVmNVw==}
     engines: {node: ^14.13.1 || >= 16}
     deprecated: This package has been renamed to @release-it-plugins/lerna-changelog
@@ -4677,7 +4652,7 @@ packages:
       lerna-changelog: 2.2.0
       lodash.template: 4.5.0
       mdast-util-from-markdown: 1.2.0
-      release-it: 15.5.1
+      release-it: 15.6.0
       tmp: 0.2.1
       validate-peer-dependencies: 2.1.0
       which: 2.0.2
@@ -4686,8 +4661,8 @@ packages:
       - supports-color
     dev: true
 
-  /release-it/15.5.1:
-    resolution: {integrity: sha512-1X1oyqay/amJh/V+xkSU9zN6LqGmLQJ0Q40+FaHE6+Pu6QCmgX9HbrpHxvF0HZeXkB5cdhHjmYsPbHnUQLRnYg==}
+  /release-it/15.6.0:
+    resolution: {integrity: sha512-NXewgzO8QV1LOFjn2K7/dgE1Y1cG+2JiLOU/x9X/Lq9UdFn2hTH1r9SSrufCxG+y/Rp+oN8liYTsNptKrj92kg==}
     engines: {node: '>=14.9'}
     hasBin: true
     dependencies:
@@ -4697,7 +4672,6 @@ packages:
       chalk: 5.1.2
       cosmiconfig: 8.0.0
       execa: 6.1.0
-      form-data: 4.0.0
       git-url-parse: 13.1.0
       globby: 13.1.2
       got: 12.5.3
