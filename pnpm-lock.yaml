@@ -14,7 +14,7 @@ specifiers:
   fs-extra: 10.1.0
   hosted-git-info: ^4.0.0
   jest: 28.1.3
-  jest-runner-eslint: 1.2.0
+  jest-runner-eslint: 2.0.0
   make-fetch-happen: ^9.0.0
   p-map: ^3.0.0
   prettier: 2.8.4
@@ -46,7 +46,7 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_u2zha4kiojzs42thzpgwygphmy
   fs-extra: 10.1.0
   jest: 28.1.3_@types+node@18.14.6
-  jest-runner-eslint: 1.2.0_eslint@8.35.0+jest@28.1.3
+  jest-runner-eslint: 2.0.0_eslint@8.35.0+jest@28.1.3
   prettier: 2.8.4
   release-it: 15.7.0
   release-it-lerna-changelog: 5.0.0_release-it@15.7.0
@@ -1548,14 +1548,6 @@ packages:
       supports-color: 5.5.0
     dev: true
 
-  /chalk/3.0.0:
-    resolution: {integrity: sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg==}
-    engines: {node: '>=8'}
-    dependencies:
-      ansi-styles: 4.3.0
-      supports-color: 7.2.0
-    dev: true
-
   /chalk/4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
@@ -1709,9 +1701,9 @@ packages:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: true
 
-  /cosmiconfig/6.0.0:
-    resolution: {integrity: sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==}
-    engines: {node: '>=8'}
+  /cosmiconfig/7.1.0:
+    resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
+    engines: {node: '>=10'}
     dependencies:
       '@types/parse-json': 4.0.0
       import-fresh: 3.3.0
@@ -1730,13 +1722,21 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /create-jest-runner/0.6.0:
-    resolution: {integrity: sha512-9ibH8XA4yOJwDLRlzIUv5Ceg2DZFrQFjEtRKplVP6scGKwoz28V27xPHTbXziq2LePAD/xXlJlywhUq1dtF+nw==}
+  /create-jest-runner/0.11.2:
+    resolution: {integrity: sha512-6lwspphs4M1PLKV9baBNxHQtWVBPZuDU8kAP4MyrVWa6aEpEcpi2HZeeA6WncwaqgsGNXpP0N2STS7XNM/nHKQ==}
     hasBin: true
+    peerDependencies:
+      '@jest/test-result': ^28.0.0
+      jest-runner: ^28.0.0
+    peerDependenciesMeta:
+      '@jest/test-result':
+        optional: true
+      jest-runner:
+        optional: true
     dependencies:
-      chalk: 3.0.0
-      jest-worker: 25.5.0
-      throat: 5.0.0
+      chalk: 4.1.2
+      jest-worker: 28.1.3
+      throat: 6.0.2
     dev: true
 
   /cross-spawn/7.0.3:
@@ -3386,19 +3386,22 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /jest-runner-eslint/1.2.0_eslint@8.35.0+jest@28.1.3:
-    resolution: {integrity: sha512-E9atYFQ4GxM2+831KqhGArS1x97srm0f62YieQon63du8dEJz8wgsUs7JAy2SBRIaowQQF/kWhmCd+5H6ThYBA==}
-    engines: {node: '>=8.10.0'}
+  /jest-runner-eslint/2.0.0_eslint@8.35.0+jest@28.1.3:
+    resolution: {integrity: sha512-7dQTbRxOhw8t+AQSEXtwezfgVomzME+enbjeWN2Emdr3FjFjJW15FLjj33GvKk/r3zq/nASihoaUVTptdBEBHA==}
+    engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
-      eslint: ^6 || ^7 || ^8
-      jest: ^25.1 || ^26 || ^27 || ^28 || ^29
+      eslint: ^7 || ^8
+      jest: ^27 || ^28 || ^29
     dependencies:
-      chalk: 3.0.0
-      cosmiconfig: 6.0.0
-      create-jest-runner: 0.6.0
+      chalk: 4.1.2
+      cosmiconfig: 7.1.0
+      create-jest-runner: 0.11.2
       dot-prop: 5.3.0
       eslint: 8.35.0
       jest: 28.1.3_@types+node@18.14.6
+    transitivePeerDependencies:
+      - '@jest/test-result'
+      - jest-runner
     dev: true
 
   /jest-runner/28.1.3:
@@ -3527,14 +3530,6 @@ packages:
       emittery: 0.10.2
       jest-util: 28.1.3
       string-length: 4.0.2
-    dev: true
-
-  /jest-worker/25.5.0:
-    resolution: {integrity: sha512-/dsSmUkIy5EBGfv/IjjqmFxrNAUpBERfGs1oHROyD7yxjG/w+t0GOJDX8O1k32ySmd7+a5IhnJU2qQFcJ4n1vw==}
-    engines: {node: '>= 8.3'}
-    dependencies:
-      merge-stream: 2.0.0
-      supports-color: 7.2.0
     dev: true
 
   /jest-worker/28.1.3:
@@ -5194,8 +5189,8 @@ packages:
     dependencies:
       any-promise: 1.3.0
 
-  /throat/5.0.0:
-    resolution: {integrity: sha512-fcwX4mndzpLQKBS1DVYhGAcYaYt7vsHNIvQV+WXMvnow5cgjPphq5CaayLaGsjRdSCKZFNGt7/GYAuXaNOiYCA==}
+  /throat/6.0.2:
+    resolution: {integrity: sha512-WKexMoJj3vEuK0yFEapj8y64V0A6xcuPuK9Gt1d0R+dzCSJc0lHqQytAbSB4cDAK0dWh4T0E2ETkoLE2WZ41OQ==}
     dev: true
 
   /through/2.3.8:
