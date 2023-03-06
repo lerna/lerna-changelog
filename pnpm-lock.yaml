@@ -14,7 +14,7 @@ specifiers:
   fs-extra: 10.1.0
   hosted-git-info: ^4.0.0
   jest: 28.1.3
-  jest-runner-eslint: 1.1.0
+  jest-runner-eslint: 1.2.0
   make-fetch-happen: ^9.0.0
   p-map: ^3.0.0
   prettier: 2.8.4
@@ -46,7 +46,7 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_u2zha4kiojzs42thzpgwygphmy
   fs-extra: 10.1.0
   jest: 28.1.3_@types+node@18.14.6
-  jest-runner-eslint: 1.1.0_eslint@8.35.0+jest@28.1.3
+  jest-runner-eslint: 1.2.0_eslint@8.35.0+jest@28.1.3
   prettier: 2.8.4
   release-it: 15.7.0
   release-it-lerna-changelog: 5.0.0_release-it@15.7.0
@@ -3386,8 +3386,8 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /jest-runner-eslint/1.1.0_eslint@8.35.0+jest@28.1.3:
-    resolution: {integrity: sha512-XAQnEIuaZ/wHU8YVR4AEka5FBg3P+fnKd/upk8D9lxhejsclgai5gle7Ay4eLQ1+mlh2y5Ya3/AmfYz8FFZKJQ==}
+  /jest-runner-eslint/1.2.0_eslint@8.35.0+jest@28.1.3:
+    resolution: {integrity: sha512-E9atYFQ4GxM2+831KqhGArS1x97srm0f62YieQon63du8dEJz8wgsUs7JAy2SBRIaowQQF/kWhmCd+5H6ThYBA==}
     engines: {node: '>=8.10.0'}
     peerDependencies:
       eslint: ^6 || ^7 || ^8
