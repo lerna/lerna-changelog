@@ -39,7 +39,7 @@
     "execa": "^5.0.0",
     "hosted-git-info": "^4.0.0",
     "make-fetch-happen": "^9.0.0",
-    "p-map": "^3.0.0",
+    "p-map": "^5.0.0",
     "progress": "^2.0.0",
     "yargs": "^17.1.0"
   },
