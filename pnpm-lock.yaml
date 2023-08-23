@@ -32,8 +32,8 @@ dependencies:
 
 devDependencies:
   '@types/jest':
-    specifier: 29.5.3
-    version: 29.5.3
+    specifier: 29.5.4
+    version: 29.5.4
   '@types/node':
     specifier: 18.17.7
     version: 18.17.7
@@ -1050,8 +1050,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest@29.5.3:
-    resolution: {integrity: sha512-1Nq7YrO/vJE/FYnqYyw0FS8LdrjExSgIiHyKg7xPpn+yi8Q4huZryKnkJatN1ZRH89Kw2v33/8ZMB7DuZeSLlA==}
+  /@types/jest@29.5.4:
+    resolution: {integrity: sha512-PhglGmhWeD46FYOVLt3X7TiWjzwuVGW9wG/4qocPevXMjCmrIc5b6db9WjeGE4QYVpUAWMDv3v0IiBwObY289A==}
     dependencies:
       expect: 29.6.3
       pretty-format: 29.6.3
