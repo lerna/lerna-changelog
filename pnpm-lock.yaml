@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   chalk:
-    specifier: ^4.0.0
-    version: 4.1.2
+    specifier: ^5.0.0
+    version: 5.3.0
   cli-highlight:
     specifier: ^2.1.11
     version: 2.1.11
@@ -1692,7 +1692,6 @@ packages:
   /chalk@5.3.0:
     resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: true
 
   /char-regex@1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
