@@ -65,11 +65,11 @@ devDependencies:
     specifier: 2.8.8
     version: 2.8.8
   release-it:
-    specifier: 16.2.0
-    version: 16.2.0(typescript@5.0.4)
+    specifier: 16.2.1
+    version: 16.2.1(typescript@5.0.4)
   release-it-lerna-changelog:
     specifier: 5.0.0
-    version: 5.0.0(release-it@16.2.0)
+    version: 5.0.0(release-it@16.2.1)
   rimraf:
     specifier: 3.0.2
     version: 3.0.2
@@ -4971,7 +4971,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog@5.0.0(release-it@16.2.0):
+  /release-it-lerna-changelog@5.0.0(release-it@16.2.1):
     resolution: {integrity: sha512-s/rHzwAwp878bivWKsJKNya9SRVKYZjgpyyGzg5ddBKZY5u5lhTWhxHtld7mHTRg4azIN7YypPH3rGaOfVmNVw==}
     engines: {node: ^14.13.1 || >= 16}
     deprecated: This package has been renamed to @release-it-plugins/lerna-changelog
@@ -4982,7 +4982,7 @@ packages:
       lerna-changelog: 2.2.0
       lodash.template: 4.5.0
       mdast-util-from-markdown: 1.3.1
-      release-it: 16.2.0(typescript@5.0.4)
+      release-it: 16.2.1(typescript@5.0.4)
       tmp: 0.2.1
       validate-peer-dependencies: 2.2.0
       which: 2.0.2
@@ -4991,8 +4991,8 @@ packages:
       - supports-color
     dev: true
 
-  /release-it@16.2.0(typescript@5.0.4):
-    resolution: {integrity: sha512-cemAN6GVk7RBhZiOCcxv/qJky5wTqxbZjQlfotgPnKlGQjugoJvsIpILtgbhITpYlUxQTgx3ddizY7YeaIqt6Q==}
+  /release-it@16.2.1(typescript@5.0.4):
+    resolution: {integrity: sha512-+bHiKPqkpld+NaiW+K/2WsjaHgfPB00J6uk8a+g8QyuBtzfFoMVe+GKsfaDO5ztEHRrSg+7luoXzd8IfvPNPig==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
