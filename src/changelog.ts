@@ -1,4 +1,5 @@
 const pMap = require("p-map");
+const { resolve } = require("path");
 
 import progressBar from "./progress-bar";
 import { Configuration } from "./configuration";
@@ -79,16 +80,30 @@ export default class Changelog {
   }
 
   private packageFromPath(path: string): string {
-    const parts = path.split("/");
-    if (parts[0] !== "packages" || parts.length < 3) {
+    if (this.config.packages.length) {
+      // use the discovered packages
+      const absolutePath = resolve(this.config.rootPath, path);
+
+      const foundPackage = this.config.packages.find(p => absolutePath.startsWith(p.path));
+
+      if (foundPackage) {
+        return foundPackage.name;
+      }
+
       return "";
-    }
+    } else {
+      // if we did not find any packages then default to
+      const parts = path.split("/");
+      if (parts[0] !== "packages" || parts.length < 3) {
+        return "";
+      }
 
-    if (parts.length >= 4 && parts[1][0] === "@") {
-      return `${parts[1]}/${parts[2]}`;
-    }
+      if (parts.length >= 4 && parts[1][0] === "@") {
+        return `${parts[1]}/${parts[2]}`;
+      }
 
-    return parts[1];
+      return parts[1];
+    }
   }
 
   private getListOfCommits(from: string, to: string): Git.CommitListItem[] {
