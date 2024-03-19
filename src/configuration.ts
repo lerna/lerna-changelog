@@ -40,7 +40,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   if (!repo) {
     repo = findRepo(rootPath);
     if (!repo) {
-      throw new ConfigurationError('Could not infer "repo" from the "package.json" file.');
+      throw new ConfigurationError('Could not infer "repository" from the "package.json" file.');
     }
   }
 
