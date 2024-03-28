@@ -5,6 +5,8 @@ const hostedGitInfo = require("hosted-git-info");
 
 import ConfigurationError from "./configuration-error";
 import { getRootPath } from "./git";
+import { GitHostingAPI } from "./git-hosting-api/git-hosting-api";
+import { createGitHostingAPI } from "./git-hosting-api/git-hosting-api-factory";
 
 export interface Configuration {
   repo: string;
@@ -14,6 +16,8 @@ export interface Configuration {
   cacheDir?: string;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
+  gitHostingServerURL: string;
+  gitHostingAPI: GitHostingAPI;
 }
 
 export interface ConfigLoaderOptions {
@@ -35,7 +39,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   // Step 2: fill partial config with defaults
-  let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
+  let { repo, nextVersion, labels, cacheDir, ignoreCommitters, gitHostingServerURL = "" } = config;
 
   if (!repo) {
     repo = findRepo(rootPath);
@@ -74,6 +78,13 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     ];
   }
 
+  const gitHostingAPI = createGitHostingAPI({
+    repo,
+    rootPath,
+    cacheDir,
+    gitHostingServerURL,
+  });
+
   return {
     repo,
     nextVersion,
@@ -81,6 +92,8 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     labels,
     ignoreCommitters,
     cacheDir,
+    gitHostingServerURL,
+    gitHostingAPI,
   };
 }
 

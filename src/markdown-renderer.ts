@@ -1,4 +1,4 @@
-import { GitHubUserResponse } from "./github-api";
+import { GitHostingUserResponse } from "./git-hosting-api/git-hosting-api";
 import { CommitInfo, Release } from "./interfaces";
 
 const UNRELEASED_TAG = "___unreleased___";
@@ -95,7 +95,7 @@ export default class MarkdownRenderer {
   }
 
   public renderContribution(commit: CommitInfo): string | undefined {
-    const issue = commit.githubIssue;
+    const issue = commit.gitHostingIssue;
     if (issue) {
       let markdown = "";
 
@@ -114,13 +114,13 @@ export default class MarkdownRenderer {
     }
   }
 
-  public renderContributorList(contributors: GitHubUserResponse[]) {
+  public renderContributorList(contributors: GitHostingUserResponse[]) {
     const renderedContributors = contributors.map(contributor => `- ${this.renderContributor(contributor)}`).sort();
 
     return `#### Committers: ${contributors.length}\n${renderedContributors.join("\n")}`;
   }
 
-  public renderContributor(contributor: GitHubUserResponse): string {
+  public renderContributor(contributor: GitHostingUserResponse): string {
     const userNameAndLink = `[@${contributor.login}](${contributor.html_url})`;
     if (contributor.name) {
       return `${contributor.name} (${userNameAndLink})`;

@@ -4,9 +4,9 @@ import progressBar from "./progress-bar";
 import { Configuration } from "./configuration";
 import findPullRequestId from "./find-pull-request-id";
 import * as Git from "./git";
-import GithubAPI, { GitHubUserResponse } from "./github-api";
 import { CommitInfo, Release } from "./interfaces";
 import MarkdownRenderer from "./markdown-renderer";
+import { GitHostingAPI, GitHostingUserResponse } from "./git-hosting-api/git-hosting-api";
 
 const UNRELEASED_TAG = "___unreleased___";
 
@@ -17,15 +17,15 @@ interface Options {
 
 export default class Changelog {
   private readonly config: Configuration;
-  private github: GithubAPI;
+  private readonly gitHosting: GitHostingAPI;
   private renderer: MarkdownRenderer;
 
   constructor(config: Configuration) {
     this.config = config;
-    this.github = new GithubAPI(this.config);
+    this.gitHosting = this.config.gitHostingAPI;
     this.renderer = new MarkdownRenderer({
       categories: Object.keys(this.config.labels).map(key => this.config.labels[key]),
-      baseIssueUrl: this.github.getBaseIssueUrl(this.config.repo),
+      baseIssueUrl: this.gitHosting.getBaseIssueUrl(this.config.repo),
       unreleasedName: this.config.nextVersion || "Unreleased",
     });
   }
@@ -98,17 +98,17 @@ export default class Changelog {
     return Git.listCommits(from, to);
   }
 
-  private async getCommitters(commits: CommitInfo[]): Promise<GitHubUserResponse[]> {
-    const committers: { [id: string]: GitHubUserResponse } = {};
+  private async getCommitters(commits: CommitInfo[]): Promise<GitHostingUserResponse[]> {
+    const committers: { [id: string]: GitHostingUserResponse } = {};
 
     for (const commit of commits) {
-      const issue = commit.githubIssue;
+      const issue = commit.gitHostingIssue;
       const login = issue && issue.user && issue.user.login;
       // If a list of `ignoreCommitters` is provided in the lerna.json config
       // check if the current committer should be kept or not.
       const shouldKeepCommiter = login && !this.ignoreCommitter(login);
       if (login && shouldKeepCommiter && !committers[login]) {
-        committers[login] = await this.github.getUserData(login);
+        committers[login] = await this.gitHosting.getUserData(login);
       }
     }
 
@@ -155,7 +155,7 @@ export default class Changelog {
       commitInfos,
       async (commitInfo: CommitInfo) => {
         if (commitInfo.issueNumber) {
-          commitInfo.githubIssue = await this.github.getIssueData(this.config.repo, commitInfo.issueNumber);
+          commitInfo.gitHostingIssue = await this.gitHosting.getIssueData(this.config.repo, commitInfo.issueNumber);
         }
 
         progressBar.tick();
@@ -202,9 +202,9 @@ export default class Changelog {
 
   private fillInCategories(commits: CommitInfo[]) {
     for (const commit of commits) {
-      if (!commit.githubIssue || !commit.githubIssue.labels) continue;
+      if (!commit.gitHostingIssue || !commit.gitHostingIssue.labels) continue;
 
-      const labels = commit.githubIssue.labels.map(label => label.name.toLowerCase());
+      const labels = commit.gitHostingIssue.labels.map(label => label.name.toLowerCase());
 
       commit.categories = Object.keys(this.config.labels)
         .filter(label => labels.indexOf(label.toLowerCase()) !== -1)

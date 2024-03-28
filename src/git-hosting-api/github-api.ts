@@ -1,38 +1,12 @@
 const path = require("path");
 
-import ConfigurationError from "./configuration-error";
-import fetch from "./fetch";
+import ConfigurationError from "../configuration-error";
+import fetch from "../fetch";
+import { GitHostingAPI, GitHostingIssueResponse, GitHostingUserResponse, Options } from "./git-hosting-api";
 
-export interface GitHubUserResponse {
-  login: string;
-  name: string;
-  html_url: string;
-}
-
-export interface GitHubIssueResponse {
-  number: number;
-  title: string;
-  pull_request?: {
-    html_url: string;
-  };
-  labels: Array<{
-    name: string;
-  }>;
-  user: {
-    login: string;
-    html_url: string;
-  };
-}
-
-export interface Options {
-  repo: string;
-  rootPath: string;
-  cacheDir?: string;
-}
-
-export default class GithubAPI {
-  private cacheDir: string | undefined;
-  private auth: string;
+export default class GithubAPI implements GitHostingAPI {
+  private readonly cacheDir: string | undefined;
+  private readonly auth: string;
 
   constructor(config: Options) {
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
@@ -46,11 +20,11 @@ export default class GithubAPI {
     return `https://github.com/${repo}/issues/`;
   }
 
-  public async getIssueData(repo: string, issue: string): Promise<GitHubIssueResponse> {
+  public async getIssueData(repo: string, issue: string): Promise<GitHostingIssueResponse> {
     return this._fetch(`https://api.github.com/repos/${repo}/issues/${issue}`);
   }
 
-  public async getUserData(login: string): Promise<GitHubUserResponse> {
+  public async getUserData(login: string): Promise<GitHostingUserResponse> {
     return this._fetch(`https://api.github.com/users/${login}`);
   }
 

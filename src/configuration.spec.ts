@@ -1,9 +1,13 @@
 const os = require("os");
 const fs = require("fs-extra");
 const path = require("path");
+jest.mock("../src/git-hosting-api/github-api");
+jest.mock("../src/git-hosting-api/github-enterprise-api");
 
 import { findRepoFromPkg, fromPath } from "./configuration";
 import ConfigurationError from "./configuration-error";
+import GithubAPI from "./git-hosting-api/github-api";
+import GithubEnterpriseAPI from "./git-hosting-api/github-enterprise-api";
 
 describe("Configuration", function () {
   describe("fromPath", function () {
@@ -61,6 +65,22 @@ describe("Configuration", function () {
       const result = fromPath(tmpDir, { repo: "foo/bar" });
       expect(result.nextVersion).toEqual(undefined);
       expect(result.repo).toEqual("foo/bar");
+    });
+
+    it("uses GithubEnterpriseAPI if passed `hostingServerURL` option", function () {
+      fs.writeJsonSync(path.join(tmpDir, "lerna.json"), {
+        changelog: { repo: "foo/bar", nextVersion: "next" },
+      });
+
+      const resultWithGithubAPI = fromPath(tmpDir, { repo: "foo/bar" });
+      expect(resultWithGithubAPI.gitHostingAPI).toBeInstanceOf(GithubAPI);
+
+      fs.writeJsonSync(path.join(tmpDir, "lerna.json"), {
+        changelog: { repo: "foo/bar", nextVersion: "next", gitHostingServerURL: "https://github.mycompany.com" },
+      });
+
+      const resultWithGithubEnterpriseAPI = fromPath(tmpDir, { repo: "foo/bar" });
+      expect(resultWithGithubEnterpriseAPI.gitHostingAPI).toBeInstanceOf(GithubEnterpriseAPI);
     });
   });
 
