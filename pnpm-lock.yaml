@@ -65,11 +65,11 @@ devDependencies:
     specifier: 2.8.8
     version: 2.8.8
   release-it:
-    specifier: 17.1.1
-    version: 17.1.1(typescript@5.0.4)
+    specifier: 17.2.0
+    version: 17.2.0(typescript@5.0.4)
   release-it-lerna-changelog:
     specifier: 5.0.0
-    version: 5.0.0(release-it@17.1.1)
+    version: 5.0.0(release-it@17.2.0)
   rimraf:
     specifier: 3.0.2
     version: 3.0.2
@@ -898,8 +898,8 @@ packages:
       universal-user-agent: 6.0.1
     dev: true
 
-  /@octokit/rest@20.0.2:
-    resolution: {integrity: sha512-Ux8NDgEraQ/DMAU1PlAohyfBBXDwhnX2j33Z1nJNziqAfHi70PuxkFYIcIt8aIAxtRE7KVuKp8lSR8pA0J5iOQ==}
+  /@octokit/rest@20.1.0:
+    resolution: {integrity: sha512-STVO3itHQLrp80lvcYB2UIKoeil5Ctsgd2s1AM+du3HqZIR35ZH7WE9HLwUOLXH0myA0y3AGNPo8gZtcgIbw0g==}
     engines: {node: '>= 18'}
     dependencies:
       '@octokit/core': 5.2.0
@@ -3025,8 +3025,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /inquirer@9.2.14:
-    resolution: {integrity: sha512-4ByIMt677Iz5AvjyKrDpzaepIyMewNvDcvwpVVRZNmy9dLakVoVgdCHZXbK1SlVJra1db0JZ6XkJyHsanpdrdQ==}
+  /inquirer@9.2.17:
+    resolution: {integrity: sha512-Vr3Ia2ud5sGnioURkE69endl4SkeJcMzTF6SosKcX5GALJfId7C+JvO5ZZb6y1LOXnEofCPbwzoQ1q0e8Gaduw==}
     engines: {node: '>=18'}
     dependencies:
       '@ljharb/through': 2.3.13
@@ -3327,9 +3327,9 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /issue-parser@6.0.0:
-    resolution: {integrity: sha512-zKa/Dxq2lGsBIXQ7CUZWTHfvxPC2ej0KfO7fIPqLlHB9J2hJ7rGhZ5rilhuufylr4RXYPzJUeFjKxz305OsNlA==}
-    engines: {node: '>=10.13'}
+  /issue-parser@7.0.0:
+    resolution: {integrity: sha512-jgAw78HO3gs9UrKqJNQvfDj9Ouy8Mhu40fbEJ8yXff4MW8+/Fcn9iFjyWUQ6SKbX8ipPk3X5A3AyfYHRu6uVLw==}
+    engines: {node: ^18.17 || >=20.6.1}
     dependencies:
       lodash.capitalize: 4.2.1
       lodash.escaperegexp: 4.1.2
@@ -4579,8 +4579,8 @@ packages:
       mimic-fn: 4.0.0
     dev: true
 
-  /open@10.0.3:
-    resolution: {integrity: sha512-dtbI5oW7987hwC9qjJTyABldTaa19SuyJse1QboWv3b0qCcrrLNVDqBx1XgELAjh9QTVQaP/C5b1nhQebd1H2A==}
+  /open@10.1.0:
+    resolution: {integrity: sha512-mnkeQ1qP5Ue2wd+aivTD3NHd/lZ96Lu0jgf0pwktLPtx6cTZiH7tyeGRRHs0zX0rbrahXPnXlUnbeXyaBBuIaw==}
     engines: {node: '>=18'}
     dependencies:
       default-browser: 5.2.1
@@ -5017,7 +5017,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog@5.0.0(release-it@17.1.1):
+  /release-it-lerna-changelog@5.0.0(release-it@17.2.0):
     resolution: {integrity: sha512-s/rHzwAwp878bivWKsJKNya9SRVKYZjgpyyGzg5ddBKZY5u5lhTWhxHtld7mHTRg4azIN7YypPH3rGaOfVmNVw==}
     engines: {node: ^14.13.1 || >= 16}
     deprecated: This package has been renamed to @release-it-plugins/lerna-changelog
@@ -5028,7 +5028,7 @@ packages:
       lerna-changelog: 2.2.0
       lodash.template: 4.5.0
       mdast-util-from-markdown: 1.3.1
-      release-it: 17.1.1(typescript@5.0.4)
+      release-it: 17.2.0(typescript@5.0.4)
       tmp: 0.2.3
       validate-peer-dependencies: 2.2.0
       which: 2.0.2
@@ -5037,13 +5037,13 @@ packages:
       - supports-color
     dev: true
 
-  /release-it@17.1.1(typescript@5.0.4):
-    resolution: {integrity: sha512-b+4Tu2eb5f2wIdIe5E9hre0evbMQrXp/kRq0natHsHYJVqu1Bd4/h2a+swFi0faGmC3cJdB16uYR6LscG9SchQ==}
-    engines: {node: '>=18'}
+  /release-it@17.2.0(typescript@5.0.4):
+    resolution: {integrity: sha512-Cidaq5W4apZSpdEDQd2TJhH7GZAwfaG+ewe60p7B7+txyCHYR/T6lGvkKinJmePpdHsM0fzA05yGGXKCiHJHmA==}
+    engines: {node: ^18.18.0 || ^20.8.0 || ^21.0.0}
     hasBin: true
     dependencies:
       '@iarna/toml': 2.2.5
-      '@octokit/rest': 20.0.2
+      '@octokit/rest': 20.1.0
       async-retry: 1.3.3
       chalk: 5.3.0
       cosmiconfig: 9.0.0(typescript@5.0.4)
@@ -5051,14 +5051,14 @@ packages:
       git-url-parse: 14.0.0
       globby: 14.0.1
       got: 13.0.0
-      inquirer: 9.2.14
+      inquirer: 9.2.17
       is-ci: 3.0.1
-      issue-parser: 6.0.0
+      issue-parser: 7.0.0
       lodash: 4.17.21
       mime-types: 2.1.35
       new-github-release-url: 2.0.0
       node-fetch: 3.3.2
-      open: 10.0.3
+      open: 10.1.0
       ora: 8.0.1
       os-name: 5.1.0
       promise.allsettled: 1.0.7
@@ -5067,7 +5067,7 @@ packages:
       shelljs: 0.8.5
       update-notifier: 7.0.0
       url-join: 5.0.0
-      wildcard-match: 5.1.2
+      wildcard-match: 5.1.3
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - supports-color
@@ -5913,8 +5913,8 @@ packages:
       string-width: 5.1.2
     dev: true
 
-  /wildcard-match@5.1.2:
-    resolution: {integrity: sha512-qNXwI591Z88c8bWxp+yjV60Ch4F8Riawe3iGxbzquhy8Xs9m+0+SLFBGb/0yCTIDElawtaImC37fYZ+dr32KqQ==}
+  /wildcard-match@5.1.3:
+    resolution: {integrity: sha512-a95hPUk+BNzSGLntNXYxsjz2Hooi5oL7xOfJR6CKwSsSALh7vUNuTlzsrZowtYy38JNduYFRVhFv19ocqNOZlg==}
     dev: true
 
   /windows-release@5.1.1:
