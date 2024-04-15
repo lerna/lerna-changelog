@@ -818,9 +818,9 @@ packages:
     dependencies:
       '@octokit/auth-token': 4.0.0
       '@octokit/graphql': 7.1.0
-      '@octokit/request': 8.3.1
+      '@octokit/request': 8.4.0
       '@octokit/request-error': 5.1.0
-      '@octokit/types': 13.1.0
+      '@octokit/types': 13.4.0
       before-after-hook: 2.2.3
       universal-user-agent: 6.0.1
     dev: true
@@ -829,7 +829,7 @@ packages:
     resolution: {integrity: sha512-ekqR4/+PCLkEBF6qgj8WqJfvDq65RH85OAgrtnVp1mSxaXF03u2xW/hUdweGS5654IlC0wkNYC18Z50tSYTAFw==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/types': 13.1.0
+      '@octokit/types': 13.4.0
       universal-user-agent: 6.0.1
     dev: true
 
@@ -837,8 +837,8 @@ packages:
     resolution: {integrity: sha512-r+oZUH7aMFui1ypZnAvZmn0KSqAUgE1/tUXIWaqUCa1758ts/Jio84GZuzsvUkme98kv0WFY8//n0J1Z+vsIsQ==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/request': 8.3.1
-      '@octokit/types': 13.1.0
+      '@octokit/request': 8.4.0
+      '@octokit/types': 13.4.0
       universal-user-agent: 6.0.1
     dev: true
 
@@ -846,8 +846,8 @@ packages:
     resolution: {integrity: sha512-EtqRBEjp1dL/15V7WiX5LJMIxxkdiGJnabzYx5Apx4FkQIFgAfKumXeYAqqJCj1s+BMX4cPFIFC4OLCR6stlnA==}
     dev: true
 
-  /@octokit/openapi-types@21.2.0:
-    resolution: {integrity: sha512-xx+Xd6I7rYvul/hgUDqv6TeGX0IOGnhSg9IOeYgd/uI7IAqUy6DE2B6Ipv2M4mWoxaMcWjIzgTIcv8pMO3F3vw==}
+  /@octokit/openapi-types@22.0.1:
+    resolution: {integrity: sha512-1yN5m1IMNXthoBDUXFF97N1gHop04B3H8ws7wtOr8GgRyDO1gKALjwMHARNBoMBiB/2vEe/vxstrApcJZzQbnQ==}
     dev: true
 
   /@octokit/plugin-paginate-rest@9.2.1(@octokit/core@5.2.0):
@@ -883,18 +883,18 @@ packages:
     resolution: {integrity: sha512-GETXfE05J0+7H2STzekpKObFe765O5dlAKUTLNGeH+x47z7JjXHfsHKo5z21D/o/IOZTUEI6nyWyR+bZVP/n5Q==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/types': 13.1.0
+      '@octokit/types': 13.4.0
       deprecation: 2.3.1
       once: 1.4.0
     dev: true
 
-  /@octokit/request@8.3.1:
-    resolution: {integrity: sha512-fin4cl5eHN5Ybmb/gtn7YZ+ycyUlcyqqkg5lfxeSChqj7sUt6TNaJPehREi+0PABKLREYL8pfaUhH3TicEWNoA==}
+  /@octokit/request@8.4.0:
+    resolution: {integrity: sha512-9Bb014e+m2TgBeEJGEbdplMVWwPmL1FPtggHQRkV+WVsMggPtEkLKPlcVYm/o8xKLkpJ7B+6N8WfQMtDLX2Dpw==}
     engines: {node: '>= 18'}
     dependencies:
       '@octokit/endpoint': 9.0.5
       '@octokit/request-error': 5.1.0
-      '@octokit/types': 13.1.0
+      '@octokit/types': 13.4.0
       universal-user-agent: 6.0.1
     dev: true
 
@@ -914,10 +914,10 @@ packages:
       '@octokit/openapi-types': 20.0.0
     dev: true
 
-  /@octokit/types@13.1.0:
-    resolution: {integrity: sha512-nBwAFOYqVUUJ2AZFK4ZzESQptaAVqdTDKk8gE0Xr0o99WuPDSrhUC38x0F40xD9OUxXhOOuZKWNNVVLPSHQDvQ==}
+  /@octokit/types@13.4.0:
+    resolution: {integrity: sha512-WlMegy3lPXYWASe3k9Jslc5a0anrYAYMWtsFrxBTdQjS70hvLH6C+PGvHbOsgy3RA3LouGJoU/vAt4KarecQLQ==}
     dependencies:
-      '@octokit/openapi-types': 21.2.0
+      '@octokit/openapi-types': 22.0.1
     dev: true
 
   /@pnpm/config.env-replace@1.1.0:
@@ -1544,8 +1544,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001606
-      electron-to-chromium: 1.4.729
+      caniuse-lite: 1.0.30001609
+      electron-to-chromium: 1.4.736
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
@@ -1655,8 +1655,8 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /caniuse-lite@1.0.30001606:
-    resolution: {integrity: sha512-LPbwnW4vfpJId225pwjZJOgX1m9sGfbw/RKJvw/t0QhYOOaTXHvkjVGFGPpvwEzufrjvTlsULnVTxdy4/6cqkg==}
+  /caniuse-lite@1.0.30001609:
+    resolution: {integrity: sha512-JFPQs34lHKx1B5t1EpQpWH4c+29zIyn/haGsbpfq3suuV9v56enjFt23zqijxGTMwy1p/4H2tjnQMY+p1WoAyA==}
     dev: true
 
   /chalk@2.4.2:
@@ -2076,8 +2076,8 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /electron-to-chromium@1.4.729:
-    resolution: {integrity: sha512-bx7+5Saea/qu14kmPTDHQxkp2UnziG3iajUQu3BxFvCOnpAJdDbMV4rSl+EqFDkkpNNVUFlR1kDfpL59xfy1HA==}
+  /electron-to-chromium@1.4.736:
+    resolution: {integrity: sha512-Rer6wc3ynLelKNM4lOCg7/zPQj8tPOCB2hzD32PX9wd3hgRRi9MxEbmkFCokzcEhRVMiOVLjnL9ig9cefJ+6+Q==}
     dev: true
 
   /emittery@0.10.2:
@@ -5321,7 +5321,7 @@ packages:
     dependencies:
       agent-base: 6.0.2
       debug: 4.3.4
-      socks: 2.8.1
+      socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
 
@@ -5331,13 +5331,13 @@ packages:
     dependencies:
       agent-base: 7.1.1
       debug: 4.3.4
-      socks: 2.8.1
+      socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /socks@2.8.1:
-    resolution: {integrity: sha512-B6w7tkwNid7ToxjZ08rQMT8M9BJAf8DKx8Ft4NivzH0zBUfd6jldGcisJn/RLgxcX3FPNDdNQCUEMMT79b+oCQ==}
+  /socks@2.8.3:
+    resolution: {integrity: sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==}
     engines: {node: '>= 10.0.0', npm: '>= 3.0.0'}
     dependencies:
       ip-address: 9.0.5
