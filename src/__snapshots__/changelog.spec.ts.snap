@@ -18,7 +18,7 @@ Array [
     ],
     "commitSHA": "a0000004",
     "date": "2017-01-01",
-    "githubIssue": Object {
+    "gitHostingIssue": Object {
       "labels": Array [
         Object {
           "name": "Type: New Feature",
@@ -46,7 +46,7 @@ Array [
     ],
     "commitSHA": "a0000003",
     "date": "2017-01-01",
-    "githubIssue": Object {
+    "gitHostingIssue": Object {
       "labels": Array [
         Object {
           "name": "Type: New Feature",

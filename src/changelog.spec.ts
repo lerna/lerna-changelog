@@ -1,6 +1,6 @@
 jest.mock("../src/progress-bar");
 jest.mock("../src/changelog");
-jest.mock("../src/github-api");
+jest.mock("../src/git-hosting-api/github-api");
 jest.mock("./git");
 jest.mock("./fetch");
 
@@ -151,13 +151,13 @@ describe("Changelog", () => {
       const testCommits = [
         {
           commitSHA: "a0000004",
-          githubIssue: { user: { login: "test-user-1" } },
+          gitHostingIssue: { user: { login: "test-user-1" } },
         },
         {
           commitSHA: "a0000003",
-          githubIssue: { user: { login: "test-user-2" } },
+          gitHostingIssue: { user: { login: "test-user-2" } },
         },
-        { commitSHA: "a0000002", githubIssue: { user: { login: "user-bot" } } },
+        { commitSHA: "a0000002", gitHostingIssue: { user: { login: "user-bot" } } },
         { commitSHA: "a0000001" },
       ];
       const committers = await changelog.getCommitters(testCommits);

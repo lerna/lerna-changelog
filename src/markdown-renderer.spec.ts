@@ -4,7 +4,7 @@ import MarkdownRenderer from "./markdown-renderer";
 const UNRELEASED_TAG = "___unreleased___";
 
 const BASIC_COMMIT = {
-  githubIssue: {
+  gitHostingIssue: {
     title: "My cool PR",
     user: {
       login: "hzoo",
@@ -14,7 +14,7 @@ const BASIC_COMMIT = {
 } as CommitInfo;
 
 const COMMIT_WITH_NUMBER = {
-  githubIssue: {
+  gitHostingIssue: {
     title: "My cool PR",
     user: {
       login: "hzoo",
@@ -28,7 +28,7 @@ const COMMIT_WITH_NUMBER = {
 } as CommitInfo;
 
 const COMMIT_WITH_GH_ISSUE_REF = {
-  githubIssue: {
+  gitHostingIssue: {
     title: "My cool PR (resolved #123)",
     user: {
       login: "hzoo",
@@ -38,7 +38,7 @@ const COMMIT_WITH_GH_ISSUE_REF = {
 } as CommitInfo;
 
 const COMMIT_WITH_PHAB_ISSUE_REF = {
-  githubIssue: {
+  gitHostingIssue: {
     title: "My cool PR (resolved T42)",
     user: {
       login: "hzoo",
@@ -87,7 +87,7 @@ describe("MarkdownRenderer", () => {
   });
 
   describe("renderContribution", () => {
-    it(`returns undefined if "githubIssue" is not set`, () => {
+    it(`returns undefined if "gitHostingIssue" is not set`, () => {
       const result = renderer().renderContribution({} as CommitInfo);
       expect(result).toBeUndefined();
     });

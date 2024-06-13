@@ -1,4 +1,4 @@
-import { GitHubIssueResponse, GitHubUserResponse } from "./github-api";
+import { GitHostingIssueResponse, GitHostingUserResponse } from "./git-hosting-api/git-hosting-api";
 
 export interface CommitInfo {
   commitSHA: string;
@@ -6,7 +6,7 @@ export interface CommitInfo {
   tags?: string[];
   date: string;
   issueNumber: string | null;
-  githubIssue?: GitHubIssueResponse;
+  gitHostingIssue?: GitHostingIssueResponse;
   categories?: string[];
   packages?: string[];
 }
@@ -15,5 +15,5 @@ export interface Release {
   name: string;
   date: string;
   commits: CommitInfo[];
-  contributors?: GitHubUserResponse[];
+  contributors?: GitHostingUserResponse[];
 }

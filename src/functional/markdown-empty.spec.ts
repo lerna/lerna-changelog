@@ -2,7 +2,7 @@ import { CommitListItem } from "../git";
 
 jest.mock("../../src/progress-bar");
 jest.mock("../../src/changelog");
-jest.mock("../../src/github-api");
+jest.mock("../../src/git-hosting-api/github-api");
 jest.mock("../git");
 jest.mock("../fetch");
 
