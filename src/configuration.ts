@@ -14,6 +14,7 @@ export interface Configuration {
   cacheDir?: string;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
+  wildcardLabel?: string;
 }
 
 export interface ConfigLoaderOptions {
@@ -35,7 +36,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
   }
 
   // Step 2: fill partial config with defaults
-  let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
+  let { repo, nextVersion, labels, cacheDir, ignoreCommitters, wildcardLabel } = config;
 
   if (!repo) {
     repo = findRepo(rootPath);
@@ -62,6 +63,10 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     };
   }
 
+  if (wildcardLabel && !labels[wildcardLabel]) {
+    labels[wildcardLabel] = "️:present: Additional updates";
+  }
+
   if (!ignoreCommitters) {
     ignoreCommitters = [
       "dependabot-bot",
@@ -81,6 +86,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     labels,
     ignoreCommitters,
     cacheDir,
+    wildcardLabel,
   };
 }
 
