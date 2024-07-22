@@ -34,7 +34,7 @@
     "watch": "yarn build -- --watch"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
+    "chalk": "^5.0.0",
     "cli-highlight": "^2.1.11",
     "execa": "^5.0.0",
     "hosted-git-info": "^4.0.0",
