@@ -14,6 +14,7 @@ export interface Configuration {
   cacheDir?: string;
   nextVersion: string | undefined;
   nextVersionFromMetadata?: boolean;
+  packages: [{ name: string; path: string }] | [];
 }
 
 export interface ConfigLoaderOptions {
@@ -26,6 +27,34 @@ export function load(options: ConfigLoaderOptions = {}): Configuration {
   return fromPath(rootPath, options);
 }
 
+function getPackages(rootPath: string): [{ name: string; path: string }] | [] {
+  let packages = [];
+
+  if (fs.existsSync(path.join(rootPath, "package-lock.json"))) {
+    const result = execa.sync("npm", ["query", ".workspace"], { cwd: rootPath });
+    const workspaceQuery = JSON.parse(result.stdout);
+
+    packages = workspaceQuery.map((item: any) => ({ name: item.name, path: item.path }));
+  } else if (fs.existsSync(path.join(rootPath, "pnpm-lock.yaml"))) {
+    const result = execa.sync(`pnpm`, ["m", "ls", "--json", "--depth=-1"], { cwd: rootPath });
+    const workspaceJson = JSON.parse(result.stdout);
+
+    packages = workspaceJson
+      .filter((item: any) => item.name && item.path)
+      .map((item: any) => ({ name: item.name, path: item.path }));
+  } else if (fs.existsSync(path.join(rootPath, "yarn.lock"))) {
+    const result = execa.sync(`yarn`, ["--silent", "workspaces", "info", "--json"], { cwd: rootPath });
+    const workspaceMap = JSON.parse(result.stdout);
+
+    packages = Object.keys(workspaceMap).map(key => ({
+      name: key,
+      path: path.resolve(rootPath, workspaceMap[key].location),
+    }));
+  }
+
+  return packages;
+}
+
 export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): Configuration {
   // Step 1: load partial config from `package.json` or `lerna.json`
   let config = fromPackageConfig(rootPath) || fromLernaConfig(rootPath) || {};
@@ -36,6 +65,8 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
 
   // Step 2: fill partial config with defaults
   let { repo, nextVersion, labels, cacheDir, ignoreCommitters } = config;
+
+  const packages = getPackages(rootPath);
 
   if (!repo) {
     repo = findRepo(rootPath);
@@ -81,6 +112,7 @@ export function fromPath(rootPath: string, options: ConfigLoaderOptions = {}): C
     labels,
     ignoreCommitters,
     cacheDir,
+    packages,
   };
 }
 
