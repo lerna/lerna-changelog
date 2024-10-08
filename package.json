@@ -59,7 +59,7 @@
     "release-it-lerna-changelog": "5.0.0",
     "rimraf": "3.0.2",
     "ts-jest": "29.1.5",
-    "typescript": "5.0.4"
+    "typescript": "5.6.3"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
