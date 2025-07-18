@@ -50,8 +50,8 @@ devDependencies:
     specifier: 9.1.0
     version: 9.1.0(eslint@8.57.0)
   eslint-plugin-prettier:
-    specifier: 4.2.1
-    version: 4.2.1(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@2.8.8)
+    specifier: 4.2.5
+    version: 4.2.5(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@2.8.8)
   fs-extra:
     specifier: 10.1.0
     version: 10.1.0
@@ -2057,8 +2057,8 @@ packages:
       eslint: 8.57.0
     dev: true
 
-  /eslint-plugin-prettier@4.2.1(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@2.8.8):
-    resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
+  /eslint-plugin-prettier@4.2.5(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@2.8.8):
+    resolution: {integrity: sha512-9Ni+xgemM2IWLq6aXEpP2+V/V30GeA/46Ar629vcMqVPodFFWC9skHu/D1phvuqtS8bJCFnNf01/qcmqYEwNfg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       eslint: '>=7.28.0'
