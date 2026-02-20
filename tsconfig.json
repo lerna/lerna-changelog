@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "target": "es2015",
+    "target": "es2020",
     "module": "CommonJS",
     "removeComments": true,
     "allowJs": true,
     "strict": true,
-    "lib": ["es2015"]
+    "lib": ["es2020"]
   },
   "include": ["src/**/*.ts"]
 }
