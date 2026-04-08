@@ -65,11 +65,11 @@ devDependencies:
     specifier: 2.8.8
     version: 2.8.8
   release-it:
-    specifier: 17.4.1
-    version: 17.4.1(typescript@5.0.4)
+    specifier: 17.4.2
+    version: 17.4.2(typescript@5.0.4)
   release-it-lerna-changelog:
     specifier: 5.0.0
-    version: 5.0.0(release-it@17.4.1)
+    version: 5.0.0(release-it@17.4.2)
   rimraf:
     specifier: 3.0.2
     version: 3.0.2
@@ -1449,6 +1449,7 @@ packages:
   /basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.1, please upgrade
     dev: true
 
   /before-after-hook@2.2.3:
@@ -4060,6 +4061,7 @@ packages:
   /node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
     dev: true
 
   /node-fetch@3.3.2:
@@ -4535,7 +4537,7 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it-lerna-changelog@5.0.0(release-it@17.4.1):
+  /release-it-lerna-changelog@5.0.0(release-it@17.4.2):
     resolution: {integrity: sha512-s/rHzwAwp878bivWKsJKNya9SRVKYZjgpyyGzg5ddBKZY5u5lhTWhxHtld7mHTRg4azIN7YypPH3rGaOfVmNVw==}
     engines: {node: ^14.13.1 || >= 16}
     deprecated: This package has been renamed to @release-it-plugins/lerna-changelog
@@ -4546,7 +4548,7 @@ packages:
       lerna-changelog: 2.2.0
       lodash.template: 4.5.0
       mdast-util-from-markdown: 1.3.1
-      release-it: 17.4.1(typescript@5.0.4)
+      release-it: 17.4.2(typescript@5.0.4)
       tmp: 0.2.3
       validate-peer-dependencies: 2.2.0
       which: 2.0.2
@@ -4555,8 +4557,8 @@ packages:
       - supports-color
     dev: true
 
-  /release-it@17.4.1(typescript@5.0.4):
-    resolution: {integrity: sha512-Aa48kKx5qZRVXJ6YCnCJRg6sJiofEX7RErTLmnlFbCE7k1Kg8ayhgJovofuBhCtz3FRdsYnxBKjlh+VAMeazEA==}
+  /release-it@17.4.2(typescript@5.0.4):
+    resolution: {integrity: sha512-s+ePzQm94DlTy1/3+MjfymY4kte1n0P8pHNkAuSPwGoQKFvQtTMG+YTGi25dYW5U+UsEayhEvaViUuc6nD2gHw==}
     engines: {node: ^18.18.0 || ^20.9.0 || ^22.0.0}
     hasBin: true
     dependencies:
